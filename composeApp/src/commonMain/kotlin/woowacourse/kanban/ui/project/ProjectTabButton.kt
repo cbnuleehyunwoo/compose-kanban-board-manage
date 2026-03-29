@@ -47,7 +47,7 @@ fun ProjectTabButton(
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = tabTitle,
+            text = tabTitle.ifEmpty { "이름 없는 보드 "},
             color = textColor,
             fontWeight = FontWeight.W500,
             fontSize = 16.sp,
