@@ -143,4 +143,23 @@ class BoardTest {
         val board = Board(cardList)
         assertThat(board.completionPercentage).isEqualTo(100)
     }
+
+    @Test
+    fun `보드의 태스크 상태를 변경할 수 있다`() {
+        var board: Board = Board()
+        val card: Card = Card.create(
+            title = "제목",
+            content = "내용",
+            tags = listOf("태그1", "태그2"),
+            manager = CardManagerState.DINO,
+            state = CardTaskState.TODO,
+        )
+        board += card
+        assertThat(board.toDoTaskCount).isEqualTo(1)
+        assertThat(board.doneTaskCount).isEqualTo(0)
+
+        val updatedBoard = board.withUpdatedTaskState(card.id, CardTaskState.DONE)
+        assertThat(updatedBoard.toDoTaskCount).isEqualTo(0)
+        assertThat(updatedBoard.doneTaskCount).isEqualTo(1)
+    }
 }
