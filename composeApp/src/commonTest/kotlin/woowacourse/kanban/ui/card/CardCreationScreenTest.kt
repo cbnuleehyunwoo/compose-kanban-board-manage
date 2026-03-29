@@ -16,7 +16,7 @@ class CardCreationScreenTest {
         setContent {
             CardCreationScreen(
                 onAddItem = {},
-                onDismiss = {}
+                onDismiss = {},
             )
         }
 
@@ -37,7 +37,7 @@ class CardCreationScreenTest {
         setContent {
             CardCreationScreen(
                 onAddItem = {},
-                onDismiss = {}
+                onDismiss = {},
             )
         }
         onNodeWithTag("titleTextField").performTextInput(" ")
@@ -53,7 +53,7 @@ class CardCreationScreenTest {
         setContent {
             CardCreationScreen(
                 onAddItem = {},
-                onDismiss = {}
+                onDismiss = {},
             )
         }
         onNodeWithTag("titleTextField").performTextInput("\t")
@@ -67,7 +67,7 @@ class CardCreationScreenTest {
         setContent {
             CardCreationScreen(
                 onAddItem = {},
-                onDismiss = {}
+                onDismiss = {},
             )
         }
 
@@ -83,7 +83,7 @@ class CardCreationScreenTest {
         setContent {
             CardCreationScreen(
                 onAddItem = {},
-                onDismiss = {}
+                onDismiss = {},
             )
         }
 

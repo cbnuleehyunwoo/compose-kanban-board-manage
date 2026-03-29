@@ -43,7 +43,7 @@ fun ActionButton(
         enabled = enabled,
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = buttonType.elevation,
-            pressedElevation = buttonType.elevation
+            pressedElevation = buttonType.elevation,
         ),
         colors = ButtonDefaults.buttonColors(
             containerColor = buttonType.containerColor,

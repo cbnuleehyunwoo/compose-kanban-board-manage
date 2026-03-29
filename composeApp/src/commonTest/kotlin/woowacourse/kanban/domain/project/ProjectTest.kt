@@ -3,9 +3,6 @@ package woowacourse.kanban.domain.project
 import androidx.compose.ui.test.ExperimentalTestApi
 import org.assertj.core.api.Assertions.assertThat
 import woowacourse.kanban.domain.board.Board
-import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerState
-import woowacourse.kanban.domain.card.CardTaskState
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)

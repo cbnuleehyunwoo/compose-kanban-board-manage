@@ -6,7 +6,7 @@ enum class CardTaskState {
     DONE
 }
 
-enum class CardManagerState{
+enum class CardManagerState {
     DINO,
     FAMES,
 }

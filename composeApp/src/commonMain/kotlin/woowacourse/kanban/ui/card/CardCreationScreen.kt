@@ -36,10 +36,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import woowacourse.kanban.ui.theme.KanbanCardColor.DefaultBackground
-import woowacourse.kanban.ui.theme.KanbanCardColor.DefaultContent
-import woowacourse.kanban.ui.theme.KanbanCardColor.SelectedBackground
-import woowacourse.kanban.ui.theme.KanbanCardColor.SelectedContent
 import woowacourse.kanban.domain.board.CardFormState
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerState
@@ -49,6 +45,10 @@ import woowacourse.kanban.ui.card.creation.ActionButton
 import woowacourse.kanban.ui.card.creation.ActionButtonType
 import woowacourse.kanban.ui.card.creation.CardCreationPanelFormSection
 import woowacourse.kanban.ui.card.creation.TitleText
+import woowacourse.kanban.ui.theme.KanbanCardColor.DefaultBackground
+import woowacourse.kanban.ui.theme.KanbanCardColor.DefaultContent
+import woowacourse.kanban.ui.theme.KanbanCardColor.SelectedBackground
+import woowacourse.kanban.ui.theme.KanbanCardColor.SelectedContent
 
 @Preview(widthDp = 672, heightDp = 909)
 @Composable
@@ -88,7 +88,8 @@ private fun CardCreationScreenContents(
         modifier = modifier.testTag("생성 모달 열림"),
     ) {
         Column(
-            modifier = Modifier.background(DefaultBackground).width(672.dp),
+            modifier = Modifier.background(DefaultBackground)
+                .width(672.dp),
         ) {
             CardCreationPanelHeaderSection(
                 modifier = Modifier

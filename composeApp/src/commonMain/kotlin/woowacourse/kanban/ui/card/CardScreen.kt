@@ -112,12 +112,12 @@ fun CardScreen(
         modifier = modifier
             .background(
                 color = Color(0xffffffff),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(16.dp),
             )
             .border(
                 color = Color(0xffE5E7Eb),
                 width = 1.dp,
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(16.dp),
             )
             .padding(all = 17.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -246,7 +246,7 @@ private fun TagChip(modifier: Modifier = Modifier, chipContent: String) {
         modifier = modifier
             .background(
                 color = Color(0xfff3f4f6),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(16.dp),
             )
             .padding(vertical = 5.dp, horizontal = 8.dp),
     ) {

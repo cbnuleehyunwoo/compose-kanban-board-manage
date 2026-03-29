@@ -48,8 +48,8 @@ class ProjectScreenTest {
                             tags = listOf("드래그"),
                             manager = CardManagerState.DINO,
                             state = CardTaskState.TODO,
-                        )
-                    )
+                        ),
+                    ),
                 ),
                 onAddCard = {},
                 onBoardChange = { true },

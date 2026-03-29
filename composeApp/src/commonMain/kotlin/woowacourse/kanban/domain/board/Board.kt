@@ -15,7 +15,7 @@ class Board(
     private val boardTitle: String = "",
     private val id: String = UUID.randomUUID().toString(),
 ) {
-    val cardList  = cardList.toList()
+    val cardList = cardList.toList()
     val title: String = boardTitle
     val boardId: String = id
     val totalTaskCount: Int = cardList.size
@@ -30,12 +30,13 @@ class Board(
     operator fun plus(card: Card): Board = Board(
         id = id,
         boardTitle = boardTitle,
-        cardList = cardList + card
+        cardList = cardList + card,
     )
+
     operator fun minus(card: Card): Board = Board(
         id = id,
         boardTitle = boardTitle,
-        cardList = cardList - card
+        cardList = cardList - card,
     )
 
     /**
@@ -48,7 +49,7 @@ class Board(
             boardTitle = boardTitle,
             cardList = cardList.map { card ->
                 if (card.id == cardId) card.withUpdatedTaskState(targetState) else card
-            }
+            },
         )
     }
 }

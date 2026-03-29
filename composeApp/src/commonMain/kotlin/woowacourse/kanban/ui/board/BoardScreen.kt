@@ -50,12 +50,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import woowacourse.kanban.ui.theme.BoardColor.DoneContentColor
-import woowacourse.kanban.ui.theme.BoardColor.DoneHeaderColor
-import woowacourse.kanban.ui.theme.BoardColor.InProgressContentColor
-import woowacourse.kanban.ui.theme.BoardColor.InProgressHeaderColor
-import woowacourse.kanban.ui.theme.BoardColor.TodoContentColor
-import woowacourse.kanban.ui.theme.BoardColor.TodoHeaderColor
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerState
@@ -63,6 +57,12 @@ import woowacourse.kanban.domain.card.CardTaskState
 import woowacourse.kanban.ui.board.common.toDisplayText
 import woowacourse.kanban.ui.card.CardCreationScreen
 import woowacourse.kanban.ui.card.CardScreen
+import woowacourse.kanban.ui.theme.BoardColor.DoneContentColor
+import woowacourse.kanban.ui.theme.BoardColor.DoneHeaderColor
+import woowacourse.kanban.ui.theme.BoardColor.InProgressContentColor
+import woowacourse.kanban.ui.theme.BoardColor.InProgressHeaderColor
+import woowacourse.kanban.ui.theme.BoardColor.TodoContentColor
+import woowacourse.kanban.ui.theme.BoardColor.TodoHeaderColor
 
 @Composable
 fun BoardScreen(
@@ -131,7 +131,7 @@ fun BoardScreen(
                     onChangeContent = {
                         val isSuccess = onBoardChange(it)
                         coroutineScope.launch {
-                            if(isSuccess) {
+                            if (isSuccess) {
                                 snackbarHostState.showSnackbar("태스크가 이동되었습니다.")
                             }
                         }

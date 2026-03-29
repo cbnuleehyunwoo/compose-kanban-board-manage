@@ -6,7 +6,7 @@ class Project(
     boardList: List<Board> = emptyList(),
     private val selectedBoardIndex: Int = 0,
     private val projectTitle: String = "",
-    private val projectDescription: String ="",
+    private val projectDescription: String = "",
 ) {
     val boards: List<Board> = boardList.ifEmpty { listOf(Board()) }
     val getTitle = projectTitle

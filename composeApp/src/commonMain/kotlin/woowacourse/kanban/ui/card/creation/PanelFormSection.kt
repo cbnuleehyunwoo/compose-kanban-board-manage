@@ -28,7 +28,7 @@ fun CardCreationPanelFormSection(
     value: String,
     onTextChange: (String) -> Unit = {},
     showAdditionalInfo: Boolean = false,
-    testTag : String,
+    testTag: String,
     infoText: String = "",
     isError: Boolean = false,
 ) {

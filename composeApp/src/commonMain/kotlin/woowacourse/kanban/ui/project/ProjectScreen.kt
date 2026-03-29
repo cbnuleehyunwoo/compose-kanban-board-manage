@@ -20,7 +20,7 @@ import woowacourse.kanban.ui.board.BoardScreen
 fun ProjectScreen() {
     var project by remember {
         mutableStateOf(
-            sampleProject()
+            sampleProject(),
         )
     }
 
@@ -54,7 +54,7 @@ fun ProjectScreen(
     project: Project = sampleProject(),
     onBoardSelected: (Int) -> Unit = {},
     onAddNewCard: (Card) -> Unit = {},
-    onBoardChange: (Board) -> Boolean
+    onBoardChange: (Board) -> Boolean,
 ) {
     Row(
         modifier = modifier.fillMaxSize(),
