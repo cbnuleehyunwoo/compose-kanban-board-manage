@@ -29,6 +29,7 @@ class BoardScreenTest {
                 showCardCreationPanel = false,
                 onAddCard = {},
                 onShowCardCreationPanelChange = {},
+                onBoardChange = { true },
             )
         }
 
@@ -53,6 +54,7 @@ class BoardScreenTest {
                 showCardCreationPanel = showCardCreationPanel,
                 onAddCard = { newCard -> board += newCard },
                 onShowCardCreationPanelChange = { showCardCreationPanel = it },
+                onBoardChange = { true },
             )
         }
 
@@ -70,8 +72,8 @@ class BoardScreenTest {
                     tags = listOf("태그"),
                     manager = CardManagerState.DINO,
                     state = CardTaskState.TODO,
-                )
-            )
+                ),
+            ),
         )
 
         setContent {
@@ -80,6 +82,7 @@ class BoardScreenTest {
                 showCardCreationPanel = false,
                 onAddCard = {},
                 onShowCardCreationPanelChange = {},
+                onBoardChange = { true },
             )
         }
 
@@ -97,6 +100,7 @@ class BoardScreenTest {
                 showCardCreationPanel = showCardCreationPanel,
                 onAddCard = { newCard -> board += newCard },
                 onShowCardCreationPanelChange = { showCardCreationPanel = it },
+                onBoardChange = { true },
             )
         }
 
@@ -122,6 +126,7 @@ class BoardScreenTest {
                 showCardCreationPanel = showCardCreationPanel,
                 onAddCard = { newCard -> board += newCard },
                 onShowCardCreationPanelChange = { showCardCreationPanel = it },
+                onBoardChange = { true },
             )
         }
 
