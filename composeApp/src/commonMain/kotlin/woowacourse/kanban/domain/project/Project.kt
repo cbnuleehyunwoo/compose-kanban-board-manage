@@ -3,17 +3,16 @@ package woowacourse.kanban.domain.project
 import woowacourse.kanban.domain.board.Board
 
 class Project(
-    private val boardList: List<Board> = emptyList(),
+    boardList: List<Board> = emptyList(),
     private val selectedBoardIndex: Int = 0,
     private val projectTitle: String = "",
     private val projectDescription: String ="",
 ) {
-
+    private val boards: List<Board> = boardList.ifEmpty { listOf(Board()) }
     val getTitle = projectTitle
     val getDescription = projectDescription
-    val boards: List<Board> = boardList
     val currentBoardIndex: Int = selectedBoardIndex
-    val selectedBoard: Board = boardList[selectedBoardIndex]
+    val selectedBoard: Board = boards[selectedBoardIndex]
 
     /**
      * BoardList의 Index를 활용하여 프로젝트 탭에서 선택한 보드로 변경합니다.
@@ -22,7 +21,7 @@ class Project(
      * @return 변경된 Project 객체입니다.
      */
     fun switchBoard(newBoardIndex: Int): Project = Project(
-        boardList = boardList,
+        boardList = boards,
         selectedBoardIndex = newBoardIndex,
         projectTitle = projectTitle,
         projectDescription = projectDescription,
@@ -34,7 +33,7 @@ class Project(
      * @return 변경된 Project 객체입니다.
      */
     fun updateBoard(newBoard: Board): Project = Project(
-        boardList = boardList.map { if (it.boardId == newBoard.boardId) newBoard else it },
+        boardList = boards.map { if (it.boardId == newBoard.boardId) newBoard else it },
         selectedBoardIndex = selectedBoardIndex,
         projectTitle = projectTitle,
         projectDescription = projectDescription,
