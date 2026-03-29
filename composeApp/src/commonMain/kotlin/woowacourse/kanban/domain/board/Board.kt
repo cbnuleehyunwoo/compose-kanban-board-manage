@@ -11,10 +11,11 @@ import java.util.UUID
  * @param id 보드 ID입니다.
  */
 class Board(
-    private val cardList: List<Card> = emptyList(),
+    cardList: List<Card> = emptyList(),
     private val boardTitle: String = "",
     private val id: String = UUID.randomUUID().toString(),
 ) {
+    val cardList  = cardList.toList()
     val title: String = boardTitle
     val boardId: String = id
     val totalTaskCount: Int = cardList.size
@@ -46,7 +47,7 @@ class Board(
             id = id,
             boardTitle = boardTitle,
             cardList = cardList.map { card ->
-                if (card.id == cardId) card.updateWithNewState(targetState) else card
+                if (card.id == cardId) card.copyWithNewState(targetState) else card
             }
         )
     }
