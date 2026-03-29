@@ -63,7 +63,7 @@ fun CardScreen(
 
     CardScreen(
         modifier = modifier
-            .testTag("카드_${cardData.title}")
+            .testTag("카드_${cardData.id}")
             .onGloballyPositioned { cardWindowPosition = it.positionInWindow() }
             .pointerInput(Unit) {
                 detectDragGestures(
