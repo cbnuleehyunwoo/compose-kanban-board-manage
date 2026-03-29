@@ -14,6 +14,20 @@ class ProjectTest {
 
     @Test
     fun `프로젝트가 1개 이상의 보드를 가진다`() {
+        val project = Project(
+            projectTitle = "제목",
+            projectDescription = "내용",
+        )
+        assertThat(project.boards.size).isEqualTo(1)
+    }
+
+
+
+
+
+
+    @Test
+    fun `프로젝트가 1개 이상의 보드를 가진다1`() {
         val boardTitle: String = "abcd"
         val board: Board = Board(boardTitle = boardTitle)
         val project: Project = Project(

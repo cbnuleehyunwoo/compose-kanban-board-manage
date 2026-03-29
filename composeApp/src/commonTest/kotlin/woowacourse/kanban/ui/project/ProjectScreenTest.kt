@@ -10,7 +10,6 @@ import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerState
 import woowacourse.kanban.domain.card.CardTaskState
-import woowacourse.kanban.domain.project.Project
 import woowacourse.kanban.ui.board.BoardScreen
 import kotlin.test.Test
 
@@ -53,7 +52,7 @@ class ProjectScreenTest {
                     )
                 ),
                 onAddCard = {},
-                onBoardChange = {},
+                onBoardChange = { true },
             )
         }
 

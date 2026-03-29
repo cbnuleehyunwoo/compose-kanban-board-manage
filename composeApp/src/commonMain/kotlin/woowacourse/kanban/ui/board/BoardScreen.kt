@@ -68,7 +68,7 @@ import woowacourse.kanban.ui.card.CardScreen
 fun BoardScreen(
     board: Board,
     onAddCard: (Card) -> Unit,
-    onBoardChange: (Board) -> Unit,
+    onBoardChange: (Board) -> Boolean,
 ) {
     var showCardCreationPanel by remember { mutableStateOf(false) }
 
@@ -98,7 +98,7 @@ fun BoardScreen(
     onAddCard: (Card) -> Unit,
     onShowCardCreationPanelChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    onBoardChange: (Board) -> Unit = {},
+    onBoardChange: (Board) -> Boolean,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -129,9 +129,11 @@ fun BoardScreen(
                     modifier = Modifier.fillMaxSize(),
                     board = board,
                     onChangeContent = {
-                        onBoardChange(it)
+                        val isSuccess = onBoardChange(it)
                         coroutineScope.launch {
-                            snackbarHostState.showSnackbar("태스크가 이동되었습니다.")
+                            if(isSuccess) {
+                                snackbarHostState.showSnackbar("태스크가 이동되었습니다.")
+                            }
                         }
                     },
                 )
@@ -546,6 +548,7 @@ private fun BoardScreenPreview(
         showCardCreationPanel = state.showCardCreationPanel,
         onAddCard = {},
         onShowCardCreationPanelChange = {},
+        onBoardChange = { true },
         modifier = Modifier,
     )
 }

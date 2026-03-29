@@ -33,7 +33,9 @@ fun ProjectScreen() {
             project = project.updateBoard(project.selectedBoard + card)
         },
         onBoardChange = { board ->
+            val oldProject = project
             project = project.updateBoard(board)
+            oldProject != project
         },
     )
 }
@@ -52,7 +54,7 @@ fun ProjectScreen(
     project: Project = sampleProject(),
     onBoardSelected: (Int) -> Unit = {},
     onAddNewCard: (Card) -> Unit = {},
-    onBoardChange: (Board) -> Unit = {},
+    onBoardChange: (Board) -> Boolean
 ) {
     Row(
         modifier = modifier.fillMaxSize(),
