@@ -89,7 +89,7 @@ class Card private constructor(
         }
     }
 
-    fun copyWithNewState(
+    fun withUpdatedTaskState(
         newState: CardTaskState,
     ): Card {
         return Card(

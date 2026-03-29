@@ -32,7 +32,7 @@ class Project(
      * @param newBoard 추가할 Board 객체입니다.
      * @return 변경된 Project 객체입니다.
      */
-    fun updateBoard(newBoard: Board): Project = Project(
+    fun withUpdateBoard(newBoard: Board): Project = Project(
         boardList = boards.map { if (it.boardId == newBoard.boardId) newBoard else it },
         selectedBoardIndex = selectedBoardIndex,
         projectTitle = projectTitle,

@@ -285,8 +285,8 @@ private fun BoardContents(
 
             draggedTask?.let { task ->
                 if (targetStatus != null && task.taskState != targetStatus) {
-                    onChangeContent(currentBoard.moveCard(task.id, targetStatus))
-                    currentBoard = currentBoard.moveCard(task.id, targetStatus)
+                    onChangeContent(currentBoard.withUpdatedTaskState(task.id, targetStatus))
+                    currentBoard = currentBoard.withUpdatedTaskState(task.id, targetStatus)
                 }
             }
             currentDragPosition = null

@@ -42,12 +42,12 @@ class Board(
      * Card의 상태를 변경합니다. Card Class의 updateWithNewState 메서드를 활용합니다.
      * @param cardId 변경할 카드의 ID입니다.
      */
-    fun moveCard(cardId: String, targetState: CardTaskState): Board {
+    fun withUpdatedTaskState(cardId: String, targetState: CardTaskState): Board {
         return Board(
             id = id,
             boardTitle = boardTitle,
             cardList = cardList.map { card ->
-                if (card.id == cardId) card.copyWithNewState(targetState) else card
+                if (card.id == cardId) card.withUpdatedTaskState(targetState) else card
             }
         )
     }

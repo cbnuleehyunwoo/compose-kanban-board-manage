@@ -30,11 +30,11 @@ fun ProjectScreen() {
             project = project.switchBoard(boardIndex)
         },
         onAddNewCard = { card ->
-            project = project.updateBoard(project.selectedBoard + card)
+            project = project.withUpdateBoard(project.selectedBoard + card)
         },
         onBoardChange = { board ->
             val oldProject = project
-            project = project.updateBoard(board)
+            project = project.withUpdateBoard(board)
             oldProject != project
         },
     )
