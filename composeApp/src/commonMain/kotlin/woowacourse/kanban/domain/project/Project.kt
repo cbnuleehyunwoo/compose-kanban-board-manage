@@ -8,7 +8,7 @@ class Project(
     private val projectTitle: String = "",
     private val projectDescription: String ="",
 ) {
-    private val boards: List<Board> = boardList.ifEmpty { listOf(Board()) }
+    val boards: List<Board> = boardList.ifEmpty { listOf(Board()) }
     val getTitle = projectTitle
     val getDescription = projectDescription
     val currentBoardIndex: Int = selectedBoardIndex
