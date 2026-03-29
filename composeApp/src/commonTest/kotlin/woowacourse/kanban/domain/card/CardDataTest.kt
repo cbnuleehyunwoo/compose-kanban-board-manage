@@ -1,5 +1,6 @@
 package woowacourse.kanban.domain.card
 
+import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -156,5 +157,26 @@ class CardDataTest {
             listOf("태그1", "태그2"),
             Card.parseTag("태그1,태그2   "),
         )
+    }
+
+    @Test
+    fun `카드의 타이틀이 중복되어도 고유 ID로 카드를 구분할 수 있다`() {
+        val title: String = "중복 타이틀"
+        val card1 = Card.create(
+            title = title,
+            content = "내용",
+            tags = listOf("   ", ""),
+            manager = CardManagerState.DINO,
+            state = CardTaskState.TODO,
+        )
+        val card2 = Card.create(
+            title = title,
+            content = "내용",
+            tags = listOf("   ", ""),
+            manager = CardManagerState.DINO,
+            state = CardTaskState.TODO,
+        )
+
+        assertThat(card1.id).isNotEqualTo(card2.id)
     }
 }
