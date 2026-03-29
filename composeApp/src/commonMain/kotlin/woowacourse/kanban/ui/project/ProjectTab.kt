@@ -1,6 +1,7 @@
 package woowacourse.kanban.ui.project
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -120,7 +123,8 @@ private fun ProjectContents(
     Column(
         modifier = modifier
             .fillMaxHeight()
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(state = rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         boards.forEachIndexed { index, board ->
