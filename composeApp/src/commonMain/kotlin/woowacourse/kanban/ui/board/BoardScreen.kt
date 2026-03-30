@@ -33,6 +33,7 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -275,9 +276,7 @@ private fun BoardContents(
             .padding(24.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        var currentBoard by remember { mutableStateOf(board) }
-        currentBoard = board
-
+        val currentBoard by rememberUpdatedState(board)
         fun taskEnd() {
             val dropPosition = currentDragPosition
             val targetStatus = columnBounds.entries
@@ -286,7 +285,6 @@ private fun BoardContents(
             draggedTask?.let { task ->
                 if (targetStatus != null && task.taskState != targetStatus) {
                     onChangeContent(currentBoard.withUpdatedTaskState(task.id, targetStatus))
-                    currentBoard = currentBoard.withUpdatedTaskState(task.id, targetStatus)
                 }
             }
             currentDragPosition = null
