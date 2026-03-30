@@ -12,9 +12,3 @@ fun App() {
         ProjectScreen()
     }
 }
-
-@Composable
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, device = DESKTOP)
-private fun AppPreview() {
-    ProjectScreen()
-}
