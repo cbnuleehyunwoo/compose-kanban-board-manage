@@ -44,6 +44,7 @@ import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerState
 import woowacourse.kanban.domain.card.CardTaskState
 import woowacourse.kanban.ui.board.common.toDisplayText
+import woowacourse.kanban.ui.theme.CardScreenShape.DefaultCardShape
 
 @Composable
 fun CardScreen(
@@ -96,12 +97,12 @@ fun CardScreen(
         modifier = modifier
             .background(
                 color = Color(0xffffffff),
-                shape = RoundedCornerShape(16.dp),
+                shape = DefaultCardShape,
             )
             .border(
                 color = Color(0xffE5E7Eb),
                 width = 1.dp,
-                shape = RoundedCornerShape(16.dp),
+                shape = DefaultCardShape,
             )
             .padding(all = 17.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
