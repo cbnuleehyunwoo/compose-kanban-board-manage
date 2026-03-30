@@ -98,8 +98,8 @@ fun BoardScreen(
     showCardCreationPanel: Boolean,
     onAddCard: (Card) -> Unit,
     onShowCardCreationPanelChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
     onBoardChange: (Board) -> Boolean,
+    modifier: Modifier = Modifier,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()

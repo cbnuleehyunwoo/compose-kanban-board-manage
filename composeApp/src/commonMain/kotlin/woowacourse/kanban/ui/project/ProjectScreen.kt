@@ -50,11 +50,11 @@ fun ProjectScreen() {
  */
 @Composable
 fun ProjectScreen(
+    onBoardChange: (Board) -> Boolean,
     modifier: Modifier = Modifier,
     project: Project = sampleProject(),
     onBoardSelected: (Int) -> Unit = {},
     onAddNewCard: (Card) -> Unit = {},
-    onBoardChange: (Board) -> Boolean,
 ) {
     Row(
         modifier = modifier.fillMaxSize(),

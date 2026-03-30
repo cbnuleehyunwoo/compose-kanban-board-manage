@@ -39,10 +39,6 @@ class Board(
         cardList = cardList - card,
     )
 
-    /**
-     * Card의 상태를 변경합니다. Card Class의 updateWithNewState 메서드를 활용합니다.
-     * @param cardId 변경할 카드의 ID입니다.
-     */
     fun withUpdatedTaskState(cardId: String, targetState: CardTaskState): Board {
         return Board(
             id = id,
