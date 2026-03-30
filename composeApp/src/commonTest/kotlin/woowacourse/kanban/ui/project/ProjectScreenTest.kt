@@ -8,8 +8,8 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerState
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardManagerStatus
+import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.ui.board.BoardScreen
 import kotlin.test.Test
 
@@ -46,8 +46,8 @@ class ProjectScreenTest {
                             title = "드래그테스트",
                             content = "TODO 에서 DONE 으로 이동",
                             tags = listOf("드래그"),
-                            manager = CardManagerState.DINO,
-                            state = CardTaskState.TODO,
+                            manager = CardManagerStatus.DINO,
+                            state = CardTaskStatus.TODO,
                         ),
                     ),
                 ),

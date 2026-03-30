@@ -13,8 +13,8 @@ class Card private constructor(
     val title: String,
     val content: String,
     val tags: List<String>,
-    val managerState: CardManagerState,
-    val taskState: CardTaskState,
+    val managerState: CardManagerStatus,
+    val taskState: CardTaskStatus,
 ) {
     companion object {
         private const val MAX_TAG_COUNT = 5
@@ -66,8 +66,8 @@ class Card private constructor(
             title: String,
             content: String,
             tags: List<String>,
-            manager: CardManagerState,
-            state: CardTaskState,
+            manager: CardManagerStatus,
+            state: CardTaskStatus,
         ): Card {
             require(title.isNotBlank()) { "[Card] 제목은 필수 입력 항목입니다." }
 
@@ -90,7 +90,7 @@ class Card private constructor(
     }
 
     fun withUpdatedTaskState(
-        newState: CardTaskState,
+        newState: CardTaskStatus,
     ): Card {
         return Card(
             id = id,

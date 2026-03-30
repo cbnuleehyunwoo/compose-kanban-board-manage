@@ -1,7 +1,7 @@
 package woowacourse.kanban.domain.board
 
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardTaskStatus
 import java.util.UUID
 
 /**
@@ -19,14 +19,14 @@ class Board(
     val title: String = boardTitle
     val boardId: String = id
     val totalTaskCount: Int = cardList.size
-    val doneTaskCount: Int = cardList.count { it.taskState == CardTaskState.DONE }
-    val inProgressTaskCount: Int = cardList.count { it.taskState == CardTaskState.IN_PROGRESS }
-    val toDoTaskCount: Int = cardList.count { it.taskState == CardTaskState.TODO }
+    val doneTaskCount: Int = cardList.count { it.taskState == CardTaskStatus.DONE }
+    val inProgressTaskCount: Int = cardList.count { it.taskState == CardTaskStatus.IN_PROGRESS }
+    val toDoTaskCount: Int = cardList.count { it.taskState == CardTaskStatus.TODO }
     val completionRatio = if (totalTaskCount == 0) 0f
     else doneTaskCount.toFloat() / totalTaskCount
     val completionPercentage = (completionRatio * 100).toInt()
 
-    fun cardsByState(state: CardTaskState): List<Card> = cardList.filter { it.taskState == state }
+    fun cardsByState(state: CardTaskStatus): List<Card> = cardList.filter { it.taskState == state }
     operator fun plus(card: Card): Board = Board(
         id = id,
         boardTitle = boardTitle,
@@ -39,7 +39,7 @@ class Board(
         cardList = cardList - card,
     )
 
-    fun withUpdatedTaskState(cardId: String, targetState: CardTaskState): Board {
+    fun withUpdatedTaskState(cardId: String, targetState: CardTaskStatus): Board {
         return Board(
             id = id,
             boardTitle = boardTitle,

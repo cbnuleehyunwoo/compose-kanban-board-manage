@@ -10,9 +10,9 @@ import androidx.compose.ui.geometry.Rect
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import woowacourse.kanban.domain.board.Board
-import woowacourse.kanban.domain.board.CardFormState
+import woowacourse.kanban.domain.board.CardForm
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardTaskStatus
 
 class KanbanState(
     initialProject: Project,
@@ -26,14 +26,14 @@ class KanbanState(
     var isCreationDialogVisible by mutableStateOf(false)
         private set
 
-    var cardForm by mutableStateOf(CardFormState())
+    var cardForm by mutableStateOf(CardForm())
         private set
 
     var draggedTask by mutableStateOf<Card?>(null)
         private set
     var currentDragPosition by mutableStateOf<Offset?>(null)
         private set
-    val columnBounds = mutableStateMapOf<CardTaskState, Rect>()
+    val columnBounds = mutableStateMapOf<CardTaskStatus, Rect>()
 
 
     fun switchBoard(index: Int) {
@@ -52,7 +52,7 @@ class KanbanState(
     }
 
     fun showCreationDialog() {
-        cardForm = CardFormState()
+        cardForm = CardForm()
         isCreationDialogVisible = true
     }
 
@@ -61,11 +61,11 @@ class KanbanState(
         showSnackbar("새 태스크 추가가 취소되었습니다.")
     }
 
-    fun updateCardForm(newForm: CardFormState) {
+    fun updateCardForm(newForm: CardForm) {
         cardForm = newForm
     }
 
-    fun updateColumnBounds(status: CardTaskState, rect: Rect) {
+    fun updateColumnBounds(status: CardTaskStatus, rect: Rect) {
         columnBounds[status] = rect
     }
 
@@ -91,7 +91,7 @@ class KanbanState(
         clearDrag()
     }
 
-    fun isDropTarget(status: CardTaskState): Boolean {
+    fun isDropTarget(status: CardTaskStatus): Boolean {
         val pos = currentDragPosition ?: return false
         return columnBounds[status]?.contains(pos) ?: false
     }

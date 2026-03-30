@@ -24,11 +24,8 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,10 +35,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import woowacourse.kanban.domain.board.CardFormState
+import woowacourse.kanban.domain.board.CardForm
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerState
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardManagerStatus
+import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.project.KanbanState
 import woowacourse.kanban.domain.project.Project
 import woowacourse.kanban.ui.board.common.toDisplayText
@@ -77,8 +74,8 @@ fun CardCreationScreen(
 
 @Composable
 private fun CardCreationScreenContents(
-    cardForm: CardFormState,
-    onFormChange: (CardFormState) -> Unit,
+    cardForm: CardForm,
+    onFormChange: (CardForm) -> Unit,
     onAddItem: (Card) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
@@ -198,8 +195,8 @@ private fun CardCreationPanelHeaderSection(
 
 @Composable
 private fun CardCreationPanelStateSection(
-    selectedState: CardTaskState,
-    onStateChange: (CardTaskState) -> Unit,
+    selectedState: CardTaskStatus,
+    onStateChange: (CardTaskStatus) -> Unit,
 ) {
     Column {
         TitleText("상태 *")
@@ -208,7 +205,7 @@ private fun CardCreationPanelStateSection(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            CardTaskState.entries.forEach { state ->
+            CardTaskStatus.entries.forEach { state ->
                 StateButton(
                     text = state.toDisplayText(),
                     isSelected = selectedState == state,
@@ -255,8 +252,8 @@ private fun StateButton(
 
 @Composable
 private fun CardCreationPanelManagerSection(
-    selectedManager: CardManagerState,
-    onManagerChange: (CardManagerState) -> Unit,
+    selectedManager: CardManagerStatus,
+    onManagerChange: (CardManagerStatus) -> Unit,
 ) {
     Column {
         TitleText("담당자 *")
@@ -264,7 +261,7 @@ private fun CardCreationPanelManagerSection(
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            CardManagerState.entries.forEach { manager ->
+            CardManagerStatus.entries.forEach { manager ->
                 ManagerButton(
                     text = manager.toDisplayText(),
                     isSelected = selectedManager == manager,

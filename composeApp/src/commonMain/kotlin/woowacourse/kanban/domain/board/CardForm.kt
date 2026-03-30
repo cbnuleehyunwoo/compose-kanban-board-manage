@@ -1,15 +1,15 @@
 package woowacourse.kanban.domain.board
 
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerState
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardManagerStatus
+import woowacourse.kanban.domain.card.CardTaskStatus
 
-data class CardFormState(
+data class CardForm(
     val title: String = "",
     val content: String = "",
     val tagInput: String = "",
-    val taskState: CardTaskState = CardTaskState.TODO,
-    val managerState: CardManagerState = CardManagerState.DINO,
+    val taskState: CardTaskStatus = CardTaskStatus.TODO,
+    val managerState: CardManagerStatus = CardManagerStatus.DINO,
 ) {
     val tags: List<String> = Card.parseTag(tagInput)
     val tagInfoText: String = Card.isValidTagInfo(tagInput)
