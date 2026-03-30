@@ -21,8 +21,8 @@ class CardDataTest {
                     title = title,
                     content = "",
                     tags = emptyList(),
-                    manager = CardManagerState.DINO,
-                    state = CardTaskState.TODO,
+                    manager = CardManagerStatus.DINO,
+                    state = CardTaskStatus.TODO,
                 )
             }
         }
@@ -34,8 +34,8 @@ class CardDataTest {
             title = "제목",
             content = "내용",
             tags = emptyList(),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
 
         assertTrue(cardData.hasContent())
@@ -47,8 +47,8 @@ class CardDataTest {
             title = "제목",
             content = "   ",
             tags = emptyList(),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
 
         assertFalse(cardData.hasContent())
@@ -60,8 +60,8 @@ class CardDataTest {
             title = "제목",
             content = "내용",
             tags = listOf(" 태그1 ", "  태그2  "),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
 
         assertEquals(listOf("태그1", "태그2"), cardData.tags)
@@ -73,8 +73,8 @@ class CardDataTest {
             title = "제목",
             content = "내용",
             tags = listOf("태그1", "   ", "", "  "),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
 
         assertEquals(listOf("태그1"), cardData.tags)
@@ -87,8 +87,8 @@ class CardDataTest {
                 title = "제목",
                 content = "내용",
                 tags = listOf("태그1", "태그2", "태그3", "태그4", "태그5", "태그6"),
-                manager = CardManagerState.DINO,
-                state = CardTaskState.TODO,
+                manager = CardManagerStatus.DINO,
+                state = CardTaskStatus.TODO,
             )
         }
     }
@@ -100,8 +100,8 @@ class CardDataTest {
                 title = "제목",
                 content = "내용",
                 tags = listOf("우아한테크코스", "안드로이드8기", "칸반보드리팩터링"),
-                manager = CardManagerState.DINO,
-                state = CardTaskState.TODO,
+                manager = CardManagerStatus.DINO,
+                state = CardTaskStatus.TODO,
             )
         }
     }
@@ -112,8 +112,8 @@ class CardDataTest {
             title = "제목",
             content = "내용",
             tags = listOf("태그1", "   "),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
 
         assertTrue(cardData.hasTag())
@@ -125,8 +125,8 @@ class CardDataTest {
             title = "제목",
             content = "내용",
             tags = listOf("   ", ""),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
 
         assertFalse(cardData.hasTag())
@@ -166,15 +166,15 @@ class CardDataTest {
             title = title,
             content = "내용",
             tags = listOf("   ", ""),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
         val card2 = Card.create(
             title = title,
             content = "내용",
             tags = listOf("   ", ""),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
 
         assertThat(card1.id).isNotEqualTo(card2.id)

@@ -41,8 +41,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerState
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardManagerStatus
+import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.ui.board.common.toDisplayText
 import woowacourse.kanban.ui.theme.CardScreenShape.DefaultCardShape
 
@@ -87,8 +87,8 @@ fun CardScreen(
     title: String,
     content: String,
     tags: List<String>,
-    managerState: CardManagerState,
-    taskState: CardTaskState,
+    managerState: CardManagerStatus,
+    taskState: CardTaskStatus,
     hasContent: Boolean,
     hasTag: Boolean,
     modifier: Modifier = Modifier,

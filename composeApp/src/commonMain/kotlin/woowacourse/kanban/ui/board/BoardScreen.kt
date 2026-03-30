@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.project.KanbanState
 import woowacourse.kanban.domain.project.Project
 import woowacourse.kanban.ui.board.common.toDisplayText
@@ -206,10 +206,10 @@ private fun BoardContents(
         BoardCardColumn(
             modifier = Modifier.width(320.dp)
                 .height(748.dp),
-            filteredCards = state.currentBoard.cardsByState(CardTaskState.TODO),
-            mode = CardTaskState.TODO,
-            getIsDropTarget = { state.isDropTarget(CardTaskState.TODO) },
-            onBoundsChanged = { rect -> state.updateColumnBounds(CardTaskState.TODO, rect) },
+            filteredCards = state.currentBoard.cardsByState(CardTaskStatus.TODO),
+            mode = CardTaskStatus.TODO,
+            getIsDropTarget = { state.isDropTarget(CardTaskStatus.TODO) },
+            onBoundsChanged = { rect -> state.updateColumnBounds(CardTaskStatus.TODO, rect) },
             onTaskDragStart = { card -> state.onDragStart(card) },
             onTaskDragChange = { offset -> state.onDragChange(offset) },
             onTaskDragEnd = { state.onDragEnd() },
@@ -219,10 +219,10 @@ private fun BoardContents(
         BoardCardColumn(
             modifier = Modifier.width(320.dp)
                 .height(748.dp),
-            filteredCards = state.currentBoard.cardsByState(CardTaskState.IN_PROGRESS),
-            mode = CardTaskState.IN_PROGRESS,
-            getIsDropTarget = { state.isDropTarget(CardTaskState.IN_PROGRESS) },
-            onBoundsChanged = { rect -> state.updateColumnBounds(CardTaskState.IN_PROGRESS, rect) },
+            filteredCards = state.currentBoard.cardsByState(CardTaskStatus.IN_PROGRESS),
+            mode = CardTaskStatus.IN_PROGRESS,
+            getIsDropTarget = { state.isDropTarget(CardTaskStatus.IN_PROGRESS) },
+            onBoundsChanged = { rect -> state.updateColumnBounds(CardTaskStatus.IN_PROGRESS, rect) },
             onTaskDragStart = { card -> state.onDragStart(card) },
             onTaskDragChange = { offset -> state.onDragChange(offset) },
             onTaskDragEnd = { state.onDragEnd() },
@@ -232,10 +232,10 @@ private fun BoardContents(
         BoardCardColumn(
             modifier = Modifier.width(320.dp)
                 .height(748.dp),
-            filteredCards = state.currentBoard.cardsByState(CardTaskState.DONE),
-            mode = CardTaskState.DONE,
-            getIsDropTarget = { state.isDropTarget(CardTaskState.DONE) },
-            onBoundsChanged = { rect -> state.updateColumnBounds(CardTaskState.DONE, rect) },
+            filteredCards = state.currentBoard.cardsByState(CardTaskStatus.DONE),
+            mode = CardTaskStatus.DONE,
+            getIsDropTarget = { state.isDropTarget(CardTaskStatus.DONE) },
+            onBoundsChanged = { rect -> state.updateColumnBounds(CardTaskStatus.DONE, rect) },
             onTaskDragStart = { card -> state.onDragStart(card) },
             onTaskDragChange = { offset -> state.onDragChange(offset) },
             onTaskDragEnd = { state.onDragEnd() },
@@ -247,7 +247,7 @@ private fun BoardContents(
 @Composable
 private fun BoardCardColumn(
     filteredCards: List<Card>,
-    mode: CardTaskState,
+    mode: CardTaskStatus,
     modifier: Modifier = Modifier,
     getIsDropTarget: () -> Boolean = { false },
     onBoundsChanged: (Rect) -> Unit = {},
@@ -260,14 +260,14 @@ private fun BoardCardColumn(
     val isDropTarget by remember { derivedStateOf { getIsDropTarget() } }
     val lastBoundsHolder = remember { mutableStateOf<Rect?>(null) }
     val headerColor = when (mode) {
-        CardTaskState.TODO -> TodoHeaderColor
-        CardTaskState.IN_PROGRESS -> InProgressHeaderColor
-        CardTaskState.DONE -> DoneHeaderColor
+        CardTaskStatus.TODO -> TodoHeaderColor
+        CardTaskStatus.IN_PROGRESS -> InProgressHeaderColor
+        CardTaskStatus.DONE -> DoneHeaderColor
     }
     val contentColor = when (mode) {
-        CardTaskState.TODO -> TodoContentColor
-        CardTaskState.IN_PROGRESS -> InProgressContentColor
-        CardTaskState.DONE -> DoneContentColor
+        CardTaskStatus.TODO -> TodoContentColor
+        CardTaskStatus.IN_PROGRESS -> InProgressContentColor
+        CardTaskStatus.DONE -> DoneContentColor
     }
 
     Column(

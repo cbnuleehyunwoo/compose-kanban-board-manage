@@ -13,8 +13,8 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerState
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardManagerStatus
+import woowacourse.kanban.domain.card.CardTaskStatus
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -70,8 +70,8 @@ class BoardScreenTest {
                     title = "테스트 카드",
                     content = "테스트 내용",
                     tags = listOf("태그"),
-                    manager = CardManagerState.DINO,
-                    state = CardTaskState.TODO,
+                    manager = CardManagerStatus.DINO,
+                    state = CardTaskStatus.TODO,
                 ),
             ),
         )

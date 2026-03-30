@@ -3,8 +3,8 @@ package woowacourse.kanban.domain.board
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.assertj.core.api.Assertions.assertThat
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerState
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardManagerStatus
+import woowacourse.kanban.domain.card.CardTaskStatus
 import kotlin.test.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -16,8 +16,8 @@ class BoardTest {
             title = "제목",
             content = "내용내용",
             tags = listOf("태그"),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
 
         var board = Board() + card
@@ -34,29 +34,29 @@ class BoardTest {
                 title = "제목1",
                 content = "내용내용1",
                 tags = listOf("태그1"),
-                manager = CardManagerState.DINO,
-                state = CardTaskState.TODO,
+                manager = CardManagerStatus.DINO,
+                state = CardTaskStatus.TODO,
             ),
             Card.create(
                 title = "제목2",
                 content = "내용내용2",
                 tags = listOf("태그2"),
-                manager = CardManagerState.DINO,
-                state = CardTaskState.TODO,
+                manager = CardManagerStatus.DINO,
+                state = CardTaskStatus.TODO,
             ),
             Card.create(
                 title = "제목3",
                 content = "내용내용3",
                 tags = listOf("태그3"),
-                manager = CardManagerState.FAMES,
-                state = CardTaskState.IN_PROGRESS,
+                manager = CardManagerStatus.FAMES,
+                state = CardTaskStatus.IN_PROGRESS,
             ),
             Card.create(
                 title = "제목4",
                 content = "내용내용4",
                 tags = listOf("태그4"),
-                manager = CardManagerState.FAMES,
-                state = CardTaskState.DONE,
+                manager = CardManagerStatus.FAMES,
+                state = CardTaskStatus.DONE,
             ),
         )
 
@@ -91,22 +91,22 @@ class BoardTest {
                 title = "제목1",
                 content = "내용내용1",
                 tags = listOf("태그1"),
-                manager = CardManagerState.DINO,
-                state = CardTaskState.TODO,
+                manager = CardManagerStatus.DINO,
+                state = CardTaskStatus.TODO,
             ),
             Card.create(
                 title = "제목2",
                 content = "내용내용2",
                 tags = listOf("태그2"),
-                manager = CardManagerState.DINO,
-                state = CardTaskState.IN_PROGRESS,
+                manager = CardManagerStatus.DINO,
+                state = CardTaskStatus.IN_PROGRESS,
             ),
             Card.create(
                 title = "제목3",
                 content = "내용내용3",
                 tags = listOf("태그3"),
-                manager = CardManagerState.FAMES,
-                state = CardTaskState.DONE,
+                manager = CardManagerStatus.FAMES,
+                state = CardTaskStatus.DONE,
             ),
         )
 
@@ -121,22 +121,22 @@ class BoardTest {
                 title = "제목1",
                 content = "내용내용1",
                 tags = listOf("태그1"),
-                manager = CardManagerState.DINO,
-                state = CardTaskState.DONE,
+                manager = CardManagerStatus.DINO,
+                state = CardTaskStatus.DONE,
             ),
             Card.create(
                 title = "제목2",
                 content = "내용내용2",
                 tags = listOf("태그2"),
-                manager = CardManagerState.DINO,
-                state = CardTaskState.DONE,
+                manager = CardManagerStatus.DINO,
+                state = CardTaskStatus.DONE,
             ),
             Card.create(
                 title = "제목3",
                 content = "내용내용3",
                 tags = listOf("태그3"),
-                manager = CardManagerState.FAMES,
-                state = CardTaskState.DONE,
+                manager = CardManagerStatus.FAMES,
+                state = CardTaskStatus.DONE,
             ),
         )
 
@@ -151,14 +151,14 @@ class BoardTest {
             title = "제목",
             content = "내용",
             tags = listOf("태그1", "태그2"),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
         board += card
         assertThat(board.toDoTaskCount).isEqualTo(1)
         assertThat(board.doneTaskCount).isEqualTo(0)
 
-        val updatedBoard = board.withUpdatedTaskState(card.id, CardTaskState.DONE)
+        val updatedBoard = board.withUpdatedTaskState(card.id, CardTaskStatus.DONE)
         assertThat(updatedBoard.toDoTaskCount).isEqualTo(0)
         assertThat(updatedBoard.doneTaskCount).isEqualTo(1)
     }
@@ -170,13 +170,13 @@ class BoardTest {
             title = "제목",
             content = "내용",
             tags = listOf("태그1", "태그2"),
-            manager = CardManagerState.DINO,
-            state = CardTaskState.TODO,
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
         )
         board += card
         assertThat(board.completionPercentage).isEqualTo(0)
 
-        val updatedBoard = board.withUpdatedTaskState(card.id, CardTaskState.DONE)
+        val updatedBoard = board.withUpdatedTaskState(card.id, CardTaskStatus.DONE)
         assertThat(updatedBoard.completionPercentage).isEqualTo(100)
     }
 }

@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerState
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardManagerStatus
+import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.project.Project
 import woowacourse.kanban.domain.project.KanbanState
 import woowacourse.kanban.ui.board.BoardScreen
@@ -61,22 +61,22 @@ private fun sampleProject(): Project {
                         title = "제목1",
                         content = "",
                         tags = listOf("태그1", "태그2", "태그3"),
-                        manager = CardManagerState.DINO,
-                        state = CardTaskState.DONE,
+                        manager = CardManagerStatus.DINO,
+                        state = CardTaskStatus.DONE,
                     ),
                     Card.create(
                         title = "제목2",
                         content = "",
                         tags = listOf("태그1", "태그2"),
-                        manager = CardManagerState.DINO,
-                        state = CardTaskState.IN_PROGRESS,
+                        manager = CardManagerStatus.DINO,
+                        state = CardTaskStatus.IN_PROGRESS,
                     ),
                     Card.create(
                         title = "제목3",
                         content = "",
                         tags = listOf("태그1", "태그2"),
-                        manager = CardManagerState.DINO,
-                        state = CardTaskState.TODO,
+                        manager = CardManagerStatus.DINO,
+                        state = CardTaskStatus.TODO,
                     ),
                 ),
             ),
@@ -87,8 +87,8 @@ private fun sampleProject(): Project {
                         title = "제목4",
                         content = "",
                         tags = listOf("태그1", "태그2"),
-                        manager = CardManagerState.DINO,
-                        state = CardTaskState.DONE,
+                        manager = CardManagerStatus.DINO,
+                        state = CardTaskStatus.DONE,
                     ),
                 ),
             ),

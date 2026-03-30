@@ -1,13 +1,13 @@
 package woowacourse.kanban.ui.board.common
 
 import androidx.compose.runtime.Composable
-import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.domain.card.CardTaskStatus
 
 @Composable
-fun CardTaskState.toDisplayText(): String {
+fun CardTaskStatus.toDisplayText(): String {
     return when (this) {
-        CardTaskState.TODO -> "To Do"
-        CardTaskState.IN_PROGRESS -> "In Progress"
-        CardTaskState.DONE -> "Done"
+        CardTaskStatus.TODO -> "To Do"
+        CardTaskStatus.IN_PROGRESS -> "In Progress"
+        CardTaskStatus.DONE -> "Done"
     }
 }
