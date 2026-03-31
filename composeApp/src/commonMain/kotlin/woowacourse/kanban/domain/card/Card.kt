@@ -89,7 +89,7 @@ class Card private constructor(
         }
     }
 
-    fun withUpdatedTaskState(
+    fun withTaskState(
         newState: CardTaskStatus,
     ): Card {
         return Card(

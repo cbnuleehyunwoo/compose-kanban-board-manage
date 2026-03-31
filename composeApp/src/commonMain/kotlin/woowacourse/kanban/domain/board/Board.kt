@@ -39,12 +39,12 @@ class Board(
         cardList = cardList - card,
     )
 
-    fun withUpdatedTaskState(cardId: String, targetState: CardTaskStatus): Board {
+    fun withTaskState(cardId: String, targetState: CardTaskStatus): Board {
         return Board(
             id = id,
             boardTitle = boardTitle,
             cardList = cardList.map { card ->
-                if (card.id == cardId) card.withUpdatedTaskState(targetState) else card
+                if (card.id == cardId) card.withTaskState(targetState) else card
             },
         )
     }

@@ -41,13 +41,13 @@ class KanbanState(
     }
 
     fun addCard(card: Card) {
-        project = project.withUpdateBoard(project.selectedBoard + card)
+        project = project.withBoard(project.selectedBoard + card)
         showSnackbar("새로운 태스크가 추가되었습니다.")
     }
 
     fun updateBoard(board: Board): Boolean {
         val oldProject = project
-        project = project.withUpdateBoard(board)
+        project = project.withBoard(board)
         return oldProject != project
     }
 
@@ -85,7 +85,7 @@ class KanbanState(
 
         draggedTask?.let { task ->
             if (targetStatus != null && task.taskState != targetStatus) {
-                moveCard(project.selectedBoard.withUpdatedTaskState(task.id, targetStatus))
+                moveCard(project.selectedBoard.withTaskState(task.id, targetStatus))
             }
         }
         clearDrag()
@@ -102,7 +102,7 @@ class KanbanState(
     }
 
     private fun moveCard(updatedBoard: Board) {
-        project = project.withUpdateBoard(updatedBoard)
+        project = project.withBoard(updatedBoard)
         showSnackbar("태스크가 이동되었습니다.")
     }
 

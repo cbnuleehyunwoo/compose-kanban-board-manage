@@ -158,7 +158,7 @@ class BoardTest {
         assertThat(board.toDoTaskCount).isEqualTo(1)
         assertThat(board.doneTaskCount).isEqualTo(0)
 
-        val updatedBoard = board.withUpdatedTaskState(card.id, CardTaskStatus.DONE)
+        val updatedBoard = board.withTaskState(card.id, CardTaskStatus.DONE)
         assertThat(updatedBoard.toDoTaskCount).isEqualTo(0)
         assertThat(updatedBoard.doneTaskCount).isEqualTo(1)
     }
@@ -176,7 +176,7 @@ class BoardTest {
         board += card
         assertThat(board.completionPercentage).isEqualTo(0)
 
-        val updatedBoard = board.withUpdatedTaskState(card.id, CardTaskStatus.DONE)
+        val updatedBoard = board.withTaskState(card.id, CardTaskStatus.DONE)
         assertThat(updatedBoard.completionPercentage).isEqualTo(100)
     }
 }

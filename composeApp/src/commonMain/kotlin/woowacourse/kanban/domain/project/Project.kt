@@ -21,7 +21,7 @@ class Project(
         projectDescription = projectDescription,
     )
 
-    fun withUpdateBoard(newBoard: Board): Project = Project(
+    fun withBoard(newBoard: Board): Project = Project(
         boardList = boards.map { if (it.boardId == newBoard.boardId) newBoard else it },
         selectedBoardIndex = selectedBoardIndex,
         projectTitle = projectTitle,
