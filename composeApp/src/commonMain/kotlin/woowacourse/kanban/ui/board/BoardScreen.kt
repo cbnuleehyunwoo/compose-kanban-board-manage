@@ -269,12 +269,13 @@ private fun BoardCardColumn(
         CardTaskStatus.IN_PROGRESS -> InProgressContentColor
         CardTaskStatus.DONE -> DoneContentColor
     }
+    val defaultBoardColumnShape = RoundedCornerShape(16.dp)
 
     Column(
         modifier = modifier
             .testTag(mode.name)
-            .border(1.dp, headerColor, RoundedCornerShape(16.dp))
-            .clip(RoundedCornerShape(16.dp))
+            .border(1.dp, headerColor, defaultBoardColumnShape)
+            .clip(defaultBoardColumnShape)
             .onGloballyPositioned {
                 val newBounds = it.boundsInWindow()
                 if (newBounds != lastBoundsHolder.value) {

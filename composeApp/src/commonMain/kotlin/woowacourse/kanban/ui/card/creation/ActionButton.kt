@@ -49,7 +49,7 @@ fun ActionButton(
             containerColor = buttonType.containerColor,
             contentColor = buttonType.contentColor,
         ),
-        shape = RoundedCornerShape(20),
+        shape = RoundedCornerShape(20.dp),
     ) {
         Text(
             text = buttonType.buttonText,
