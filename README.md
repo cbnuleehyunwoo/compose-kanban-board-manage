@@ -25,7 +25,6 @@
 
 ### Domain
 
-- [ ] Task Card를 삭제할 수 있다.
 - [ ] TaskStatus에 Review Status를 추가한다.
 - [ ] 태스크 상태 전이 규칙을 추가한다.
 - [ ] Status별 규칙을 추가한다. 
