@@ -22,5 +22,7 @@ object BoardColor {
     val DoneHeaderColor = Color(0xFF00A63E)
     val DoneContentColor = Color(0xFFF0FDF4)
     val ProjectTabHeaderColor = Color(0xFFE5E7EB)
+    val ReviewHeaderColor = Color(0xFF8B5CF6)
+    val ReviewContentColor = Color(0xFFEDE9FE)
     val ProjectTabContentColor = Color.White
 }

@@ -55,6 +55,8 @@ import woowacourse.kanban.ui.theme.BoardColor.DoneContentColor
 import woowacourse.kanban.ui.theme.BoardColor.DoneHeaderColor
 import woowacourse.kanban.ui.theme.BoardColor.InProgressContentColor
 import woowacourse.kanban.ui.theme.BoardColor.InProgressHeaderColor
+import woowacourse.kanban.ui.theme.BoardColor.ReviewContentColor
+import woowacourse.kanban.ui.theme.BoardColor.ReviewHeaderColor
 import woowacourse.kanban.ui.theme.BoardColor.TodoContentColor
 import woowacourse.kanban.ui.theme.BoardColor.TodoHeaderColor
 
@@ -254,11 +256,13 @@ private fun BoardCardColumn(
     val headerColor = when (mode) {
         CardTaskStatus.TODO -> TodoHeaderColor
         CardTaskStatus.IN_PROGRESS -> InProgressHeaderColor
+        CardTaskStatus.REVIEW -> ReviewHeaderColor
         CardTaskStatus.DONE -> DoneHeaderColor
     }
     val contentColor = when (mode) {
         CardTaskStatus.TODO -> TodoContentColor
         CardTaskStatus.IN_PROGRESS -> InProgressContentColor
+        CardTaskStatus.REVIEW -> ReviewContentColor
         CardTaskStatus.DONE -> DoneContentColor
     }
     val defaultBoardColumnShape = RoundedCornerShape(16.dp)

@@ -25,7 +25,7 @@
 
 ### Domain
 
-- [ ] TaskStatus에 Review Status를 추가한다.
+- [x] TaskStatus에 Review Status를 추가한다.
 - [ ] 태스크 상태 전이 규칙을 추가한다.
 - [ ] Status별 규칙을 추가한다. 
   - [ ] To Do: 태스크 삭제 가능, 담당자 미지정 가능
