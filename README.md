@@ -18,8 +18,10 @@
 
 ### 1단계 미션 리팩토링: 
 - [x] Screen 단위로 StateHolder를 적용하여 하위 컴포넌트들을 Stateless로 만듭니다. 
-- [x] 스낵바 표출 책임을 Board -> Project로 이전합니다. 
+- [x] 스낵바 표출 책임을 Board -> Project로 이전합니다.
 - [x] 테스트 코드가 통과되도록 리팩토링합니다. 
+  - [x] 스낵바 표출 책임이 Project로 이전됨에 따라 테스트 코드도 이전
+  - [x] 드래그 앤 드랍테스트를 Board로 이전합니다. 
 
 ### Domain
 

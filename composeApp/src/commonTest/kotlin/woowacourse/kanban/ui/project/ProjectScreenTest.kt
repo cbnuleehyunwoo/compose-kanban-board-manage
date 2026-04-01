@@ -4,12 +4,9 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import woowacourse.kanban.domain.board.Board
-import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerStatus
-import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.project.Project
 import kotlin.test.Test
 
@@ -37,36 +34,24 @@ class ProjectScreenTest {
     }
 
     @Test
-    fun `태스크를 다른 컬럼으로 옮기면 스낵바가 표시된다`() = runComposeUiTest {
+    fun `태스크 생성 후 Snackbar가 노출된다`() = runComposeUiTest {
+        val initialBoard = Board(boardTitle = "Compose Desktop 칸반 보드")
         setContent {
             ProjectScreen(
                 initialProject = Project(
                     boardList = listOf(
-                        Board(
-                            listOf(
-                                Card.create(
-                                    title = "드래그테스트",
-                                    content = "TODO 에서 DONE 으로 이동",
-                                    tags = listOf("드래그"),
-                                    manager = CardManagerStatus.DINO,
-                                    state = CardTaskStatus.TODO,
-                                ),
-                            ),
-                        ),
+                        initialBoard,
                     ),
                 ),
             )
         }
 
-        onNodeWithTag("카드_드래그테스트").performTouchInput {
-            down(center)
-            advanceEventTime(viewConfiguration.longPressTimeoutMillis + 100)
-            moveTo(onNodeWithText("Done").fetchSemanticsNode().positionInRoot)
-            advanceEventTime(1000)
-            up()
-        }
+        onNodeWithTag("새 태스크 생성 버튼").performClick()
+        onNodeWithTag("titleTextField").performTextInput("새 카드")
+        onNodeWithTag("descriptionTextField").performTextInput("설명")
+        onNodeWithTag("tagTextField").performTextInput("태그")
+        onNodeWithText("생성").performClick()
 
-        waitForIdle()
-        onNodeWithText("태스크가 이동되었습니다.").assertExists()
+        onNodeWithText("새로운 태스크가 추가되었습니다.").assertExists()
     }
 }

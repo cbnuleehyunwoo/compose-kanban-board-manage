@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.board.BoardStateHolder
@@ -145,31 +146,54 @@ class BoardScreenTest {
     }
 
     @Test
-    fun `태스크 생성 후 Snackbar가 노출된다`() = runComposeUiTest {
-        val initialBoard = Board(boardTitle = "Compose Desktop 칸반 보드")
+    fun `태스크를 To Do에서 Done 컬럼으로 드래그 앤 드롭하면 카드가 이동한다`() = runComposeUiTest {
+        // Given
+        val testCard = Card.create(
+            title = "드래그 테스트 카드",
+            content = "내용",
+            tags = listOf("태그"),
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
+        )
+        val initialBoard = Board(cardList = listOf(testCard))
+
         setContent {
             var board by remember { mutableStateOf(initialBoard) }
-            val boardState = BoardStateHolder(
-                board = { board },
-                onBoardChange = { board = it },
-                onShowSnackbar = {},
-            )
-            val dialogState = DialogStateHolder(
-                onCardCreate = {},
-                onCancel = {},
-            )
+            val boardState = remember {
+                BoardStateHolder(
+                    board = { board },
+                    onBoardChange = { board = it },
+                    onShowSnackbar = {},
+                )
+            }
+            val dialogState = remember {
+                DialogStateHolder(onCardCreate = {}, onCancel = {})
+            }
             BoardScreen(
                 boardState = boardState,
                 dialogState = dialogState,
             )
         }
 
-        onNodeWithTag("새 태스크 생성 버튼").performClick()
-        onNodeWithTag("titleTextField").performTextInput("새 카드")
-        onNodeWithTag("descriptionTextField").performTextInput("설명")
-        onNodeWithTag("tagTextField").performTextInput("태그")
-        onNodeWithText("생성").performClick()
+        onNodeWithTag("${CardTaskStatus.TODO.name}_개수").assertTextContains("1")
+        onNodeWithTag("${CardTaskStatus.DONE.name}_개수").assertTextContains("0")
 
-        onNodeWithText("새로운 태스크가 추가되었습니다.").assertExists()
+        // When
+        val cardNode = onNodeWithTag("카드_${testCard.id}")
+        val doneColumnNode = onNodeWithTag(CardTaskStatus.DONE.name)
+        val doneColumnBounds = doneColumnNode.fetchSemanticsNode().boundsInRoot
+
+        cardNode.performTouchInput {
+            down(center)
+            advanceEventTime(viewConfiguration.longPressTimeoutMillis + 100)
+
+            moveTo(doneColumnBounds.center)
+            advanceEventTime(100)
+            up()
+        }
+
+        // Then
+        onNodeWithTag("${CardTaskStatus.TODO.name}_개수").assertTextContains("0")
+        onNodeWithTag("${CardTaskStatus.DONE.name}_개수").assertTextContains("1")
     }
 }
