@@ -10,7 +10,7 @@ import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
-import woowacourse.kanban.ui.board.BoardScreen
+import woowacourse.kanban.domain.project.Project
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -39,20 +39,22 @@ class ProjectScreenTest {
     @Test
     fun `태스크를 다른 컬럼으로 옮기면 스낵바가 표시된다`() = runComposeUiTest {
         setContent {
-            BoardScreen(
-                board = Board(
-                    listOf(
-                        Card.create(
-                            title = "드래그테스트",
-                            content = "TODO 에서 DONE 으로 이동",
-                            tags = listOf("드래그"),
-                            manager = CardManagerStatus.DINO,
-                            state = CardTaskStatus.TODO,
+            ProjectScreen(
+                initialProject = Project(
+                    boardList = listOf(
+                        Board(
+                            listOf(
+                                Card.create(
+                                    title = "드래그테스트",
+                                    content = "TODO 에서 DONE 으로 이동",
+                                    tags = listOf("드래그"),
+                                    manager = CardManagerStatus.DINO,
+                                    state = CardTaskStatus.TODO,
+                                ),
+                            ),
                         ),
                     ),
                 ),
-                onAddCard = {},
-                onBoardChange = { true },
             )
         }
 

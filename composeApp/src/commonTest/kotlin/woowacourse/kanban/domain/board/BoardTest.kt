@@ -28,6 +28,24 @@ class BoardTest {
     }
 
     @Test
+    fun `보드에 카드를 삭제할 수 있다`()  {
+        // given && when
+        val card = Card.create(
+            title = "제목",
+            content = "내용내용",
+            tags = listOf("태그"),
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
+        )
+
+        // then
+        var board = Board() + card
+        assertThat(board.totalTaskCount).isEqualTo(1)
+        board -= card
+        assertThat(board.totalTaskCount).isEqualTo(0)
+    }
+
+    @Test
     fun `state에 따라 Card가 분류된다`() {
         val cardList = listOf(
             Card.create(
