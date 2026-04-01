@@ -22,8 +22,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,10 +44,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.domain.board.Board
+import woowacourse.kanban.domain.board.BoardStateHolder
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardTaskStatus
-import woowacourse.kanban.domain.project.KanbanState
-import woowacourse.kanban.domain.project.Project
+import woowacourse.kanban.domain.dialog.DialogStateHolder
 import woowacourse.kanban.ui.board.common.toDisplayText
 import woowacourse.kanban.ui.card.CardCreationScreen
 import woowacourse.kanban.ui.card.CardScreen
@@ -63,39 +61,33 @@ import woowacourse.kanban.ui.theme.BoardColor.TodoHeaderColor
 
 @Composable
 fun BoardScreen(
-    state: KanbanState,
+    boardState: BoardStateHolder,
+    dialogState: DialogStateHolder,
     modifier: Modifier = Modifier,
+    onShowCreationDialog: () -> Unit = {},
 ) {
-
-    Scaffold(
+    Box(
         modifier = modifier.fillMaxSize(),
-        snackbarHost = {
-            SnackbarHost(hostState = state.snackbarHostState)
-        },
-    ) { innerPadding ->
-        Box(
-            modifier = modifier
-                .padding(innerPadding),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White),
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.White),
-            ) {
-                BoardHeaderSection(
-                    modifier = Modifier.fillMaxWidth(),
-                    board = state.currentBoard,
-                    onClick = { state.showCreationDialog() },
-                )
-                BoardContents(
-                    modifier = Modifier.fillMaxSize(),
-                    state = state,
-                )
-            }
-            if (state.isCreationDialogVisible) {
-                CardCreationScreen(state = state)
-            }
+            BoardHeaderSection(
+                modifier = Modifier.fillMaxWidth(),
+                board = boardState.currentBoard,
+                onClick = onShowCreationDialog,
+            )
+            BoardContents(
+                modifier = Modifier.fillMaxSize(),
+                state = boardState,
+            )
         }
+    }
+
+    if (dialogState.isCreationDialogVisible) {
+        CardCreationScreen(state = dialogState)
     }
 }
 
@@ -194,7 +186,7 @@ private fun BoardHeaderSection(
 
 @Composable
 private fun BoardContents(
-    state: KanbanState,
+    state: BoardStateHolder,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -352,14 +344,18 @@ private fun BoardScreenPreview() {
     val scope = rememberCoroutineScope()
 
     val state = remember {
-        KanbanState(
-            initialProject = Project(),
-            snackbarHostState = snackbarHostState,
-            scope = scope,
+        BoardStateHolder(
+            board = { Board() },
+            onBoardChange = {},
+            onShowSnackbar = {},
         )
     }
 
     BoardScreen(
-        state = state,
+        boardState = state,
+        dialogState = DialogStateHolder(
+            onCardCreate = {},
+            onCancel = {},
+        ),
     )
 }

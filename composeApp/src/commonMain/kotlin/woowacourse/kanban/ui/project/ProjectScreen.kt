@@ -2,6 +2,9 @@ package woowacourse.kanban.ui.project
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -13,8 +16,9 @@ import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.project.Project
-import woowacourse.kanban.domain.project.KanbanState
+import woowacourse.kanban.domain.project.ProjectStateHolder
 import woowacourse.kanban.ui.board.BoardScreen
+import woowacourse.kanban.ui.card.CardCreationScreen
 
 @Composable
 fun ProjectScreen(
@@ -23,29 +27,38 @@ fun ProjectScreen(
 ) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-
     val state = remember {
-        KanbanState(
+        ProjectStateHolder(
             initialProject = initialProject,
             snackbarHostState = snackbarHostState,
-            scope = scope
+            scope = scope,
         )
     }
-
-    Row(
+    Scaffold(
         modifier = modifier.fillMaxSize(),
-    ) {
-        ProjectTab(
-            project = state.project,
-            onBoardSelected = { index ->
-                state.switchBoard(
-                    index = index,
-                )
-            },
-        )
-        BoardScreen(
-            state = state,
-        )
+        snackbarHost = {
+            SnackbarHost(hostState = state.snackbarHostState)
+        },
+    ) { innerPadding ->
+        Row(
+            modifier = modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+        ) {
+            ProjectTab(
+                project = state.project,
+                onBoardSelected = { index ->
+                    state.switchBoard(
+                        index = index,
+                    )
+                },
+            )
+            BoardScreen(
+                dialogState = state.dialogState,
+                boardState = state.boardState,
+                onShowCreationDialog = { state.showCreationDialog() },
+            )
+        }
     }
 }
 

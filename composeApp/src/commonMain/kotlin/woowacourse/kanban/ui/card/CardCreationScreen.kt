@@ -21,11 +21,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,8 +37,7 @@ import woowacourse.kanban.domain.board.CardForm
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
-import woowacourse.kanban.domain.project.KanbanState
-import woowacourse.kanban.domain.project.Project
+import woowacourse.kanban.domain.dialog.DialogStateHolder
 import woowacourse.kanban.ui.board.common.toDisplayText
 import woowacourse.kanban.ui.card.creation.ActionButton
 import woowacourse.kanban.ui.card.creation.ActionButtonType
@@ -52,10 +49,9 @@ import woowacourse.kanban.ui.theme.KanbanCardColor.SelectedBackground
 import woowacourse.kanban.ui.theme.KanbanCardColor.SelectedContent
 
 
-
 @Composable
 fun CardCreationScreen(
-    state: KanbanState,
+    state: DialogStateHolder,
     modifier: Modifier = Modifier,
 
     ) {
@@ -65,7 +61,7 @@ fun CardCreationScreen(
         CardCreationScreenContents(
             cardForm = state.cardForm,
             onFormChange = { newForm -> state.updateCardForm(newForm) },
-            onAddItem = { card -> state.addCard(card) },
+            onAddItem = { card -> state.confirm(card) },
             onDismiss = { state.closeCreationDialog() },
             modifier = modifier,
         )
@@ -118,7 +114,7 @@ private fun CardCreationScreenContents(
                     title = "설명",
                     placeholder = "태스크에 대한 자세한 설명을 입력하세요",
                     value = cardForm.content,
-                    onTextChange = { cardForm.copy(content = it) },
+                    onTextChange = { onFormChange(cardForm.copy(content = it)) },
                     testTag = "descriptionTextField",
                 )
 
@@ -126,7 +122,7 @@ private fun CardCreationScreenContents(
                     title = "태그",
                     placeholder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
                     value = cardForm.tagInput,
-                    onTextChange = { cardForm.copy(tagInput = it) },
+                    onTextChange = { onFormChange(cardForm.copy(content = it)) },
                     showAdditionalInfo = true,
                     testTag = "tagTextField",
                     infoText = cardForm.tagInfoText,
@@ -135,12 +131,12 @@ private fun CardCreationScreenContents(
 
                 CardCreationPanelStateSection(
                     selectedState = cardForm.taskState,
-                    onStateChange = { cardForm.copy(taskState = it) },
+                    onStateChange = { onFormChange(cardForm.copy(taskState = it)) },
                 )
 
                 CardCreationPanelManagerSection(
                     selectedManager = cardForm.managerState,
-                    onManagerChange = { cardForm.copy(managerState = it) },
+                    onManagerChange = { onFormChange(cardForm.copy(managerState = it)) },
                 )
 
                 HorizontalDivider(modifier = Modifier.fillMaxWidth())
@@ -348,17 +344,13 @@ private fun ActionButtonSection(
 @Preview(widthDp = 672, heightDp = 909)
 @Composable
 fun CardCreationScreenRoot() {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
 
     val state = remember {
-        KanbanState(
-            initialProject = Project(),
-            snackbarHostState = snackbarHostState,
-            scope = scope,
+        DialogStateHolder(
+            onCardCreate = {},
+            onCancel = {},
         )
     }
-
 
     CardCreationScreen(
         state = state
