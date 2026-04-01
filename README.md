@@ -11,43 +11,15 @@
 - **기능을 구현하기 전 `README.md`에 구현할 기능 목록을 정리**해 추가한다.
 - Git의 커밋 단위는 앞 단계에서 **`README.md`**에 정리한 기능 목록 단위로 추가한다.
     - [AngularJS Git Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)을 참고해 커밋 메시지를 작성한다.
-
-## 기능 요구 사항
-
-- 태스크 카드를 클릭하여 수정/삭제할 수 있다.
-- 태스크가 수정/삭제되었을 때 스낵바를 노출한다.
-- Review 상태를 추가하고, 상태별 태스크의 특징을 적용한다.
-    - **To Do**: 태스크 삭제 가능. 담당자 미지정 가능
-    - **In Progress**: 태스크 삭제 가능. 담당자 지정 필수
-    - **Review**: 태스크 삭제 불가능. 담당자 지정 필수
-    - **Done**: 태스크 삭제 불가능. 담당자 지정 필수
-- 태스크 상태 전이 규칙을 적용한다. 규칙에 정의되지 않은 상태 전이는 불가능하다.
-
-```
-To Do
-  └─→ In Progress (작업 시작)
-
-In Progress
-  ├─→ To Do (다시 계획)
-  └─→ Review (리뷰 요청)
-
-Review
-  ├─→ In Progress (수정 필요)
-  └─→ Done (승인 완료)
-
-Done
-  └─→ To Do (재작업)
-```
-
-## 프로그래밍 요구 사항
-
-- 태스크 '생성' 화면과 '수정' 화면의 중복 요소를 어떻게 조합할지 고민하여 설계한다.
-- 적절한 테스트 방법을 활용하여 기능 요구 사항을 테스트한다.
-    - 모든 요구 사항이 테스트 가능하진 않다. 스스로 판단해서 구분한다.
-
 ## 디자인 시안
 
 [피그마](https://www.figma.com/design/3aBG3UfkTwmHM8BnPyahtT/8%EA%B8%B0-Android-%EB%A0%88%EB%B2%A81-%EB%AF%B8%EC%85%98-%EB%94%94%EC%9E%90%EC%9D%B8?node-id=23136-23&t=xCxwxtFTp8FpfgFV-1)
+## 요구 사항 분석
+
+### 1단계 미션 리팩토링: 
+- [x] Screen 단위로 StateHolder를 적용하여 하위 컴포넌트들을 Stateless로 만듭니다. 
+- [x] 스낵바 표출 책임을 Board -> Project로 이전합니다. 
+- [x] 테스트 코드가 통과되도록 리팩토링합니다. 
 
 ### Domain
 
