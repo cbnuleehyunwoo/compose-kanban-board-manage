@@ -18,7 +18,6 @@ import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.project.Project
 import woowacourse.kanban.domain.project.ProjectStateHolder
 import woowacourse.kanban.ui.board.BoardScreen
-import woowacourse.kanban.ui.card.CardCreationScreen
 
 @Composable
 fun ProjectScreen(
@@ -73,9 +72,9 @@ private fun sampleProject(): Project {
                     Card.create(
                         title = "제목1",
                         content = "",
-                        tags = listOf("태그1", "태그2", "태그3"),
+                        tags = listOf("태그1", "태그2"),
                         manager = CardManagerStatus.DINO,
-                        state = CardTaskStatus.DONE,
+                        state = CardTaskStatus.TODO,
                     ),
                     Card.create(
                         title = "제목2",
@@ -89,7 +88,14 @@ private fun sampleProject(): Project {
                         content = "",
                         tags = listOf("태그1", "태그2"),
                         manager = CardManagerStatus.DINO,
-                        state = CardTaskStatus.TODO,
+                        state = CardTaskStatus.REVIEW,
+                    ),
+                    Card.create(
+                        title = "제목4",
+                        content = "",
+                        tags = listOf("태그1", "태그2", "태그3"),
+                        manager = CardManagerStatus.DINO,
+                        state = CardTaskStatus.DONE,
                     ),
                 ),
             ),
