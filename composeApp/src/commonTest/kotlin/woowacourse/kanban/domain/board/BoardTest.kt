@@ -86,6 +86,49 @@ class BoardTest {
     }
 
     @Test
+    fun `TransitionRule에 정의된 start, target 조건을 만족하면 태스크는 이동할 수 있다 `() {
+        // given && when
+        Board.transitionRule.forEach { (start, targets) ->
+            targets.forEach { targetStatus ->
+                val card = createTestCard(state = start)
+                val board = Board(listOf(card))
+
+                val updatedBoard = board.withTaskState(
+                    cardId = card.id,
+                    targetState = targetStatus,
+                )
+                // then
+                assertThat(updatedBoard.cardList.first().taskState).isEqualTo(targetStatus)
+            }
+        }
+    }
+
+    @Test
+    fun `TransitionRule에 정의된 start, target 조건을 만족하지 않으면 태스크는 이동할 수 없다`() {
+        // given
+        val allStatuses = CardTaskStatus.entries.toTypedArray()
+
+        allStatuses.forEach { currentStatus ->
+            allStatuses.forEach { targetStatus ->
+                if (!Board.isValidTransition(
+                        currentStatus,
+                        targetStatus,
+                    )
+                ) {
+                    val card = createTestCard(state = currentStatus)
+                    val board = Board(listOf(card))
+                    val nextBoard = board.withTaskState(
+                        card.id,
+                        targetStatus,
+                    )
+                    val updatedCard = nextBoard.cardList.first { updatedCard -> updatedCard.id == card.id }
+                    assertThat(updatedCard.taskState).isEqualTo(currentStatus)
+                }
+            }
+        }
+    }
+
+    @Test
     fun `카드가 없으면 빈 보드이다`() {
         val board = Board()
 
@@ -196,5 +239,15 @@ class BoardTest {
 
         val updatedBoard = board.withTaskState(card.id, CardTaskStatus.DONE)
         assertThat(updatedBoard.completionPercentage).isEqualTo(100)
+    }
+
+    private fun createTestCard(state: CardTaskStatus): Card {
+        return Card.create(
+            title = "테스트",
+            content = "내용",
+            tags = emptyList(),
+            manager = CardManagerStatus.DINO, // 도메인에 정의된 기본값 사용
+            state = state,
+        )
     }
 }

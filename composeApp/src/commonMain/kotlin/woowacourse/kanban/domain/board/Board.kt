@@ -39,13 +39,52 @@ class Board(
         cardList = cardList - card,
     )
 
-    fun withTaskState(cardId: String, targetState: CardTaskStatus): Board {
+    fun withTaskState(
+        cardId: String,
+        targetState: CardTaskStatus,
+    ): Board {
         return Board(
             id = id,
             boardTitle = boardTitle,
-            cardList = cardList.map { card ->
-                if (card.id == cardId) card.withTaskState(targetState) else card
+            cardList = cardList.map { currentCard ->
+                if (currentCard.id == cardId && isValidTransition(
+                        currentStatus = currentCard.taskState,
+                        targetStatus = targetState,
+                    )
+                ) {
+                    currentCard.withTaskState(newState = targetState)
+                } else currentCard
             },
         )
+    }
+
+    companion object {
+        val transitionRule = mapOf(
+            CardTaskStatus.TODO to listOf(CardTaskStatus.IN_PROGRESS),
+            CardTaskStatus.IN_PROGRESS to listOf(
+                CardTaskStatus.TODO,
+                CardTaskStatus.REVIEW,
+            ),
+            CardTaskStatus.REVIEW to listOf(
+                CardTaskStatus.IN_PROGRESS,
+                CardTaskStatus.DONE,
+            ),
+            CardTaskStatus.DONE to listOf(
+                CardTaskStatus.TODO,
+            ),
+            CardTaskStatus.REVIEW to listOf(
+                CardTaskStatus.IN_PROGRESS,
+                CardTaskStatus.DONE,
+            ),
+        )
+
+        fun isValidTransition(
+            currentStatus: CardTaskStatus,
+            targetStatus: CardTaskStatus,
+        ): Boolean {
+            return transitionRule
+                .getValue(currentStatus)
+                .contains(targetStatus)
+        }
     }
 }

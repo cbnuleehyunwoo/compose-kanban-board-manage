@@ -26,31 +26,30 @@
 ### Domain
 
 - [x] TaskStatus에 Review Status를 추가한다.
-- [ ] 태스크 상태 전이 규칙을 추가한다.
+  - [x] 태스크 상태 전이 규칙을 추가한다.
+      ```
+      다음과 같은 상태 전이만 허용합니다.
+      To Do
+      └─→ In Progress (작업 시작)
+
+        In Progress
+        ├─→ To Do (다시 계획)
+        └─→ Review (리뷰 요청)
+    
+        Review
+        ├─→ In Progress (수정 필요)
+        └─→ Done (승인 완료)
+    
+        Done
+        └─→ To Do (재작업)
+
+      ``` 
 - [ ] Status별 규칙을 추가한다. 
   - [ ] To Do: 태스크 삭제 가능, 담당자 미지정 가능
   - [ ] In Progress: 태스크 삭제 가능, 담당자 지정 필수
   - [ ] Review: 태스크 삭제 불가능, 담당자 지정 필수
   - [ ] Done: 태스크 삭제 불가능, 담당자 지정 필수
     
-    ```
-    다음과 같은 상태 전이만 허용합니다.
-    To Do
-    └─→ In Progress (작업 시작)
-
-      In Progress
-      ├─→ To Do (다시 계획)
-      └─→ Review (리뷰 요청)
-    
-      Review
-      ├─→ In Progress (수정 필요)
-      └─→ Done (승인 완료)
-    
-      Done
-      └─→ To Do (재작업)
-
-    ```
-  
 ### UI
     
 - [ ] 다이얼로그에 `삭제` 버튼이 추가된다.
@@ -65,8 +64,10 @@
 
 ### Domain
 
-- [ ] 보드에서 카드를 삭제할 수 있다
-- [ ] 불가능한 상태 변경 시 카드의 상태가 변경되지 않는다
+- [x] 보드에서 카드를 삭제할 수 있다
+- [x] 불가능한 상태 변경 시 카드의 상태가 변경되지 않는다
+  - [x] TransitionRule에 정의된 start, target 조건을 만족하면 태스크는 이동할 수 있다
+  - [x] TransitionRule에 정의된 start, target 조건을 만족하지 않으면 태스크는 이동할 수 없다 
 - [ ] Card의 Status가 To do라면, 담당자가 null인 상태로 생성할 수 있다
 - [ ] Card의 Status가 To do이고, 담당자가 null이라면, 다른 상태로 전이할 수 없다
 
