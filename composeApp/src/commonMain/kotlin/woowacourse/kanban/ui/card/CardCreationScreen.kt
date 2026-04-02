@@ -156,6 +156,8 @@ private fun CardCreationScreenContents(
                         )
                         onDismiss()
                     },
+                    onDeleteClick = {},
+                    showDeleteButton = false,
                 )
             }
         }
@@ -318,8 +320,10 @@ private fun ManagerButton(
 @Composable
 private fun ActionButtonSection(
     createEnabled: Boolean,
+    showDeleteButton: Boolean,
     modifier: Modifier = Modifier,
     onCancelClick: () -> Unit,
+    onDeleteClick: () -> Unit,
     onCreateClick: () -> Unit,
 ) {
     Row(
@@ -328,13 +332,21 @@ private fun ActionButtonSection(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ActionButton(
-            buttonType = ActionButtonType.SECONDARY,
+            buttonType = ActionButtonType.CANCEL,
             enabled = true,
             onClick = onCancelClick,
         )
         Spacer(modifier = Modifier.width(12.dp))
+        if(showDeleteButton) {
+            ActionButton(
+                buttonType = ActionButtonType.DELETE,
+                enabled = true,
+                onClick = onDeleteClick,
+            )
+        }
+        Spacer(modifier = Modifier.width(12.dp))
         ActionButton(
-            buttonType = ActionButtonType.PRIMARY,
+            buttonType = ActionButtonType.CREATE,
             enabled = createEnabled,
             onClick = onCreateClick,
         )
