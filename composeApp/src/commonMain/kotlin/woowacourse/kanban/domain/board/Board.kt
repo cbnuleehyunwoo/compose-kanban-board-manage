@@ -33,11 +33,12 @@ class Board(
         cardList = cardList + card,
     )
 
-    operator fun minus(card: Card): Board = Board(
-        id = id,
-        boardTitle = boardTitle,
-        cardList = cardList - card,
-    )
+    operator fun minus(card: Card): Board {
+        if (card.isDeletable()) {
+            return Board(this.cardList.filter { it.id != card.id })
+        }
+        return this
+    }
 
     fun withTaskState(
         cardId: String,

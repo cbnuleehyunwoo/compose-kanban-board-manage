@@ -261,6 +261,41 @@ class BoardTest {
         assertThat(board.toDoTaskCount).isEqualTo(1)
     }
 
+    @Test
+    fun `삭제 가능한 상태(TODO, IN_PROGRESS)의 카드는 보드에서 삭제할 수 있다`() {
+        // given
+        val todoCard = createTestCard(state = CardTaskStatus.TODO)
+        val inProgressCard = createTestCard(state = CardTaskStatus.IN_PROGRESS)
+        var board = Board(listOf(todoCard, inProgressCard))
+
+        assertThat(board.totalTaskCount).isEqualTo(2)
+
+        // when
+        board -= todoCard
+        board -= inProgressCard
+
+        // then
+        assertThat(board.totalTaskCount).isEqualTo(0)
+    }
+
+    @Test
+    fun `삭제 불가능한 상태(DONE, REVIEW)의 카드는 삭제를 시도해도 보드에 남아있다`() {
+        // given
+        val doneCard = createTestCard(state = CardTaskStatus.DONE)
+        val reviewCard = createTestCard(state = CardTaskStatus.REVIEW)
+        var board = Board(listOf(doneCard, reviewCard))
+
+        assertThat(board.totalTaskCount).isEqualTo(2)
+
+        // when
+        board -= doneCard
+        board -= reviewCard
+
+        // then
+        assertThat(board.totalTaskCount).isEqualTo(2)
+        assertThat(board.cardList).contains(doneCard, reviewCard)
+    }
+
     private fun createTestCard(state: CardTaskStatus): Card {
         return Card.create(
             title = "테스트",
