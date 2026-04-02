@@ -44,11 +44,9 @@
         └─→ To Do (재작업)
 
       ``` 
-- [ ] Status별 규칙을 추가한다. 
-  - [ ] To Do: 태스크 삭제 가능, 담당자 미지정 가능
-  - [ ] In Progress: 태스크 삭제 가능, 담당자 지정 필수
-  - [ ] Review: 태스크 삭제 불가능, 담당자 지정 필수
-  - [ ] Done: 태스크 삭제 불가능, 담당자 지정 필수
+- [ ] Status별 생성, 삭제 규칙을 추가한다. 
+  - [x] 생성 시, 담당자 미지정 가능: To DO
+  - [ ] 태스크 삭제 가능: In Progress, Review, Done
     
 ### UI
     
@@ -68,7 +66,7 @@
 - [x] 불가능한 상태 변경 시 카드의 상태가 변경되지 않는다
   - [x] TransitionRule에 정의된 start, target 조건을 만족하면 태스크는 이동할 수 있다
   - [x] TransitionRule에 정의된 start, target 조건을 만족하지 않으면 태스크는 이동할 수 없다 
-- [ ] Card의 Status가 To do라면, 담당자가 null인 상태로 생성할 수 있다
+- [x] Card의 Status가 To do라면, 담당자가 null인 상태로 생성할 수 있다
 - [ ] Card의 Status가 To do이고, 담당자가 null이라면, 다른 상태로 전이할 수 없다
 
 ### UI

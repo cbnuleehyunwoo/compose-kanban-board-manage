@@ -241,6 +241,26 @@ class BoardTest {
         assertThat(updatedBoard.completionPercentage).isEqualTo(100)
     }
 
+    @Test
+    fun `Card의 Status가 To do라면, 담당자가 null인 상태로 생성할 수 있다`() {
+        // given
+        var board: Board = Board()
+        val card: Card = Card.create(
+            title = "제목",
+            content = "내용",
+            tags = listOf(
+                "태그1",
+                "태그2",
+            ),
+            manager = null,
+            state = CardTaskStatus.TODO,
+        )
+        // when
+        board += card
+        // then
+        assertThat(board.toDoTaskCount).isEqualTo(1)
+    }
+
     private fun createTestCard(state: CardTaskStatus): Card {
         return Card.create(
             title = "테스트",

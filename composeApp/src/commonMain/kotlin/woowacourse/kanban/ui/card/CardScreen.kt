@@ -86,7 +86,7 @@ fun CardScreen(
     title: String,
     content: String,
     tags: List<String>,
-    managerState: CardManagerStatus,
+    managerState: CardManagerStatus?,
     taskState: CardTaskStatus,
     hasContent: Boolean,
     hasTag: Boolean,
@@ -135,7 +135,7 @@ fun CardScreen(
         HorizontalDivider()
 
         CardAccountInfo(
-            accountName = managerState.toDisplayText(),
+            accountName = managerState?.toDisplayText() ?: "없음",
             modifier = Modifier
                 .padding(vertical = 10.dp)
                 .fillMaxWidth()

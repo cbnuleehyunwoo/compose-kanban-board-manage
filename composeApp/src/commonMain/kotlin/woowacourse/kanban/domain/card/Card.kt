@@ -13,7 +13,7 @@ class Card private constructor(
     val title: String,
     val content: String,
     val tags: List<String>,
-    val managerState: CardManagerStatus,
+    val managerState: CardManagerStatus?,
     val taskState: CardTaskStatus,
 ) {
     companion object {
