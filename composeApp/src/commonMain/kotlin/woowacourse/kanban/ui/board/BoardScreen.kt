@@ -2,6 +2,7 @@ package woowacourse.kanban.ui.board
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -194,49 +196,33 @@ private fun BoardContents(
     Row(
         modifier = modifier
             .background(Color(0xFFF9FAFB))
-            .padding(24.dp),
+            .padding(24.dp)
+            .horizontalScroll(state = rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        BoardCardColumn(
-            modifier = Modifier.width(320.dp)
-                .height(748.dp),
-            filteredCards = state.currentBoard.cardsByState(CardTaskStatus.TODO),
-            mode = CardTaskStatus.TODO,
-            getIsDropTarget = { state.isDropTarget(CardTaskStatus.TODO) },
-            onBoundsChanged = { rect -> state.updateColumnBounds(CardTaskStatus.TODO, rect) },
-            onTaskDragStart = { card -> state.onDragStart(card) },
-            onTaskDragChange = { offset -> state.onDragChange(offset) },
-            onTaskDragEnd = { state.onDragEnd() },
-            onTaskDragCancel = { state.clearDrag() },
-        )
-
-        BoardCardColumn(
-            modifier = Modifier.width(320.dp)
-                .height(748.dp),
-            filteredCards = state.currentBoard.cardsByState(CardTaskStatus.IN_PROGRESS),
-            mode = CardTaskStatus.IN_PROGRESS,
-            getIsDropTarget = { state.isDropTarget(CardTaskStatus.IN_PROGRESS) },
-            onBoundsChanged = { rect -> state.updateColumnBounds(CardTaskStatus.IN_PROGRESS, rect) },
-            onTaskDragStart = { card -> state.onDragStart(card) },
-            onTaskDragChange = { offset -> state.onDragChange(offset) },
-            onTaskDragEnd = { state.onDragEnd() },
-            onTaskDragCancel = { state.clearDrag() },
-        )
-
-        BoardCardColumn(
-            modifier = Modifier.width(320.dp)
-                .height(748.dp),
-            filteredCards = state.currentBoard.cardsByState(CardTaskStatus.DONE),
-            mode = CardTaskStatus.DONE,
-            getIsDropTarget = { state.isDropTarget(CardTaskStatus.DONE) },
-            onBoundsChanged = { rect -> state.updateColumnBounds(CardTaskStatus.DONE, rect) },
-            onTaskDragStart = { card -> state.onDragStart(card) },
-            onTaskDragChange = { offset -> state.onDragChange(offset) },
-            onTaskDragEnd = { state.onDragEnd() },
-            onTaskDragCancel = { state.clearDrag() },
-        )
+        CardTaskStatus.entries.forEach { status ->
+            BoardCardColumn(
+                modifier = Modifier
+                    .width(320.dp)
+                    .height(748.dp),
+                filteredCards = state.currentBoard.cardsByState(status),
+                mode = status,
+                getIsDropTarget = { state.isDropTarget(status) },
+                onBoundsChanged = { rect ->
+                    state.updateColumnBounds(
+                        status,
+                        rect,
+                    )
+                },
+                onTaskDragStart = { card -> state.onDragStart(card) },
+                onTaskDragChange = { offset -> state.onDragChange(offset) },
+                onTaskDragEnd = { state.onDragEnd() },
+                onTaskDragCancel = { state.clearDrag() },
+            )
+        }
     }
 }
+
 
 @Composable
 private fun BoardCardColumn(
