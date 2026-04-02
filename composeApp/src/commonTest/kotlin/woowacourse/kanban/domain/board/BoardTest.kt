@@ -296,12 +296,27 @@ class BoardTest {
         assertThat(board.cardList).contains(doneCard, reviewCard)
     }
 
+    @Test
+    fun `Card의 Status가 To do이고, 담당자가 null이라면, 다른 상태로 전이할 수 없다`() {
+        // given
+        val todoCard = createTestCard(state = CardTaskStatus.TODO)
+        val board = Board(listOf(todoCard))
+
+        assertThat(board.toDoTaskCount).isEqualTo(1)
+        // when
+        val updatedBoard = board.withTaskState(todoCard.id, CardTaskStatus.IN_PROGRESS)
+        // then
+        val resultCard = updatedBoard.cardList.first { it.id == todoCard.id }
+        assertThat(resultCard.taskState).isEqualTo(CardTaskStatus.TODO)
+        assertThat(updatedBoard.toDoTaskCount).isEqualTo(1)
+        assertThat(updatedBoard.inProgressTaskCount).isEqualTo(0)
+    }
     private fun createTestCard(state: CardTaskStatus): Card {
         return Card.create(
             title = "테스트",
             content = "내용",
             tags = emptyList(),
-            manager = CardManagerStatus.DINO, // 도메인에 정의된 기본값 사용
+            manager = CardManagerStatus.DINO,
             state = state,
         )
     }

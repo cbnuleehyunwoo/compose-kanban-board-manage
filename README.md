@@ -29,7 +29,7 @@
   - [x] 태스크 상태 전이 규칙을 추가한다.
       ```
       다음과 같은 상태 전이만 허용합니다.
-      To Do
+      To Do(To Do는 담당자가 있어야 합니다.)
       └─→ In Progress (작업 시작)
 
         In Progress
@@ -69,7 +69,7 @@
 - [x] Card의 Status가 To do라면, 담당자가 null인 상태로 생성할 수 있다
 - [x] 삭제 가능한 상태(TODO, IN_PROGRESS)의 카드는 보드에서 삭제할 수 있다
 - [x] 삭제 불가능한 상태(DONE, REVIEW)의 카드는 삭제를 시도해도 보드에 남아있다
-- [ ] Card의 Status가 To do이고, 담당자가 null이라면, 다른 상태로 전이할 수 없다
+- [x] Card의 Status가 To do이고, 담당자가 null이라면, 다른 상태로 전이할 수 없다
 
 ### UI
 

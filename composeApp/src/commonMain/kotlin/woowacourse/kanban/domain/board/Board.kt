@@ -40,21 +40,16 @@ class Board(
         return this
     }
 
-    fun withTaskState(
-        cardId: String,
-        targetState: CardTaskStatus,
-    ): Board {
+    fun withTaskState(cardId: String, targetState: CardTaskStatus): Board {
         return Board(
             id = id,
             boardTitle = boardTitle,
             cardList = cardList.map { currentCard ->
-                if (currentCard.id == cardId && isValidTransition(
-                        currentStatus = currentCard.taskState,
-                        targetStatus = targetState,
-                    )
-                ) {
+                if (currentCard.id == cardId && canMoveCard(currentCard, targetState)) {
                     currentCard.withTaskState(newState = targetState)
-                } else currentCard
+                } else {
+                    currentCard
+                }
             },
         )
     }
@@ -73,10 +68,6 @@ class Board(
             CardTaskStatus.DONE to listOf(
                 CardTaskStatus.TODO,
             ),
-            CardTaskStatus.REVIEW to listOf(
-                CardTaskStatus.IN_PROGRESS,
-                CardTaskStatus.DONE,
-            ),
         )
 
         fun isValidTransition(
@@ -86,6 +77,13 @@ class Board(
             return transitionRule
                 .getValue(currentStatus)
                 .contains(targetStatus)
+        }
+
+        fun canMoveCard(card: Card, targetStatus: CardTaskStatus): Boolean {
+            if (!isValidTransition(card.taskState, targetStatus)) return false
+            if (targetStatus != CardTaskStatus.TODO && card.managerState == null) return false
+
+            return true
         }
     }
 }
