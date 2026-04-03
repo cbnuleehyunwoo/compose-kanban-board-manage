@@ -1,18 +1,22 @@
 package woowacourse.kanban.ui.board
 
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.waitUntilAtLeastOneExists
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.board.BoardStateHolder
 import woowacourse.kanban.domain.card.Card
@@ -87,7 +91,8 @@ class BoardScreenTest {
             BoardScreen(
                 boardState = boardState,
                 createDialogState = dialogState,
-                onShowEditDialog = { dialogState.showCreationDialog() },
+                onShowCreationDialog = { dialogState.showCreationDialog() },
+                onShowEditDialog = { },
                 editDialogState = editDialogState,
             )
         }
@@ -136,46 +141,6 @@ class BoardScreenTest {
     }
 
     @Test
-    fun `태스크 생성 후 완료율 텍스트가 변경된다`() = runComposeUiTest {
-        val initialBoard = Board(boardTitle = "Compose Desktop 칸반 보드")
-        setContent {
-            var board by remember { mutableStateOf(initialBoard) }
-            val boardState = BoardStateHolder(
-                board = { board },
-                onBoardChange = { board = it },
-                onShowSnackbar = {},
-            )
-            val dialogState = DialogStateHolder(
-                onCardCreate = { newCard ->
-                    board += newCard
-                },
-                onCancel = {},
-            )
-            val editDialogState = remember {
-                EditDialogStateHolder(
-                    onCardUpdate = {},
-                    onCardDelete = {}
-                )
-            }
-            BoardScreen(
-                boardState = boardState,
-                createDialogState = dialogState,
-                onShowEditDialog = { dialogState.showCreationDialog() },
-                editDialogState = editDialogState,
-            )
-        }
-        onNodeWithTag("새 태스크 생성 버튼").performClick()
-        onNodeWithTag("titleTextField").performTextInput("완료 카드")
-        onNodeWithTag("descriptionTextField").performTextInput("설명")
-        onNodeWithTag("tagTextField").performTextInput("태그")
-
-        onNodeWithTag("Done").performClick()
-        onNodeWithText("생성").performClick()
-
-        onNodeWithTag("완료율").assertTextContains("완료율: 100% (1/1)")
-    }
-
-    @Test
     fun `태스크를 To Do에서 Done 컬럼으로 드래그 앤 드롭하면 카드가 이동한다`() = runComposeUiTest {
         // Given
         val testCard = Card.create(
@@ -213,25 +178,25 @@ class BoardScreenTest {
         }
 
         onNodeWithTag("${CardTaskStatus.TODO.name}_개수").assertTextContains("1")
-        onNodeWithTag("${CardTaskStatus.DONE.name}_개수").assertTextContains("0")
+        onNodeWithTag("${CardTaskStatus.IN_PROGRESS.name}_개수").assertTextContains("0")
 
         // When
         val cardNode = onNodeWithTag("카드_${testCard.id}")
-        val doneColumnNode = onNodeWithTag(CardTaskStatus.DONE.name)
-        val doneColumnBounds = doneColumnNode.fetchSemanticsNode().boundsInRoot
+        val inProgressColumnNode = onNodeWithTag(CardTaskStatus.IN_PROGRESS.name)
+        val inProgressColumnBounds = inProgressColumnNode.fetchSemanticsNode().boundsInRoot
 
         cardNode.performTouchInput {
             down(center)
             advanceEventTime(viewConfiguration.longPressTimeoutMillis + 100)
 
-            moveTo(doneColumnBounds.center)
+            moveTo(inProgressColumnBounds.center)
             advanceEventTime(100)
             up()
         }
 
         // Then
         onNodeWithTag("${CardTaskStatus.TODO.name}_개수").assertTextContains("0")
-        onNodeWithTag("${CardTaskStatus.DONE.name}_개수").assertTextContains("1")
+        onNodeWithTag("${CardTaskStatus.IN_PROGRESS.name}_개수").assertTextContains("1")
     }
 
     @Test

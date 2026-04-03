@@ -38,6 +38,9 @@ class Card (
 
         fun isValidTag(rawText: String): Boolean {
             if (rawText.isBlank()) return true
+            val rawChunks = rawText.split(",")
+            if ( rawChunks.any { it.isBlank() }) return false
+
             val parsedText = parseTag(rawText).map { it.trim() }.filter { it.isNotEmpty() }
 
             val isCountValid = parsedText.size <= MAX_TAG_COUNT

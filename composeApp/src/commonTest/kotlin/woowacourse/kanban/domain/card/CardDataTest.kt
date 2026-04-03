@@ -134,7 +134,7 @@ class CardDataTest {
 
     @Test
     fun `잘못된 태그 문자열이 주어질 시 false가 반환된다`() {
-        assertFalse(Card.isValidTag(",..."))
+        assertThat(Card.isValidTag(",...")).isEqualTo(false)
     }
 
     @Test
