@@ -36,8 +36,15 @@ class ProjectStateHolder(
                 showSnackbar("태스크가 수정되었습니다.")
             },
             onCardDelete = { card ->
-                project = project.withBoard(project.selectedBoard - card)
-                showSnackbar("태스크가 삭제되었습니다.")
+                val beforeBoard = project.selectedBoard
+                val afterBoard = beforeBoard - card
+
+                if (beforeBoard === afterBoard) {
+                    showSnackbar("해당 상태에서는 태스크 삭제가 불가합니다.")
+                } else {
+                    project = project.withBoard(afterBoard)
+                    showSnackbar("태스크가 삭제되었습니다.")
+                }
             },
 
         )
