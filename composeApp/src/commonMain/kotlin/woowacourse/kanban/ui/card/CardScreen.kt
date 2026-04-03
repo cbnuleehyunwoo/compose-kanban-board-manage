@@ -142,7 +142,7 @@ fun CardScreen(
         HorizontalDivider()
 
         CardAccountInfo(
-            accountName = managerState?.toDisplayText() ?: "없음",
+            accountName = managerState.toDisplayText(),
             modifier = Modifier
                 .padding(vertical = 10.dp)
                 .fillMaxWidth()
