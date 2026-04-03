@@ -66,6 +66,9 @@ class ProjectStateHolder(
     }
 
     private fun showSnackbar(message: String) {
-        scope.launch { snackbarHostState.showSnackbar(message) }
+        scope.launch { snackbarHostState.showSnackbar(
+            message = message,
+            actionLabel = "X",
+        ) }
     }
 }

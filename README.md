@@ -21,9 +21,9 @@
 - [x] 스낵바 표출 책임을 Board -> Project로 이전합니다.
 - [x] 테스트 코드가 통과되도록 리팩토링합니다. 
 - [x] 스낵바 표출 책임이 Project로 이전됨에 따라 테스트 코드도 이전
+- [x] 스낵바에 닫기 버튼을 추가합니다.
 - [x] 드래그 앤 드랍테스트를 Board로 이전합니다. 
 - [x] BoardColumn의 background 색상이 Column 전체로 적용되도록 수정합니다.
-
 ### Domain
 
 - [x] TaskStatus에 Review Status를 추가한다.
