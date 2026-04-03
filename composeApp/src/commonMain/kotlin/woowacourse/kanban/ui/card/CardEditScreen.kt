@@ -141,7 +141,19 @@ private fun CardEditScreenContents(
 
                 CardCreationPanelStateSection(
                     selectedState = cardForm.taskState,
-                    onStateChange = { onFormChange(cardForm.copy(taskState = it)) },
+                    onStateChange = { newState ->
+                        val newManager = if (newState != CardTaskStatus.TODO && cardForm.managerState == CardManagerStatus.NONE) {
+                            CardManagerStatus.DINO
+                        } else {
+                            cardForm.managerState
+                        }
+                        onFormChange(
+                            cardForm.copy(
+                                taskState = newState,
+                                managerState = newManager,
+                            ),
+                        )
+                    },
                 )
 
                 CardCreationPanelManagerSection(
@@ -341,14 +353,14 @@ private fun ActionButtonSection(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
-    )  {
+    ) {
         ActionButton(
             buttonType = ActionButtonType.CANCEL,
             enabled = true,
             onClick = onCancelClick,
         )
         Spacer(modifier = Modifier.width(12.dp))
-        if(isEditDialog) {
+        if (isEditDialog) {
             ActionButton(
                 buttonType = ActionButtonType.DELETE,
                 enabled = true,
@@ -357,7 +369,7 @@ private fun ActionButtonSection(
         }
         Spacer(modifier = Modifier.width(12.dp))
         ActionButton(
-            buttonType = if(isEditDialog) ActionButtonType.EDIT else ActionButtonType.CREATE,
+            buttonType = if (isEditDialog) ActionButtonType.EDIT else ActionButtonType.CREATE,
             enabled = createEnabled,
             onClick = onAmendClick,
         )
@@ -376,6 +388,6 @@ fun CardEditScreenRoot() {
     }
 
     CardCreationScreen(
-        state = state
+        state = state,
     )
 }
