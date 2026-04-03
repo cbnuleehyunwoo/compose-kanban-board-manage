@@ -18,6 +18,7 @@ import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.dialog.DialogStateHolder
+import woowacourse.kanban.domain.dialog.EditDialogStateHolder
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -38,9 +39,16 @@ class BoardScreenTest {
                 onCardCreate = {},
                 onCancel = {},
             )
+            val editDialogState = remember {
+                EditDialogStateHolder(
+                    onCardUpdate = {},
+                    onCardDelete = {}
+                )
+            }
             BoardScreen(
                 boardState = boardState,
-                dialogState = dialogState,
+                createDialogState = dialogState,
+                editDialogState = editDialogState
             )
         }
 
@@ -69,10 +77,17 @@ class BoardScreenTest {
                 onCardCreate = {},
                 onCancel = {},
             )
+            val editDialogState = remember {
+                EditDialogStateHolder(
+                    onCardUpdate = {},
+                    onCardDelete = {}
+                )
+            }
             BoardScreen(
                 boardState = boardState,
-                dialogState = dialogState,
-                onShowCreationDialog = { dialogState.showCreationDialog() },
+                createDialogState = dialogState,
+                onShowEditDialog = { dialogState.showCreationDialog() },
+                editDialogState = editDialogState,
             )
         }
         onNodeWithTag("새 태스크 생성 버튼").performClick()
@@ -102,9 +117,16 @@ class BoardScreenTest {
                 onCardCreate = {},
                 onCancel = {},
             )
+            val editDialogState = remember {
+                EditDialogStateHolder(
+                    onCardUpdate = {},
+                    onCardDelete = {}
+                )
+            }
             BoardScreen(
                 boardState = boardState,
-                dialogState = dialogState,
+                createDialogState = dialogState,
+                editDialogState = editDialogState,
             )
         }
 
@@ -128,10 +150,17 @@ class BoardScreenTest {
                 },
                 onCancel = {},
             )
+            val editDialogState = remember {
+                EditDialogStateHolder(
+                    onCardUpdate = {},
+                    onCardDelete = {}
+                )
+            }
             BoardScreen(
                 boardState = boardState,
-                dialogState = dialogState,
-                onShowCreationDialog = { dialogState.showCreationDialog() },
+                createDialogState = dialogState,
+                onShowEditDialog = { dialogState.showCreationDialog() },
+                editDialogState = editDialogState,
             )
         }
         onNodeWithTag("새 태스크 생성 버튼").performClick()
@@ -169,9 +198,16 @@ class BoardScreenTest {
             val dialogState = remember {
                 DialogStateHolder(onCardCreate = {}, onCancel = {})
             }
+            val editDialogState = remember {
+                EditDialogStateHolder(
+                    onCardUpdate = {},
+                    onCardDelete = {}
+                )
+            }
             BoardScreen(
                 boardState = boardState,
-                dialogState = dialogState,
+                createDialogState = dialogState,
+                editDialogState = editDialogState,
             )
         }
 

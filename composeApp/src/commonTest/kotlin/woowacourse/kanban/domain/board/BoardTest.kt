@@ -252,7 +252,7 @@ class BoardTest {
                 "태그1",
                 "태그2",
             ),
-            manager = null,
+            manager = CardManagerStatus.NONE,
             state = CardTaskStatus.TODO,
         )
         // when
@@ -299,7 +299,7 @@ class BoardTest {
     @Test
     fun `Card의 Status가 To do이고, 담당자가 null이라면, 다른 상태로 전이할 수 없다`() {
         // given
-        val todoCard = createTestCard(state = CardTaskStatus.TODO)
+        val todoCard = createTestCard(state = CardTaskStatus.TODO, managerStatus = CardManagerStatus.NONE)
         val board = Board(listOf(todoCard))
 
         assertThat(board.toDoTaskCount).isEqualTo(1)
@@ -311,12 +311,12 @@ class BoardTest {
         assertThat(updatedBoard.toDoTaskCount).isEqualTo(1)
         assertThat(updatedBoard.inProgressTaskCount).isEqualTo(0)
     }
-    private fun createTestCard(state: CardTaskStatus): Card {
+    private fun createTestCard(state: CardTaskStatus, managerStatus: CardManagerStatus = CardManagerStatus.DINO): Card {
         return Card.create(
             title = "테스트",
             content = "내용",
             tags = emptyList(),
-            manager = CardManagerStatus.DINO,
+            manager = managerStatus,
             state = state,
         )
     }
