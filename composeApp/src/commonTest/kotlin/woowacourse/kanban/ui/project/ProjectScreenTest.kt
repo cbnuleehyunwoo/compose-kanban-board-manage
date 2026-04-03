@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.board.BoardStateHolder
@@ -127,5 +128,44 @@ class ProjectScreenTest {
         onNodeWithText("태스크가 삭제되었습니다.").assertExists()
     }
 
+    @Test
+    fun `불가능한 전이 시 스낵바가 표시된다`() = runComposeUiTest {
+        // given
+        val initialBoard = Board(
+            boardTitle = "Compose Desktop 칸반 보드",
+            cardList = listOf(Card.create(
+                title = "전이 불가 스낵바 테스트",
+                content = "",
+                tags = listOf(),
+                manager = CardManagerStatus.NONE,
+                state = CardTaskStatus.TODO,
+            )),
+        )
+        setContent {
+            ProjectScreen(
+                initialProject = Project(
+                    boardList = listOf(
+                        initialBoard,
+                    ),
+                ),
+            )
+        }
 
+        val cardNode = onNodeWithTag("카드_${initialBoard.cardList.first().id}")
+        val inProgressColumnNode = onNodeWithTag(CardTaskStatus.TODO.name)
+        val inProgressColumnBounds = inProgressColumnNode.fetchSemanticsNode().boundsInRoot
+
+        // when
+        cardNode.performTouchInput {
+            down(center)
+            advanceEventTime(viewConfiguration.longPressTimeoutMillis + 100)
+
+            moveTo(inProgressColumnBounds.center)
+            advanceEventTime(100)
+            up()
+        }
+
+        // then
+        onNodeWithText("담당자를 지정해야 상태를 옮길 수 있습니다.").assertExists()
+    }
 }
