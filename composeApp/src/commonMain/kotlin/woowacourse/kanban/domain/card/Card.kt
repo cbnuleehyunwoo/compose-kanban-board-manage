@@ -8,12 +8,12 @@ import java.util.UUID
  * 카드 생성 규칙을 적용합니다.
  * 생성은 [create] 팩토리 메서드로 수행합니다.
  */
-class Card private constructor(
+class Card (
     val id: String,
     val title: String,
     val content: String,
     val tags: List<String>,
-    val managerState: CardManagerStatus?,
+    val managerState: CardManagerStatus,
     val taskState: CardTaskStatus,
 ) {
     companion object {
@@ -92,6 +92,10 @@ class Card private constructor(
     fun withTaskState(
         newState: CardTaskStatus,
     ): Card {
+        require(!isAssigneeRequired() || managerState != CardManagerStatus.NONE) {
+            "담당자를 지정해야 상태를 옮길 수 있습니다."
+        }
+
         return Card(
             id = id,
             title = title,
@@ -113,4 +117,20 @@ class Card private constructor(
      * @return 태그가 있다면 true 리턴.
      */
     fun hasTag(): Boolean = tags.isNotEmpty()
+
+    fun isDeletable(): Boolean =
+        when(taskState) {
+            CardTaskStatus.TODO -> true
+            CardTaskStatus.IN_PROGRESS -> true
+            CardTaskStatus.DONE -> false
+            CardTaskStatus.REVIEW -> false
+        }
+
+    fun isAssigneeRequired(): Boolean =
+        when(taskState) {
+            CardTaskStatus.TODO -> false
+            CardTaskStatus.IN_PROGRESS -> true
+            CardTaskStatus.DONE -> true
+            CardTaskStatus.REVIEW -> true
+        }
 }
