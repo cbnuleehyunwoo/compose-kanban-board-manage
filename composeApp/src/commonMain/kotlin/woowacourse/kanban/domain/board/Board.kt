@@ -35,9 +35,22 @@ class Board(
 
     operator fun minus(card: Card): Board {
         if (card.isDeletable()) {
-            return Board(this.cardList.filter { it.id != card.id })
-        }
+            return Board(
+                id = this.boardId,
+                boardTitle = this.title,
+                cardList = this.cardList.filter { it.id != card.id }
+            )        }
         return this
+    }
+
+    fun updateCard(updatedCard: Card): Board {
+        return Board(
+            id = id,
+            boardTitle = boardTitle,
+            cardList = cardList.map { currentCard ->
+                if (currentCard.id == updatedCard.id) updatedCard else currentCard
+            }
+        )
     }
 
     fun withTaskState(cardId: String, targetState: CardTaskStatus): Board {

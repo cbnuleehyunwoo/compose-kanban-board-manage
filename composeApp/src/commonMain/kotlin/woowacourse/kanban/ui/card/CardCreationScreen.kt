@@ -157,7 +157,7 @@ private fun CardCreationScreenContents(
                         onDismiss()
                     },
                     onDeleteClick = {},
-                    showDeleteButton = false,
+                    isEditDialog = false,
                 )
             }
         }
@@ -250,7 +250,7 @@ private fun StateButton(
 
 @Composable
 private fun CardCreationPanelManagerSection(
-    selectedManager: CardManagerStatus,
+    selectedManager: CardManagerStatus?,
     onManagerChange: (CardManagerStatus) -> Unit,
 ) {
     Column {
@@ -320,7 +320,7 @@ private fun ManagerButton(
 @Composable
 private fun ActionButtonSection(
     createEnabled: Boolean,
-    showDeleteButton: Boolean,
+    isEditDialog: Boolean,
     modifier: Modifier = Modifier,
     onCancelClick: () -> Unit,
     onDeleteClick: () -> Unit,
@@ -337,7 +337,7 @@ private fun ActionButtonSection(
             onClick = onCancelClick,
         )
         Spacer(modifier = Modifier.width(12.dp))
-        if(showDeleteButton) {
+        if(isEditDialog) {
             ActionButton(
                 buttonType = ActionButtonType.DELETE,
                 enabled = true,
@@ -346,7 +346,7 @@ private fun ActionButtonSection(
         }
         Spacer(modifier = Modifier.width(12.dp))
         ActionButton(
-            buttonType = ActionButtonType.CREATE,
+            buttonType = if(isEditDialog) ActionButtonType.EDIT else ActionButtonType.CREATE,
             enabled = createEnabled,
             onClick = onCreateClick,
         )

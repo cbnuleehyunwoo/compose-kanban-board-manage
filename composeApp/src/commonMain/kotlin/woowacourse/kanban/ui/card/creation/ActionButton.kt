@@ -35,6 +35,13 @@ enum class ActionButtonType(
         contentColor = Color.White,
         containerColor = Color(0xFFDB6365),
         elevation = 0.dp,
+    ),
+
+    EDIT(
+      buttonText = "수정",
+        contentColor = Color.White,
+        containerColor = Color(0xFF4F39F6),
+        elevation = 3.dp,
     )
 }
 
