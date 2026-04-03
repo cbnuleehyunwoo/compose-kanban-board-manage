@@ -315,6 +315,8 @@ private fun BoardCardColumn(
         }
         LazyColumn(
             modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
                 .background(contentColor)
                 .padding(horizontal = 17.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
