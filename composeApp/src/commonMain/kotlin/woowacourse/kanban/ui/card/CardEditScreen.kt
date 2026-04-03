@@ -67,7 +67,7 @@ fun CardEditScreen(
             onDismiss = { state.closeEditDialog() },
             onDelete = {
                 state.deleteTarget()
-                       },
+            },
             modifier = modifier,
         )
     }
@@ -87,13 +87,17 @@ private fun CardEditScreenContents(
         modifier = modifier.testTag("수정 모달 열림"),
     ) {
         Column(
-            modifier = Modifier.background(DefaultBackground)
+            modifier = Modifier
+                .background(DefaultBackground)
                 .width(672.dp),
         ) {
             CardEditPanelHeaderSection(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 28.dp, horizontal = 24.dp),
+                    .padding(
+                        vertical = 28.dp,
+                        horizontal = 24.dp,
+                    ),
                 onClose = onDismiss,
             )
 
@@ -258,17 +262,21 @@ private fun CardCreationPanelManagerSection(
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            CardManagerStatus.entries.forEach { manager ->
-                ManagerButton(
-                    text = manager.toDisplayText(),
-                    isSelected = selectedManager == manager,
-                    isManagerNullable = isManagerNullable ,
-                    onClick = { onManagerChange(manager) },
-                    modifier = Modifier
-                        .width(200.dp)
-                        .height(68.dp),
-                )
-            }
+            CardManagerStatus.entries
+                .filter { manager ->
+                    isManagerNullable || manager != CardManagerStatus.NONE
+                }
+                .forEach { manager ->
+                    ManagerButton(
+                        text = manager.toDisplayText(),
+                        isSelected = selectedManager == manager,
+                        isManagerNullable = isManagerNullable,
+                        onClick = { onManagerChange(manager) },
+                        modifier = Modifier
+                            .width(200.dp)
+                            .height(68.dp),
+                    )
+                }
         }
     }
 }
@@ -300,7 +308,7 @@ private fun ManagerButton(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if(isManagerNullable.not()) {
+            if (text != "없음") {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = "매니저 아이콘",
@@ -327,7 +335,7 @@ private fun ActionButtonSection(
     onCancelClick: () -> Unit,
     onDeleteClick: () -> Unit,
     onAmendClick: () -> Unit,
-    isEditDialog: Boolean ,
+    isEditDialog: Boolean,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),

@@ -135,9 +135,10 @@ private fun CardCreationScreenContents(
                 )
 
                 CardCreationPanelManagerSection(
+                    isManagerNullable = cardForm.taskState == CardTaskStatus.TODO,
                     selectedManager = cardForm.managerState,
-                ) { onFormChange(cardForm.copy(managerState = it)) }
-
+                    onManagerChange = { onFormChange(cardForm.copy(managerState = it)) },
+                )
                 HorizontalDivider(modifier = Modifier.fillMaxWidth())
 
                 ActionButtonSection(
@@ -251,6 +252,7 @@ private fun StateButton(
 private fun CardCreationPanelManagerSection(
     selectedManager: CardManagerStatus,
     onManagerChange: (CardManagerStatus) -> Unit,
+    isManagerNullable: Boolean = false,
 ) {
     Column {
         TitleText("담당자 *")
@@ -259,7 +261,8 @@ private fun CardCreationPanelManagerSection(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             CardManagerStatus.entries
-                .filter{ it != CardManagerStatus.NONE }
+                .filter{ manager ->
+                    isManagerNullable || manager != CardManagerStatus.NONE }
                 .forEach { manager ->
                 ManagerButton(
                     text = manager.toDisplayText(),
