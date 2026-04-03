@@ -9,6 +9,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.runComposeUiTest
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.board.BoardStateHolder
@@ -73,7 +74,7 @@ class ProjectScreenTest {
         val initialBoard = Board(
             boardTitle = "Compose Desktop 칸반 보드",
             cardList = listOf(Card.create(
-                title = "수정 테스트",
+                title = "제목",
                 content = "",
                 tags = listOf(),
                 manager = CardManagerStatus.DINO,
@@ -91,10 +92,40 @@ class ProjectScreenTest {
         }
         // when & then
         onNodeWithTag("카드_${initialBoard.cardList.first().id}").performClick()
-        onNodeWithTag("titleTextField").performTextInput("수정된 제목")
+        onNodeWithTag("titleTextField").performTextReplacement("수정된 제목")
         onNodeWithText("수정").performClick()
-        onNodeWithText("수정된 제목").assertDoesNotExist()
+        onNodeWithText("수정된 제목", useUnmergedTree = true).assertExists()
         onNodeWithText("태스크가 수정되었습니다.").assertExists()
     }
+
+    @Test
+    fun `태스크 삭제 시 스낵바가 표시된다`() = runComposeUiTest {
+        // given
+        val initialBoard = Board(
+            boardTitle = "Compose Desktop 칸반 보드",
+            cardList = listOf(Card.create(
+                title = "삭제 테스트",
+                content = "",
+                tags = listOf(),
+                manager = CardManagerStatus.DINO,
+                state = CardTaskStatus.TODO,
+            )),
+        )
+        setContent {
+            ProjectScreen(
+                initialProject = Project(
+                    boardList = listOf(
+                        initialBoard,
+                    ),
+                ),
+            )
+        }
+        // when & then
+        onNodeWithTag("카드_${initialBoard.cardList.first().id}").performClick()
+        onNodeWithText("삭제").performClick()
+        onNodeWithText("삭제 테스트").assertDoesNotExist()
+        onNodeWithText("태스크가 삭제되었습니다.").assertExists()
+    }
+
 
 }
