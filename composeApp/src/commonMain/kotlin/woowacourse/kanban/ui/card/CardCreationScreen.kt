@@ -136,8 +136,7 @@ private fun CardCreationScreenContents(
 
                 CardCreationPanelManagerSection(
                     selectedManager = cardForm.managerState,
-                    onManagerChange = { onFormChange(cardForm.copy(managerState = it)) },
-                )
+                ) { onFormChange(cardForm.copy(managerState = it)) }
 
                 HorizontalDivider(modifier = Modifier.fillMaxWidth())
 
@@ -250,7 +249,7 @@ private fun StateButton(
 
 @Composable
 private fun CardCreationPanelManagerSection(
-    selectedManager: CardManagerStatus?,
+    selectedManager: CardManagerStatus,
     onManagerChange: (CardManagerStatus) -> Unit,
 ) {
     Column {
@@ -259,7 +258,9 @@ private fun CardCreationPanelManagerSection(
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            CardManagerStatus.entries.forEach { manager ->
+            CardManagerStatus.entries
+                .filter{ it != CardManagerStatus.NONE }
+                .forEach { manager ->
                 ManagerButton(
                     text = manager.toDisplayText(),
                     isSelected = selectedManager == manager,

@@ -141,6 +141,7 @@ private fun CardEditScreenContents(
                 )
 
                 CardCreationPanelManagerSection(
+                    isManagerNullable = cardForm.taskState == CardTaskStatus.TODO,
                     selectedManager = cardForm.managerState,
                     onManagerChange = { onFormChange(cardForm.copy(managerState = it)) },
                 )
@@ -247,8 +248,9 @@ private fun StateButton(
 
 @Composable
 private fun CardCreationPanelManagerSection(
-    selectedManager: CardManagerStatus?,
+    selectedManager: CardManagerStatus,
     onManagerChange: (CardManagerStatus) -> Unit,
+    isManagerNullable: Boolean,
 ) {
     Column {
         TitleText("담당자 *")
@@ -260,6 +262,7 @@ private fun CardCreationPanelManagerSection(
                 ManagerButton(
                     text = manager.toDisplayText(),
                     isSelected = selectedManager == manager,
+                    isManagerNullable = isManagerNullable ,
                     onClick = { onManagerChange(manager) },
                     modifier = Modifier
                         .width(200.dp)
@@ -273,6 +276,7 @@ private fun CardCreationPanelManagerSection(
 @Composable
 private fun ManagerButton(
     text: String,
+    isManagerNullable: Boolean,
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -296,13 +300,15 @@ private fun ManagerButton(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                imageVector = Icons.Default.AccountCircle,
-                contentDescription = "매니저 아이콘",
-                modifier = Modifier.size(24.dp),
-                tint = Color(0xFF838383),
-            )
-            Spacer(modifier = Modifier.width(12.dp))
+            if(isManagerNullable.not()) {
+                Icon(
+                    imageVector = Icons.Default.AccountCircle,
+                    contentDescription = "매니저 아이콘",
+                    modifier = Modifier.size(24.dp),
+                    tint = Color(0xFF838383),
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+            }
             Text(
                 text = text,
                 fontSize = 14.sp,
