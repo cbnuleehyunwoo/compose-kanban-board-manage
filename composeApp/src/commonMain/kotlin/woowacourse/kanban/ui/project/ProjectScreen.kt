@@ -75,7 +75,7 @@ private fun sampleProject(): Project {
                         title = "제목1",
                         content = "",
                         tags = listOf("태그1", "태그2"),
-                        manager = null,
+                        manager = CardManagerStatus.NONE,
                         state = CardTaskStatus.TODO,
                     ),
                     Card.create(

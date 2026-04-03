@@ -8,5 +8,6 @@ fun CardManagerStatus.toDisplayText(): String {
     return when (this) {
         CardManagerStatus.DINO -> "DINO"
         CardManagerStatus.FAMES -> "FAMES"
+        CardManagerStatus.NONE -> "없음"
     }
 }

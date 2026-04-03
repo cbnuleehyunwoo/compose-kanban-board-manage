@@ -3,11 +3,12 @@ package woowacourse.kanban.domain.card
 enum class CardTaskStatus {
     TODO,
     IN_PROGRESS,
-    DONE,
-    REVIEW;
+    REVIEW,
+    DONE;
 }
 
 enum class CardManagerStatus {
+    NONE,
     DINO,
     FAMES,
 }

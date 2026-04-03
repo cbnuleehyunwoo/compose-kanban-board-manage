@@ -1,6 +1,7 @@
 package woowacourse.kanban.domain.board
 
 import woowacourse.kanban.domain.card.Card
+import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
 import java.util.UUID
 
@@ -94,7 +95,7 @@ class Board(
 
         fun canMoveCard(card: Card, targetStatus: CardTaskStatus): Boolean {
             if (!isValidTransition(card.taskState, targetStatus)) return false
-            if (targetStatus != CardTaskStatus.TODO && card.managerState == null) return false
+            if (targetStatus != CardTaskStatus.TODO && card.managerState == CardManagerStatus.NONE) return false
 
             return true
         }

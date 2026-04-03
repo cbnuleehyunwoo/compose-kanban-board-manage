@@ -91,7 +91,7 @@ fun CardScreen(
     title: String,
     content: String,
     tags: List<String>,
-    managerState: CardManagerStatus?,
+    managerState: CardManagerStatus,
     taskState: CardTaskStatus,
     hasContent: Boolean,
     hasTag: Boolean,
