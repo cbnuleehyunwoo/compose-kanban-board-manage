@@ -122,7 +122,7 @@ private fun CardCreationScreenContents(
                     title = "태그",
                     placeholder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
                     value = cardForm.tagInput,
-                    onTextChange = { onFormChange(cardForm.copy(content = it)) },
+                    onTextChange = { onFormChange(cardForm.copy(tagInput = it)) },
                     showAdditionalInfo = true,
                     testTag = "tagTextField",
                     infoText = cardForm.tagInfoText,

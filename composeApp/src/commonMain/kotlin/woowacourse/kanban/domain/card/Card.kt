@@ -38,15 +38,20 @@ class Card (
 
         fun isValidTag(rawText: String): Boolean {
             if (rawText.isBlank()) return true
+            val parsedText = parseTag(rawText).map { it.trim() }.filter { it.isNotEmpty() }
 
-            val parsedText = parseTag(rawText)
-            return (parsedText.all { isValidText(it) } && parsedText.size <= MAX_TAG_COUNT)
+            val isCountValid = parsedText.size <= MAX_TAG_COUNT
+            val isLengthValid = parsedText.all { it.length <= MAX_TAG_LENGTH }
+
+            return isCountValid && isLengthValid
         }
 
         fun isValidTagInfo(rawText: String): String {
             val parsedText = parseTag(rawText)
 
-            if (isValidText(rawText) && parsedText.any { isValidText(it) == false }) return TAG_INVALID_FORMAT_MSG
+            if (isValidText(rawText) && parsedText.any { !isValidText(it) }) return TAG_INVALID_FORMAT_MSG
+
+            if (isValidText(rawText) && parsedText.any { it.length !in 1..5 }) return TAG_INVALID_RULE_MSG
 
             if (isValidText(rawText) && parsedText.size > MAX_TAG_COUNT) return TAG_INVALID_RULE_MSG
 
