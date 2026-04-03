@@ -15,9 +15,9 @@ import kotlin.collections.set
 class BoardStateHolder(
     private val board: () -> Board,
     private val onBoardChange: (Board) -> Unit,
-    private val onShowSnackbar: (String) -> Unit
+    private val onShowSnackbar: (String) -> Unit,
+    private val onCardClick: (Card) -> Unit = {},
 ) {
-
     var draggedTask by mutableStateOf<Card?>(null)
         private set
     var currentDragPosition by mutableStateOf<Offset?>(null)
@@ -35,6 +35,10 @@ class BoardStateHolder(
 
     fun onDragStart(card: Card) {
         draggedTask = card
+    }
+
+    fun onClick(card: Card) {
+        onCardClick(card)
     }
 
     fun onDragChange(offset: Offset) {

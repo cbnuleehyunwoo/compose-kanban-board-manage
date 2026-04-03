@@ -50,8 +50,10 @@ import woowacourse.kanban.domain.board.BoardStateHolder
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.dialog.DialogStateHolder
+import woowacourse.kanban.domain.dialog.EditDialogStateHolder
 import woowacourse.kanban.ui.board.common.toDisplayText
 import woowacourse.kanban.ui.card.CardCreationScreen
+import woowacourse.kanban.ui.card.CardEditScreen
 import woowacourse.kanban.ui.card.CardScreen
 import woowacourse.kanban.ui.theme.BoardColor.DoneContentColor
 import woowacourse.kanban.ui.theme.BoardColor.DoneHeaderColor
@@ -66,9 +68,11 @@ import woowacourse.kanban.ui.theme.BoardColor.TodoHeaderColor
 @Composable
 fun BoardScreen(
     boardState: BoardStateHolder,
-    dialogState: DialogStateHolder,
+    createDialogState: DialogStateHolder,
+    editDialogState: EditDialogStateHolder,
     modifier: Modifier = Modifier,
     onShowCreationDialog: () -> Unit = {},
+    onShowEditDialog: () -> Unit = {},
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -86,15 +90,19 @@ fun BoardScreen(
             BoardContents(
                 modifier = Modifier.fillMaxSize(),
                 state = boardState,
+                onCardClick = onShowEditDialog
             )
         }
     }
 
-    if (dialogState.isCreationDialogVisible) {
-        CardCreationScreen(state = dialogState)
+    if (createDialogState.isCreationDialogVisible) {
+        CardCreationScreen(state = createDialogState)
+    }
+
+    if (editDialogState.isEditDialogVisible) {
+        CardEditScreen(state = editDialogState)
     }
 }
-
 /**
  * 보드 헤더 영역입니다. Board 제목, 진행율, 프로그레스 바가 포함됩니다.
  * @param board 보드 데이터입니다.
@@ -192,6 +200,7 @@ private fun BoardHeaderSection(
 private fun BoardContents(
     state: BoardStateHolder,
     modifier: Modifier = Modifier,
+    onCardClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -218,6 +227,10 @@ private fun BoardContents(
                 onTaskDragChange = { offset -> state.onDragChange(offset) },
                 onTaskDragEnd = { state.onDragEnd() },
                 onTaskDragCancel = { state.clearDrag() },
+                onCardClick = {
+                    card -> state.onClick(card)
+                    onCardClick()
+                },
             )
         }
     }
@@ -235,6 +248,7 @@ private fun BoardCardColumn(
     onTaskDragChange: (Offset) -> Unit = {},
     onTaskDragEnd: () -> Unit = {},
     onTaskDragCancel: () -> Unit = {},
+    onCardClick: (Card) -> Unit = {},
 
     ) {
     val isDropTarget by remember { derivedStateOf { getIsDropTarget() } }
@@ -315,6 +329,7 @@ private fun BoardCardColumn(
                     onDragChange = onTaskDragChange,
                     onDragEnd = onTaskDragEnd,
                     onDragCancel = onTaskDragCancel,
+                    onCardClick = { onCardClick(card) },
                 )
             }
         }
@@ -338,14 +353,19 @@ private fun BoardScreenPreview() {
             board = { Board() },
             onBoardChange = {},
             onShowSnackbar = {},
+            onCardClick = {},
         )
     }
 
     BoardScreen(
         boardState = state,
-        dialogState = DialogStateHolder(
+        createDialogState = DialogStateHolder(
             onCardCreate = {},
             onCancel = {},
+        ),
+        editDialogState = EditDialogStateHolder(
+            onCardUpdate = {},
+            onCardDelete = {},
         ),
     )
 }

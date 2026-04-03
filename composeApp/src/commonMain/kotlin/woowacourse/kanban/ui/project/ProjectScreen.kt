@@ -53,9 +53,11 @@ fun ProjectScreen(
                 },
             )
             BoardScreen(
-                dialogState = state.dialogState,
+                createDialogState = state.creationDialogState,
+                editDialogState = state.editDialogState,
                 boardState = state.boardState,
                 onShowCreationDialog = { state.showCreationDialog() },
+                onShowEditDialog = { state.showEditDialog() },
             )
         }
     }
@@ -73,7 +75,7 @@ private fun sampleProject(): Project {
                         title = "제목1",
                         content = "",
                         tags = listOf("태그1", "태그2"),
-                        manager = CardManagerStatus.DINO,
+                        manager = null,
                         state = CardTaskStatus.TODO,
                     ),
                     Card.create(

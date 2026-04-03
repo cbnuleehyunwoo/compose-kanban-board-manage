@@ -2,6 +2,7 @@ package woowacourse.kanban.ui.card
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -49,6 +50,7 @@ import woowacourse.kanban.ui.board.common.toDisplayText
 fun CardScreen(
     modifier: Modifier = Modifier,
     cardData: Card,
+    onCardClick: () -> Unit = {},
     onDragStart: () -> Unit = {},
     onDragChange: (Offset) -> Unit = {},
     onDragEnd: () -> Unit = {},
@@ -70,7 +72,10 @@ fun CardScreen(
                     onDragEnd = { onDragEnd() },
                     onDragCancel = { onDragCancel() },
                 )
-            },
+            }
+            .clickable(
+                onClick = { onCardClick() },
+            ),
         title = cardData.title,
         content = cardData.content,
         tags = cardData.tags,

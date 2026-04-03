@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import woowacourse.kanban.domain.board.BoardStateHolder
 import woowacourse.kanban.domain.dialog.DialogStateHolder
+import woowacourse.kanban.domain.dialog.EditDialogStateHolder
 
 class ProjectStateHolder(
     initialProject: Project,
@@ -23,10 +24,25 @@ class ProjectStateHolder(
                 project = project.withBoard(newBoard)
             },
             onShowSnackbar = { showSnackbar(it) },
+            onCardClick = {card -> editDialogState.setCard(card)}
         ),
     )
 
-    val dialogState by mutableStateOf(
+    val editDialogState by mutableStateOf(
+        EditDialogStateHolder(
+            onCardUpdate = { newCard ->
+                val updatedBoard = project.selectedBoard.updateCard(newCard)
+                project = project.withBoard(updatedBoard)
+                showSnackbar("태스크가 수정되었습니다.")
+            },
+            onCardDelete = { card ->
+                project = project.withBoard(project.selectedBoard - card)
+                showSnackbar("태스크가 삭제되었습니다.")
+            },
+
+        )
+    )
+    val creationDialogState by mutableStateOf(
         DialogStateHolder(
             onCardCreate = { newCard ->
                 project = project.withBoard(project.selectedBoard + newCard)
@@ -36,12 +52,17 @@ class ProjectStateHolder(
         ),
     )
 
+
     fun switchBoard(index: Int) {
         project = project.switchBoard(index)
     }
 
+    fun showEditDialog() {
+        editDialogState.showEditDialog()
+    }
+
     fun showCreationDialog() {
-        dialogState.showCreationDialog()
+        creationDialogState.showCreationDialog()
     }
 
     private fun showSnackbar(message: String) {
