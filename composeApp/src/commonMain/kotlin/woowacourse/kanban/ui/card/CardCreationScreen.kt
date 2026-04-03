@@ -82,7 +82,7 @@ private fun CardCreationScreenContents(
     ) {
         Column(
             modifier = Modifier.background(DefaultBackground)
-                .width(672.dp),
+                .width(720.dp),
         ) {
             CardCreationPanelHeaderSection(
                 modifier = Modifier
@@ -209,7 +209,7 @@ private fun CardCreationPanelStateSection(
                     isSelected = selectedState == state,
                     onClick = { onStateChange(state) },
                     modifier = Modifier
-                        .width(200.dp)
+                        .width(120.dp)
                         .height(52.dp),
                 )
             }
@@ -269,7 +269,7 @@ private fun CardCreationPanelManagerSection(
                     isSelected = selectedManager == manager,
                     onClick = { onManagerChange(manager) },
                     modifier = Modifier
-                        .width(200.dp)
+                        .width(120.dp)
                         .height(68.dp),
                 )
             }

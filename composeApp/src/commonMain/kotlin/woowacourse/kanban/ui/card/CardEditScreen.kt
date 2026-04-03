@@ -89,7 +89,7 @@ private fun CardEditScreenContents(
         Column(
             modifier = Modifier
                 .background(DefaultBackground)
-                .width(672.dp),
+                .width(720.dp),
         ) {
             CardEditPanelHeaderSection(
                 modifier = Modifier
@@ -223,7 +223,7 @@ private fun CardCreationPanelStateSection(
                     isSelected = selectedState == state,
                     onClick = { onStateChange(state) },
                     modifier = Modifier
-                        .width(200.dp)
+                        .width(120.dp)
                         .height(52.dp),
                 )
             }
@@ -285,7 +285,7 @@ private fun CardCreationPanelManagerSection(
                         isManagerNullable = isManagerNullable,
                         onClick = { onManagerChange(manager) },
                         modifier = Modifier
-                            .width(200.dp)
+                            .width(120.dp)
                             .height(68.dp),
                     )
                 }
