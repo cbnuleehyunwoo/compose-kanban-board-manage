@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -231,5 +232,55 @@ class BoardScreenTest {
         // Then
         onNodeWithTag("${CardTaskStatus.TODO.name}_개수").assertTextContains("0")
         onNodeWithTag("${CardTaskStatus.DONE.name}_개수").assertTextContains("1")
+    }
+
+    @Test
+    fun `태스크 카드 클릭 후 다이얼로그에서 삭제 버튼을 눌렀을 때 해당 태스크 카드가 삭제된다`() = runComposeUiTest {
+        // given
+        val testCard = Card.create(
+            title = "삭제 테스트 카드",
+            content = "내용",
+            tags = listOf("태그"),
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO,
+        )
+        val initialBoard = Board(cardList = listOf(testCard))
+
+        setContent {
+            var board by remember { mutableStateOf(initialBoard) }
+
+            val editDialogState = remember {
+                EditDialogStateHolder(
+                    onCardUpdate = { updated -> board = board.updateCard(updated) },
+                    onCardDelete = { target -> board = board - target }
+                )
+            }
+
+            val boardState = remember {
+                BoardStateHolder(
+                    board = { board },
+                    onBoardChange = { board = it },
+                    onShowSnackbar = {},
+                    onCardClick = { card -> editDialogState.setCard(card) }
+                )
+            }
+
+            val dialogState = remember {
+                DialogStateHolder(onCardCreate = {}, onCancel = {})
+            }
+
+            BoardScreen(
+                boardState = boardState,
+                createDialogState = dialogState,
+                editDialogState = editDialogState,
+                onShowEditDialog = { editDialogState.showEditDialog() }
+            )
+        }
+
+        // when & then
+        onNodeWithTag("카드_${testCard.id}").performClick()
+        onNodeWithTag("수정 모달 열림").assertIsDisplayed()
+        onNodeWithText("삭제").performClick()
+        onNodeWithTag("카드_${testCard.id}").assertDoesNotExist()
     }
 }
