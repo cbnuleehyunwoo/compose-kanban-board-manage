@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -62,6 +63,10 @@ fun CardScreen(
         modifier = modifier
             .testTag("카드_${cardData.id}")
             .onGloballyPositioned { cardWindowPosition = it.positionInWindow() }
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(
+                onClick = { onCardClick() },
+            )
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { onDragStart() },
@@ -72,10 +77,7 @@ fun CardScreen(
                     onDragEnd = { onDragEnd() },
                     onDragCancel = { onDragCancel() },
                 )
-            }
-            .clickable(
-                onClick = { onCardClick() },
-            ),
+            },
         title = cardData.title,
         content = cardData.content,
         tags = cardData.tags,
