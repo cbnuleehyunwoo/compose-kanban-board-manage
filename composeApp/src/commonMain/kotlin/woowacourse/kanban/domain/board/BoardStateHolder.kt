@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import woowacourse.kanban.domain.card.Card
+import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
 import kotlin.collections.component1
 import kotlin.collections.component2
@@ -51,14 +52,23 @@ class BoardStateHolder(
         val targetStatus = columnBounds.entries
             .firstOrNull { (_, rect) -> dropPosition?.let { rect.contains(it) } == true }?.key
 
-        draggedTask?.let { task ->
+        val taskId = draggedTask?.id
+        val targetTask = currentBoard.cardList.find { it.id == taskId }
+
+        targetTask?.let { task ->
             if (targetStatus != null && task.taskState != targetStatus) {
-                val updatedBoard = board().withTaskState(
-                    cardId = task.id,
-                    targetState = targetStatus
-                )
-                onBoardChange(updatedBoard)
-                onShowSnackbar("태스크가 이동되었습니다.")
+                if (!Board.isValidTransition(task.taskState, targetStatus)) {
+                    onShowSnackbar("해당 상태로 옮길 수 없습니다.")
+                } else if (targetStatus != CardTaskStatus.TODO && task.managerState == CardManagerStatus.NONE) {
+                    onShowSnackbar("담당자를 지정해야 상태를 옮길 수 있습니다.")
+                } else {
+                    val updatedBoard = board().withTaskState(
+                        cardId = task.id,
+                        targetState = targetStatus
+                    )
+                    onBoardChange(updatedBoard)
+                    onShowSnackbar("태스크가 이동되었습니다.")
+                }
             }
         }
         clearDrag()
