@@ -47,8 +47,9 @@ class EditDialogStateHolder(
     }
 
     fun deleteTarget() {
-        onCardDelete(targetCard!!)
-        isEditDialogVisible = false
+        val currentTarget = targetCard ?: return
+        onCardDelete(currentTarget)
+        closeEditDialog()
     }
 
     fun setCard(card: Card) {
