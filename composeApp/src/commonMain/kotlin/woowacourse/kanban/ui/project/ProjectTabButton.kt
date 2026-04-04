@@ -38,10 +38,16 @@ fun ProjectTabButton(
 
     Box(
         modifier
-            .shadow(elevation = elevationDp, shape = RoundedCornerShape(10.dp))
+            .shadow(
+                elevation = elevationDp,
+                shape = RoundedCornerShape(10.dp),
+            )
             .clip(shape = RoundedCornerShape(10.dp))
             .background(color = tabColor)
-            .padding(vertical = 12.dp, horizontal = 15.dp)
+            .padding(
+                vertical = 12.dp,
+                horizontal = 15.dp,
+            )
             .clickable { onClick() },
         contentAlignment = Alignment.CenterStart,
     ) {

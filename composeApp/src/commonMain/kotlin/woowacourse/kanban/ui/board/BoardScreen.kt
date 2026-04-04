@@ -199,8 +199,8 @@ private fun BoardHeaderSection(
 @Composable
 private fun BoardContents(
     state: BoardStateHolder,
-    modifier: Modifier = Modifier,
     onCardClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -347,9 +347,6 @@ private fun BoardCardColumn(
 )
 @Composable
 private fun BoardScreenPreview() {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
-
     val state = remember {
         BoardStateHolder(
             board = { Board() },

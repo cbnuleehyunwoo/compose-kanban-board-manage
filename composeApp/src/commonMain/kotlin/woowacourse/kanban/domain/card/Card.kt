@@ -25,7 +25,8 @@ class Card private constructor(
         private const val TAG_INVALID_RULE_MSG = "태그는 5자 이내로 5개까지만 등록할 수 있습니다."
 
         fun isValidText(rawText: String): Boolean {
-            return rawText.trim().isNotBlank()
+            return rawText.trim()
+                .isNotBlank()
         }
 
         fun getTitleInfo(): String {
@@ -33,15 +34,17 @@ class Card private constructor(
         }
 
         fun parseTag(tempTags: String): List<String> {
-            return tempTags.trim().split(",")
+            return tempTags.trim()
+                .split(",")
         }
 
         fun isValidTag(rawText: String): Boolean {
             if (rawText.isBlank()) return true
             val rawChunks = rawText.split(",")
-            if ( rawChunks.any { it.isBlank() }) return false
+            if (rawChunks.any { it.isBlank() }) return false
 
-            val parsedText = parseTag(rawText).map { it.trim() }.filter { it.isNotEmpty() }
+            val parsedText = parseTag(rawText).map { it.trim() }
+                .filter { it.isNotEmpty() }
 
             val isCountValid = parsedText.size <= MAX_TAG_COUNT
             val isLengthValid = parsedText.all { it.length <= MAX_TAG_LENGTH }
@@ -87,7 +90,8 @@ class Card private constructor(
             require(normalizedTags.all { it.length <= MAX_TAG_LENGTH }) { "[Card] 태그는 최대 ${MAX_TAG_LENGTH}자까지 가능합니다." }
 
             return Card(
-                id = UUID.randomUUID().toString(),
+                id = UUID.randomUUID()
+                    .toString(),
                 title = title,
                 content = content,
                 tags = normalizedTags,
@@ -114,7 +118,7 @@ class Card private constructor(
         )
     }
 
-    fun withCardFormInput (
+    fun withCardFormInput(
         title: String,
         content: String,
         tags: List<String>,
@@ -144,7 +148,7 @@ class Card private constructor(
     fun hasTag(): Boolean = tags.isNotEmpty()
 
     fun isDeletable(): Boolean =
-        when(taskState) {
+        when (taskState) {
             CardTaskStatus.TODO -> true
             CardTaskStatus.IN_PROGRESS -> true
             CardTaskStatus.DONE -> false
@@ -152,7 +156,7 @@ class Card private constructor(
         }
 
     fun isAssigneeRequired(): Boolean =
-        when(taskState) {
+        when (taskState) {
             CardTaskStatus.TODO -> false
             CardTaskStatus.IN_PROGRESS -> true
             CardTaskStatus.DONE -> true

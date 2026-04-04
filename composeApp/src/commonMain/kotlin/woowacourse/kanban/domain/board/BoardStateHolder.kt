@@ -9,9 +9,6 @@ import androidx.compose.ui.geometry.Rect
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 class BoardStateHolder(
     private val board: () -> Board,
@@ -57,14 +54,18 @@ class BoardStateHolder(
 
         targetTask?.let { task ->
             if (targetStatus != null && task.taskState != targetStatus) {
-                if (!Board.isValidTransition(task.taskState, targetStatus)) {
+                if (!Board.isValidTransition(
+                        currentStatus = task.taskState,
+                        targetStatus = targetStatus,
+                    )
+                ) {
                     onShowSnackbar("해당 상태로 옮길 수 없습니다.")
                 } else if (targetStatus != CardTaskStatus.TODO && task.managerState == CardManagerStatus.NONE) {
                     onShowSnackbar("담당자를 지정해야 상태를 옮길 수 있습니다.")
                 } else {
                     val updatedBoard = board().withTaskState(
                         cardId = task.id,
-                        targetState = targetStatus
+                        targetState = targetStatus,
                     )
                     onBoardChange(updatedBoard)
                     onShowSnackbar("태스크가 이동되었습니다.")

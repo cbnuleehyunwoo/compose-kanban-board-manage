@@ -14,7 +14,8 @@ import java.util.UUID
 class Board(
     cardList: List<Card> = emptyList(),
     private val boardTitle: String = "",
-    private val id: String = UUID.randomUUID().toString(),
+    private val id: String = UUID.randomUUID()
+        .toString(),
 ) {
     val cardList = cardList.toList()
     val title: String = boardTitle
@@ -39,8 +40,9 @@ class Board(
             return Board(
                 id = this.boardId,
                 boardTitle = this.title,
-                cardList = this.cardList.filter { it.id != card.id }
-            )        }
+                cardList = this.cardList.filter { it.id != card.id },
+            )
+        }
         return this
     }
 
@@ -50,16 +52,23 @@ class Board(
             boardTitle = boardTitle,
             cardList = cardList.map { currentCard ->
                 if (currentCard.id == updatedCard.id) updatedCard else currentCard
-            }
+            },
         )
     }
 
-    fun withTaskState(cardId: String, targetState: CardTaskStatus): Board {
+    fun withTaskState(
+        cardId: String,
+        targetState: CardTaskStatus,
+    ): Board {
         return Board(
             id = id,
             boardTitle = boardTitle,
             cardList = cardList.map { currentCard ->
-                if (currentCard.id == cardId && canMoveCard(currentCard, targetState)) {
+                if (currentCard.id == cardId && canMoveCard(
+                        currentCard,
+                        targetState,
+                    )
+                ) {
                     currentCard.withTaskState(newState = targetState)
                 } else {
                     currentCard
@@ -93,8 +102,15 @@ class Board(
                 .contains(targetStatus)
         }
 
-        fun canMoveCard(card: Card, targetStatus: CardTaskStatus): Boolean {
-            if (!isValidTransition(card.taskState, targetStatus)) return false
+        fun canMoveCard(
+            card: Card,
+            targetStatus: CardTaskStatus,
+        ): Boolean {
+            if (!isValidTransition(
+                    currentStatus = card.taskState,
+                    targetStatus = targetStatus,
+                )
+            ) return false
             if (targetStatus != CardTaskStatus.TODO && card.managerState == CardManagerStatus.NONE) return false
 
             return true

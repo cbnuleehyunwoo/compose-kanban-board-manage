@@ -54,7 +54,10 @@ private class CardPreviewParameterProvider : PreviewParameterProvider<Card> {
     )
 }
 
-@Preview(showBackground = true, name = "KanbanBoardCard")
+@Preview(
+    showBackground = true,
+    name = "KanbanBoardCard",
+)
 @Composable
 private fun CardPreview(
     @PreviewParameter(CardPreviewParameterProvider::class) cardData: Card,

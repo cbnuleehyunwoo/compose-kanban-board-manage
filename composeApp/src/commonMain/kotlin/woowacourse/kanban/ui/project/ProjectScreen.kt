@@ -74,28 +74,41 @@ private fun sampleProject(): Project {
                     Card.create(
                         title = "제목1",
                         content = "",
-                        tags = listOf("태그1", "태그2"),
+                        tags = listOf(
+                            "태그1",
+                            "태그2",
+                        ),
                         manager = CardManagerStatus.NONE,
                         state = CardTaskStatus.TODO,
                     ),
                     Card.create(
                         title = "제목2",
                         content = "",
-                        tags = listOf("태그1", "태그2"),
+                        tags = listOf(
+                            "태그1",
+                            "태그2",
+                        ),
                         manager = CardManagerStatus.DINO,
                         state = CardTaskStatus.IN_PROGRESS,
                     ),
                     Card.create(
                         title = "제목3",
                         content = "",
-                        tags = listOf("태그1", "태그2"),
+                        tags = listOf(
+                            "태그1",
+                            "태그2",
+                        ),
                         manager = CardManagerStatus.DINO,
                         state = CardTaskStatus.REVIEW,
                     ),
                     Card.create(
                         title = "제목4",
                         content = "",
-                        tags = listOf("태그1", "태그2", "태그3"),
+                        tags = listOf(
+                            "태그1",
+                            "태그2",
+                            "태그3",
+                        ),
                         manager = CardManagerStatus.DINO,
                         state = CardTaskStatus.DONE,
                     ),
@@ -107,7 +120,10 @@ private fun sampleProject(): Project {
                     Card.create(
                         title = "제목4",
                         content = "",
-                        tags = listOf("태그1", "태그2"),
+                        tags = listOf(
+                            "태그1",
+                            "태그2",
+                        ),
                         manager = CardManagerStatus.DINO,
                         state = CardTaskStatus.DONE,
                     ),
@@ -124,7 +140,11 @@ private fun sampleProject(): Project {
     )
 }
 
-@Preview(showBackground = true, widthDp = 1551, heightDp = 909)
+@Preview(
+    showBackground = true,
+    widthDp = 1551,
+    heightDp = 909,
+)
 @Composable
 private fun ProjectScreenPreview() {
     ProjectScreen()

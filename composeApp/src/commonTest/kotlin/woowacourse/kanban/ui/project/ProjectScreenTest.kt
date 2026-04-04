@@ -1,9 +1,5 @@
 package woowacourse.kanban.ui.project
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -13,14 +9,10 @@ import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
 import woowacourse.kanban.domain.board.Board
-import woowacourse.kanban.domain.board.BoardStateHolder
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
-import woowacourse.kanban.domain.dialog.DialogStateHolder
-import woowacourse.kanban.domain.dialog.EditDialogStateHolder
 import woowacourse.kanban.domain.project.Project
-import woowacourse.kanban.ui.board.BoardScreen
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)

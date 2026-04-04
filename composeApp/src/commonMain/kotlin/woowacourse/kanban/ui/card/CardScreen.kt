@@ -180,13 +180,19 @@ fun CardTitlePreview() {
 }
 
 
+@Preview(backgroundColor = 0xffffffff, showBackground = true)
+@Composable
+fun CardContentPreview() {
+    CardContent(content = "Card Content")
+}
+
 /**
  * 최대 2줄까지 표시되는 Card의 Content입니다.
  * @param modifier Modifier
  * @param content 카드 본문으로, 너무 길면 ...로 표시됩니다.
  */
 @Composable
-private fun CardContent(modifier: Modifier = Modifier, content: String) {
+private fun CardContent(content: String, modifier: Modifier = Modifier) {
     Text(
         text = content,
         fontSize = 14.sp,
@@ -199,18 +205,12 @@ private fun CardContent(modifier: Modifier = Modifier, content: String) {
     )
 }
 
-@Preview(backgroundColor = 0xffffffff, showBackground = true)
-@Composable
-fun CardContentPreview() {
-    CardContent(content = "Card Content")
-}
-
 /**
  * CardTag 섹션입니다. TagChip이 표시됩니다.
  * @param tags 카드 태그로, 최대 5개까지 입력할 수 있습니다.
  */
 @Composable
-private fun CardTagsSection(tags: List<String> = listOf()) {
+private fun CardTagsSection(tags: List<String> = listOf(), modifier: Modifier = Modifier) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),

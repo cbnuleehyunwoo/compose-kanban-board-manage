@@ -53,15 +53,25 @@ fun CardDialogBase(
     onDelete: (() -> Unit)? = null,
 ) {
     OutlinedCard(modifier = modifier.testTag(if (isEditDialog) "수정 모달 열림" else "생성 모달 열림")) {
-        Column(modifier = Modifier.background(DefaultBackground).width(720.dp)) {
-            CardPanelHeaderSection(title = title, onClose = onDismiss)
+        Column(
+            modifier = Modifier.background(DefaultBackground)
+                .width(720.dp),
+        ) {
+            CardPanelHeaderSection(
+                title = title,
+                onClose = onDismiss,
+            )
             HorizontalDivider(modifier = Modifier.fillMaxWidth())
 
             Column(
-                modifier = Modifier.padding(24.dp).verticalScroll(rememberScrollState()),
+                modifier = Modifier.padding(24.dp)
+                    .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
-                CardFormInputSections(cardForm, onFormChange)
+                CardFormInputSections(
+                    cardForm = cardForm,
+                    onFormChange = onFormChange,
+                )
 
                 CardStateSection(
                     selectedState = cardForm.taskState,
@@ -69,14 +79,19 @@ fun CardDialogBase(
                         val newManager = if (newState != CardTaskStatus.TODO && cardForm.managerState == CardManagerStatus.NONE) {
                             CardManagerStatus.DINO
                         } else cardForm.managerState
-                        onFormChange(cardForm.copy(taskState = newState, managerState = newManager))
-                    }
+                        onFormChange(
+                            cardForm.copy(
+                                taskState = newState,
+                                managerState = newManager,
+                            ),
+                        )
+                    },
                 )
 
                 CardManagerSection(
                     isManagerNullable = cardForm.taskState == CardTaskStatus.TODO,
                     selectedManager = cardForm.managerState,
-                    onManagerChange = { onFormChange(cardForm.copy(managerState = it)) }
+                    onManagerChange = { onFormChange(cardForm.copy(managerState = it)) },
                 )
 
                 HorizontalDivider(modifier = Modifier.fillMaxWidth())
@@ -86,7 +101,7 @@ fun CardDialogBase(
                     createEnabled = cardForm.isCreateEnabled,
                     onCancelClick = onDismiss,
                     onDeleteClick = { onDelete?.invoke() },
-                    onConfirmClick = onConfirm
+                    onConfirmClick = onConfirm,
                 )
             }
         }
@@ -94,11 +109,17 @@ fun CardDialogBase(
 }
 
 @Composable
-private fun CardPanelHeaderSection(title: String, onClose: () -> Unit) {
+private fun CardPanelHeaderSection(
+    title: String,
+    onClose: () -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 28.dp, horizontal = 24.dp),
+            .padding(
+                vertical = 28.dp,
+                horizontal = 24.dp,
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -116,7 +137,10 @@ private fun CardPanelHeaderSection(title: String, onClose: () -> Unit) {
 }
 
 @Composable
-private fun CardFormInputSections(cardForm: CardForm, onFormChange: (CardForm) -> Unit) {
+private fun CardFormInputSections(
+    cardForm: CardForm,
+    onFormChange: (CardForm) -> Unit,
+) {
     CardCreationPanelFormSection(
         title = "제목 *",
         placeholder = "태스크 제목을 입력하세요",
@@ -149,7 +173,10 @@ private fun CardFormInputSections(cardForm: CardForm, onFormChange: (CardForm) -
 }
 
 @Composable
-private fun CardStateSection(selectedState: CardTaskStatus, onStateChange: (CardTaskStatus) -> Unit) {
+private fun CardStateSection(
+    selectedState: CardTaskStatus,
+    onStateChange: (CardTaskStatus) -> Unit,
+) {
     Column {
         TitleText("상태 *")
         Spacer(modifier = Modifier.height(8.dp))
@@ -159,7 +186,8 @@ private fun CardStateSection(selectedState: CardTaskStatus, onStateChange: (Card
                     text = state.toDisplayText(),
                     isSelected = selectedState == state,
                     onClick = { onStateChange(state) },
-                    modifier = Modifier.width(120.dp).height(52.dp),
+                    modifier = Modifier.width(120.dp)
+                        .height(52.dp),
                 )
             }
         }
@@ -207,16 +235,30 @@ private fun SelectableButton(
     OutlinedButton(
         onClick = onClick,
         shape = RoundedCornerShape(20),
-        border = BorderStroke(1.dp, borderColor),
-        colors = ButtonDefaults.outlinedButtonColors(containerColor = containerColor, contentColor = contentColor),
+        border = BorderStroke(
+            width = 1.dp,
+            color = borderColor,
+        ),
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = containerColor,
+            contentColor = contentColor,
+        ),
         modifier = modifier.testTag(text),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (hasIcon) {
-                Icon(Icons.Default.AccountCircle, contentDescription = null, modifier = Modifier.size(24.dp))
+                Icon(
+                    Icons.Default.AccountCircle,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                )
                 Spacer(modifier = Modifier.width(8.dp))
             }
-            Text(text = text, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+            Text(
+                text = text,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+            )
         }
     }
 }
@@ -229,11 +271,22 @@ private fun ActionButtonSection(
     onDeleteClick: () -> Unit,
     onConfirmClick: () -> Unit,
 ) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-        ActionButton(ActionButtonType.CANCEL, true, onCancelClick)
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        ActionButton(
+            buttonType = ActionButtonType.CANCEL,
+            enabled = true,
+            onClick = onCancelClick,
+        )
         if (isEditDialog) {
             Spacer(modifier = Modifier.width(12.dp))
-            ActionButton(ActionButtonType.DELETE, true, onDeleteClick)
+            ActionButton(
+                buttonType = ActionButtonType.DELETE,
+                enabled = true,
+                onClick = onDeleteClick,
+            )
         }
         Spacer(modifier = Modifier.width(12.dp))
         ActionButton(

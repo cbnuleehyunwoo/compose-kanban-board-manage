@@ -1,11 +1,8 @@
 package woowacourse.kanban.domain.dialog
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import woowacourse.kanban.domain.board.CardForm
 import woowacourse.kanban.domain.card.Card
 

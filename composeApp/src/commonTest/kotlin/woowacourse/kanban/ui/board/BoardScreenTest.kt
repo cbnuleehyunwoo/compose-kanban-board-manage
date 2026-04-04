@@ -1,22 +1,17 @@
 package woowacourse.kanban.ui.board
 
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextContains
-import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
-import androidx.compose.ui.test.waitUntilAtLeastOneExists
 import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.board.BoardStateHolder
 import woowacourse.kanban.domain.card.Card
@@ -85,7 +80,7 @@ class BoardScreenTest {
             val editDialogState = remember {
                 EditDialogStateHolder(
                     onCardUpdate = {},
-                    onCardDelete = {}
+                    onCardDelete = {},
                 )
             }
             BoardScreen(
@@ -126,7 +121,7 @@ class BoardScreenTest {
             val editDialogState = remember {
                 EditDialogStateHolder(
                     onCardUpdate = {},
-                    onCardDelete = {}
+                    onCardDelete = {},
                 )
             }
             BoardScreen(
@@ -162,12 +157,15 @@ class BoardScreenTest {
                 )
             }
             val dialogState = remember {
-                DialogStateHolder(onCardCreate = {}, onCancel = {})
+                DialogStateHolder(
+                    onCardCreate = {},
+                    onCancel = {},
+                )
             }
             val editDialogState = remember {
                 EditDialogStateHolder(
                     onCardUpdate = {},
-                    onCardDelete = {}
+                    onCardDelete = {},
                 )
             }
             BoardScreen(
@@ -217,7 +215,7 @@ class BoardScreenTest {
             val editDialogState = remember {
                 EditDialogStateHolder(
                     onCardUpdate = { updated -> board = board.updateCard(updated) },
-                    onCardDelete = { target -> board = board - target }
+                    onCardDelete = { target -> board -= target },
                 )
             }
 
@@ -226,19 +224,22 @@ class BoardScreenTest {
                     board = { board },
                     onBoardChange = { board = it },
                     onShowSnackbar = {},
-                    onCardClick = { card -> editDialogState.setCard(card) }
+                    onCardClick = { card -> editDialogState.setCard(card) },
                 )
             }
 
             val dialogState = remember {
-                DialogStateHolder(onCardCreate = {}, onCancel = {})
+                DialogStateHolder(
+                    onCardCreate = {},
+                    onCancel = {},
+                )
             }
 
             BoardScreen(
                 boardState = boardState,
                 createDialogState = dialogState,
                 editDialogState = editDialogState,
-                onShowEditDialog = { editDialogState.showEditDialog() }
+                onShowEditDialog = { editDialogState.showEditDialog() },
             )
         }
 

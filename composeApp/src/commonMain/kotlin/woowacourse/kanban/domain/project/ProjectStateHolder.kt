@@ -1,5 +1,6 @@
 package woowacourse.kanban.domain.project
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,12 +20,12 @@ class ProjectStateHolder(
         private set
     var boardState by mutableStateOf(
         BoardStateHolder(
-            board = {project.selectedBoard},
+            board = { project.selectedBoard },
             onBoardChange = { newBoard ->
                 project = project.withBoard(newBoard)
             },
             onShowSnackbar = { showSnackbar(it) },
-            onCardClick = {card -> editDialogState.setCard(card)}
+            onCardClick = { card -> editDialogState.setCard(card) },
         ),
     )
 
@@ -47,7 +48,7 @@ class ProjectStateHolder(
                 }
             },
 
-        )
+            ),
     )
     val creationDialogState by mutableStateOf(
         DialogStateHolder(
@@ -73,9 +74,12 @@ class ProjectStateHolder(
     }
 
     private fun showSnackbar(message: String) {
-        scope.launch { snackbarHostState.showSnackbar(
-            message = message,
-            actionLabel = "X",
-        ) }
+        scope.launch {
+            snackbarHostState.showSnackbar(
+                message = message,
+                actionLabel = "X",
+                duration = SnackbarDuration.Short
+            )
+        }
     }
 }
