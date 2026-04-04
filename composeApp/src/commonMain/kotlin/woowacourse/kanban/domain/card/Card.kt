@@ -114,6 +114,23 @@ class Card (
         )
     }
 
+    fun withCardFormInput (
+        title: String,
+        content: String,
+        tags: List<String>,
+        managerState: CardManagerStatus,
+        taskState: CardTaskStatus,
+    ): Card {
+        return Card(
+            id = this.id,
+            title = title,
+            content = content,
+            tags = tags,
+            managerState = managerState,
+            taskState = taskState,
+        )
+    }
+
     /**
      * 카드 내용 존재 여부를 리턴합니다.
      * @return 내용이 공백이 아니면 true 리턴.
