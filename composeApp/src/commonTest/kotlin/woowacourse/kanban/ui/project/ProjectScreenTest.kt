@@ -1,5 +1,6 @@
 package woowacourse.kanban.ui.project
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -144,15 +145,14 @@ class ProjectScreenTest {
         }
 
         val cardNode = onNodeWithTag("카드_${initialBoard.cardList.first().id}")
-        val inProgressColumnNode = onNodeWithTag(CardTaskStatus.TODO.name)
-        val inProgressColumnBounds = inProgressColumnNode.fetchSemanticsNode().boundsInRoot
-
+        val inProgressColumnNode = onNodeWithTag(CardTaskStatus.IN_PROGRESS.name)
+        val bounds = inProgressColumnNode.fetchSemanticsNode().boundsInRoot
         // when
         cardNode.performTouchInput {
             down(center)
             advanceEventTime(viewConfiguration.longPressTimeoutMillis + 100)
 
-            moveTo(inProgressColumnBounds.center)
+            moveTo(Offset(bounds.left + 50f, bounds.center.y))
             advanceEventTime(100)
             up()
         }
