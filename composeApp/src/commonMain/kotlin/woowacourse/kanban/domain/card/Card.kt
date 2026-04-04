@@ -8,7 +8,7 @@ import java.util.UUID
  * 카드 생성 규칙을 적용합니다.
  * 생성은 [create] 팩토리 메서드로 수행합니다.
  */
-class Card (
+class Card private constructor(
     val id: String,
     val title: String,
     val content: String,

@@ -34,8 +34,7 @@ class EditDialogStateHolder(
     fun confirm() {
         val currentTarget = targetCard ?: return
 
-        val updatedCard = Card (
-            id = currentTarget.id,
+        val updatedCard = currentTarget.withCardFormInput (
             title = cardForm.title,
             content = cardForm.content,
             tags = cardForm.tags,
