@@ -173,7 +173,7 @@ private fun CardManagerSection(
     onManagerChange: (CardManagerStatus) -> Unit,
 ) {
     Column {
-        TitleText("담당자 ${if(isManagerNullable)"" else "*"}")
+        TitleText("담당자${if (isManagerNullable) "" else " *"}")
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             CardManagerStatus.entries

@@ -32,7 +32,7 @@ class CardCreationScreenTest {
         onNodeWithText("설명").assertExists()
         onNodeWithText("태그").assertExists()
         onNodeWithText("상태 *").assertExists()
-        onNodeWithText("담당자 *").assertExists()
+        onNodeWithText("담당자").assertExists()
         onNodeWithText("생성").assertIsNotEnabled()
     }
 
