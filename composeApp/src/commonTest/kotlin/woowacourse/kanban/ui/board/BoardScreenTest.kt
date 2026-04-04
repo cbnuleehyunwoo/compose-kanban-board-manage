@@ -19,17 +19,25 @@ import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.dialog.DialogStateHolder
 import woowacourse.kanban.domain.dialog.EditDialogStateHolder
+import woowacourse.kanban.ui.board.common.toDisplayText
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
 class BoardScreenTest {
 
     @Test
-    fun `보드에 보드 제목, 완료율, 태스크 생성 버튼, 프로그레스 바, ToDo, In Progress, Done Column이 노출된다`() = runComposeUiTest {
+    fun `보드에 보드 제목, 완료율, 태스크 생성 버튼, 프로그레스 바, TaskStatus title을 가진 Column이 노출된다`() = runComposeUiTest {
         // Given
         val initialBoard = Board(boardTitle = "Compose Desktop 칸반 보드")
+        var taskStatus = listOf<String>()
         setContent {
             var board by remember { mutableStateOf(initialBoard) }
+            taskStatus = CardTaskStatus
+                .entries
+                .map { status ->
+                status.toDisplayText()
+            }
+
             val boardState = BoardStateHolder(
                 board = { board },
                 onBoardChange = { board = it },
@@ -42,13 +50,13 @@ class BoardScreenTest {
             val editDialogState = remember {
                 EditDialogStateHolder(
                     onCardUpdate = {},
-                    onCardDelete = {}
+                    onCardDelete = {},
                 )
             }
             BoardScreen(
                 boardState = boardState,
                 createDialogState = dialogState,
-                editDialogState = editDialogState
+                editDialogState = editDialogState,
             )
         }
 
@@ -57,9 +65,9 @@ class BoardScreenTest {
         onNodeWithText("완료율: 0% (0/0)").assertExists()
         onNodeWithTag("새 태스크 생성 버튼").assertExists()
         onNodeWithTag("프로그레스 바").assertExists()
-        onNodeWithText("To Do").assertExists()
-        onNodeWithText("In Progress").assertExists()
-        onNodeWithText("Done").assertExists()
+        taskStatus.forEach {
+            onNodeWithText(it).assertExists()
+        }
     }
 
     @Test
