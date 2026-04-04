@@ -111,7 +111,7 @@ class CardCreationScreenTest {
         }
 
         //then
-        onNodeWithText("태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)")
+        onNodeWithTag("tagTextField")
             .performTextInput("버그,긴급")
 
         onNodeWithText("5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.").assertExists()
