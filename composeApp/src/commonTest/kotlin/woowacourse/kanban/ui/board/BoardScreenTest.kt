@@ -136,7 +136,7 @@ class BoardScreenTest {
     }
 
     @Test
-    fun `태스크를 To Do에서 Done 컬럼으로 드래그 앤 드롭하면 카드가 이동한다`() = runComposeUiTest {
+    fun `태스크를 To Do에서 In Progress 컬럼으로 드래그 앤 드롭하면 카드가 이동한다`() = runComposeUiTest {
         // Given
         val testCard = Card.create(
             title = "드래그 테스트 카드",
