@@ -102,8 +102,10 @@ class Card private constructor(
     }
 
     fun moveTo(targetStatus: CardTaskStatus): MoveResult {
-        if(taskState.isTargetValid(targetStatus).not()) return MoveResult.Failure(MoveFailureReason.INVALID_TRANSITION)
-        if(targetStatus != CardTaskStatus.TODO && managerState == CardManagerStatus.NONE) return MoveResult.Failure(MoveFailureReason.INVALID_MANAGER)
+        if(taskState.isTargetValid(targetStatus).not())
+            return MoveResult.Failure(MoveFailureReason.INVALID_TRANSITION)
+        if(targetStatus.isAssigneeRequired() && managerState == CardManagerStatus.NONE)
+            return MoveResult.Failure(MoveFailureReason.INVALID_MANAGER)
 
         val updatedCard = Card(
             id = id,
@@ -145,20 +147,4 @@ class Card private constructor(
      * @return 태그가 있다면 true 리턴.
      */
     fun hasTag(): Boolean = tags.isNotEmpty()
-
-    fun isDeletable(): Boolean =
-        when (taskState) {
-            CardTaskStatus.TODO -> true
-            CardTaskStatus.IN_PROGRESS -> true
-            CardTaskStatus.DONE -> false
-            CardTaskStatus.REVIEW -> false
-        }
-
-    fun isAssigneeRequired(): Boolean =
-        when (taskState) {
-            CardTaskStatus.TODO -> false
-            CardTaskStatus.IN_PROGRESS -> true
-            CardTaskStatus.DONE -> true
-            CardTaskStatus.REVIEW -> true
-        }
 }
