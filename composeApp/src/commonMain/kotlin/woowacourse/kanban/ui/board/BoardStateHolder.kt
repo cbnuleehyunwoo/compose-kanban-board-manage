@@ -1,4 +1,4 @@
-package woowacourse.kanban.domain.board
+package woowacourse.kanban.ui.board
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.card.MoveFailureReason

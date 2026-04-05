@@ -16,7 +16,6 @@ import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.domain.project.Project
-import woowacourse.kanban.domain.project.ProjectStateHolder
 import woowacourse.kanban.ui.board.BoardScreen
 
 @Composable

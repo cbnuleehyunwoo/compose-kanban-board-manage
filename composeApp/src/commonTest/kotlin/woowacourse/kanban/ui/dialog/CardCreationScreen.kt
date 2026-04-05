@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
-import woowacourse.kanban.domain.dialog.DialogStateHolder
+import woowacourse.kanban.ui.dialog.DialogStateHolder
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)

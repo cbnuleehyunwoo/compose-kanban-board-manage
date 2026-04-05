@@ -1,4 +1,4 @@
-package woowacourse.kanban.domain.dialog
+package woowacourse.kanban.ui.dialog
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

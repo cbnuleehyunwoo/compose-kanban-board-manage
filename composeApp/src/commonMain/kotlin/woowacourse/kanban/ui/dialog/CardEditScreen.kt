@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import woowacourse.kanban.domain.dialog.EditDialogStateHolder
+import woowacourse.kanban.ui.dialog.EditDialogStateHolder
 import woowacourse.kanban.ui.card.creation.ActionButton
 import woowacourse.kanban.ui.card.creation.ActionButtonType
 import woowacourse.kanban.ui.card.creation.CardDialogBase

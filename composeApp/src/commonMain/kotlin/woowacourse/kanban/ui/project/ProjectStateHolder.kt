@@ -1,4 +1,4 @@
-package woowacourse.kanban.domain.project
+package woowacourse.kanban.ui.project
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
@@ -7,9 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import woowacourse.kanban.domain.board.BoardStateHolder
-import woowacourse.kanban.domain.dialog.DialogStateHolder
-import woowacourse.kanban.domain.dialog.EditDialogStateHolder
+import woowacourse.kanban.domain.project.Project
+import woowacourse.kanban.ui.board.BoardStateHolder
+import woowacourse.kanban.ui.dialog.DialogStateHolder
+import woowacourse.kanban.ui.dialog.EditDialogStateHolder
 
 class ProjectStateHolder(
     initialProject: Project,

@@ -13,12 +13,11 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
 import woowacourse.kanban.domain.board.Board
-import woowacourse.kanban.domain.board.BoardStateHolder
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
-import woowacourse.kanban.domain.dialog.DialogStateHolder
-import woowacourse.kanban.domain.dialog.EditDialogStateHolder
+import woowacourse.kanban.ui.dialog.DialogStateHolder
+import woowacourse.kanban.ui.dialog.EditDialogStateHolder
 import woowacourse.kanban.ui.board.common.toDisplayText
 import kotlin.test.Test
 
