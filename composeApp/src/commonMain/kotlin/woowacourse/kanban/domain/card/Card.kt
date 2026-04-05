@@ -101,27 +101,20 @@ class Card private constructor(
         }
     }
 
-    fun canMoveTo(targetStatus: CardTaskStatus): Boolean {
-        if(taskState.isTargetValid(targetStatus).not()) return false
-        if(targetStatus != CardTaskStatus.TODO && managerState == CardManagerStatus.NONE) return false
-        return true
-    }
+    fun moveTo(targetStatus: CardTaskStatus): MoveResult {
+        if(taskState.isTargetValid(targetStatus).not()) return MoveResult.Failure(MoveFailureReason.INVALID_TRANSITION)
+        if(targetStatus != CardTaskStatus.TODO && managerState == CardManagerStatus.NONE) return MoveResult.Failure(MoveFailureReason.INVALID_MANAGER)
 
-    fun withTaskState(
-        newState: CardTaskStatus,
-    ): Card {
-        require(!isAssigneeRequired() || managerState != CardManagerStatus.NONE) {
-            "담당자를 지정해야 상태를 옮길 수 있습니다."
-        }
-
-        return Card(
+        val updatedCard = Card(
             id = id,
             title = title,
             content = content,
             tags = tags,
             managerState = managerState,
-            taskState = newState,
+            taskState = targetStatus
         )
+
+        return MoveResult.Success(updatedCard)
     }
 
     fun withCardFormInput(

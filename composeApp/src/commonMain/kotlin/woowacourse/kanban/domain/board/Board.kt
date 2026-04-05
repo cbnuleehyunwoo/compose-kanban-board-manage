@@ -1,7 +1,6 @@
 package woowacourse.kanban.domain.board
 
 import woowacourse.kanban.domain.card.Card
-import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
 import java.util.UUID
 
@@ -52,23 +51,6 @@ class Board(
             boardTitle = boardTitle,
             cardList = cardList.map { currentCard ->
                 if (currentCard.id == updatedCard.id) updatedCard else currentCard
-            },
-        )
-    }
-
-    fun withTaskState(
-        cardId: String,
-        targetState: CardTaskStatus,
-    ): Board {
-        return Board(
-            id = id,
-            boardTitle = boardTitle,
-            cardList = cardList.map { currentCard ->
-                if (currentCard.id == cardId && currentCard.canMoveTo(targetState)) {
-                    currentCard.withTaskState(newState = targetState)
-                } else {
-                    currentCard
-                }
             },
         )
     }
