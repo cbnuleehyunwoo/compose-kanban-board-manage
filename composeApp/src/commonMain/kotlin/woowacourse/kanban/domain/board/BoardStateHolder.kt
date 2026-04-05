@@ -54,11 +54,7 @@ class BoardStateHolder(
 
         targetTask?.let { task ->
             if (targetStatus != null && task.taskState != targetStatus) {
-                if (!Board.isValidTransition(
-                        currentStatus = task.taskState,
-                        targetStatus = targetStatus,
-                    )
-                ) {
+                if (task.canMoveTo(targetStatus = targetStatus).not()) {
                     onShowSnackbar("해당 상태로 옮길 수 없습니다.")
                 } else if (targetStatus != CardTaskStatus.TODO && task.managerState == CardManagerStatus.NONE) {
                     onShowSnackbar("담당자를 지정해야 상태를 옮길 수 있습니다.")

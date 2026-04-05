@@ -101,6 +101,12 @@ class Card private constructor(
         }
     }
 
+    fun canMoveTo(targetStatus: CardTaskStatus): Boolean {
+        if(taskState.isTargetValid(targetStatus).not()) return false
+        if(targetStatus != CardTaskStatus.TODO && managerState == CardManagerStatus.NONE) return false
+        return true
+    }
+
     fun withTaskState(
         newState: CardTaskStatus,
     ): Card {

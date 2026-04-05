@@ -64,56 +64,12 @@ class Board(
             id = id,
             boardTitle = boardTitle,
             cardList = cardList.map { currentCard ->
-                if (currentCard.id == cardId && canMoveCard(
-                        currentCard,
-                        targetState,
-                    )
-                ) {
+                if (currentCard.id == cardId && currentCard.canMoveTo(targetState)) {
                     currentCard.withTaskState(newState = targetState)
                 } else {
                     currentCard
                 }
             },
         )
-    }
-
-    companion object {
-        val transitionRule = mapOf(
-            CardTaskStatus.TODO to listOf(CardTaskStatus.IN_PROGRESS),
-            CardTaskStatus.IN_PROGRESS to listOf(
-                CardTaskStatus.TODO,
-                CardTaskStatus.REVIEW,
-            ),
-            CardTaskStatus.REVIEW to listOf(
-                CardTaskStatus.IN_PROGRESS,
-                CardTaskStatus.DONE,
-            ),
-            CardTaskStatus.DONE to listOf(
-                CardTaskStatus.TODO,
-            ),
-        )
-
-        fun isValidTransition(
-            currentStatus: CardTaskStatus,
-            targetStatus: CardTaskStatus,
-        ): Boolean {
-            return transitionRule
-                .getValue(currentStatus)
-                .contains(targetStatus)
-        }
-
-        fun canMoveCard(
-            card: Card,
-            targetStatus: CardTaskStatus,
-        ): Boolean {
-            if (!isValidTransition(
-                    currentStatus = card.taskState,
-                    targetStatus = targetStatus,
-                )
-            ) return false
-            if (targetStatus != CardTaskStatus.TODO && card.managerState == CardManagerStatus.NONE) return false
-
-            return true
-        }
     }
 }
