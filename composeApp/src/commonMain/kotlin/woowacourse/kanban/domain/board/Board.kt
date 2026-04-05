@@ -35,7 +35,9 @@ class Board(
     )
 
     operator fun minus(card: Card): Board {
-        if (card.taskState.isDeletable()) {
+        val currentCard = this.cardList.find { it.id == card.id } ?: return this
+
+        if (currentCard.taskState.isDeletable()) {
             return Board(
                 id = this.boardId,
                 boardTitle = this.title,
