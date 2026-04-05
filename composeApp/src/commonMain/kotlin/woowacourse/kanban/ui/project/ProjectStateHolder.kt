@@ -48,8 +48,8 @@ class ProjectStateHolder(
                     showSnackbar("태스크가 삭제되었습니다.")
                 }
             },
-
-            ),
+            onShowSnackbar = { message ->  showSnackbar(message) },
+        ),
     )
     val creationDialogState by mutableStateOf(
         DialogStateHolder(

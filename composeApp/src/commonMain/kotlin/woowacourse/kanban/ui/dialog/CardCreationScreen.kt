@@ -46,8 +46,6 @@ fun CardCreationScreen(state: DialogStateHolder) {
                     },
                 )
             },
-
-
-            )
+        )
     }
 }
