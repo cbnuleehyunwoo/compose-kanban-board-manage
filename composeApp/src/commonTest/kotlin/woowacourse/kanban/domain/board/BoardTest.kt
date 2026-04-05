@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
+import woowacourse.kanban.domain.card.MoveResult
 import kotlin.test.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -86,49 +87,6 @@ class BoardTest {
     }
 
     @Test
-    fun `TransitionRule에 정의된 start, target 조건을 만족하면 태스크는 이동할 수 있다 `() {
-        // given && when
-        Board.transitionRule.forEach { (start, targets) ->
-            targets.forEach { targetStatus ->
-                val card = createTestCard(state = start)
-                val board = Board(listOf(card))
-
-                val updatedBoard = board.withTaskState(
-                    cardId = card.id,
-                    targetState = targetStatus,
-                )
-                // then
-                assertThat(updatedBoard.cardList.first().taskState).isEqualTo(targetStatus)
-            }
-        }
-    }
-
-    @Test
-    fun `TransitionRule에 정의된 start, target 조건을 만족하지 않으면 태스크는 이동할 수 없다`() {
-        // given
-        val allStatuses = CardTaskStatus.entries.toTypedArray()
-
-        allStatuses.forEach { currentStatus ->
-            allStatuses.forEach { targetStatus ->
-                if (!Board.isValidTransition(
-                        currentStatus,
-                        targetStatus,
-                    )
-                ) {
-                    val card = createTestCard(state = currentStatus)
-                    val board = Board(listOf(card))
-                    val nextBoard = board.withTaskState(
-                        card.id,
-                        targetStatus,
-                    )
-                    val updatedCard = nextBoard.cardList.first { updatedCard -> updatedCard.id == card.id }
-                    assertThat(updatedCard.taskState).isEqualTo(currentStatus)
-                }
-            }
-        }
-    }
-
-    @Test
     fun `카드가 없으면 빈 보드이다`() {
         val board = Board()
 
@@ -206,28 +164,46 @@ class BoardTest {
     }
 
     @Test
-    fun `보드의 태스크 상태를 변경할 수 있다`() {
-        var board: Board = Board()
-        val card: Card = Card.create(
+    fun `보드는 태스크의 변화를 반영할 수 있다`() {
+        // given
+        var board = Board()
+        val card = Card.create(
             title = "제목",
             content = "내용",
             tags = listOf("태그1", "태그2"),
-            manager = CardManagerStatus.DINO,
+            manager = CardManagerStatus.NONE,
             state = CardTaskStatus.TODO,
         )
-        board += card
+        board +=  card
+
         assertThat(board.toDoTaskCount).isEqualTo(1)
         assertThat(board.doneTaskCount).isEqualTo(0)
 
-        val updatedBoard = board.withTaskState(card.id, CardTaskStatus.IN_PROGRESS)
+        // when
+        val updatedCard = card.withCardFormInput(
+            title = "수정된 제목",
+            content = "수정된 내용",
+            tags = listOf("수정된 태그1", "수정된 태그2"),
+            managerState = CardManagerStatus.DINO,
+            taskState = CardTaskStatus.IN_PROGRESS,
+        )
+
+        val updatedBoard = board.updateCard(updatedCard)
+
+        // then
         assertThat(updatedBoard.toDoTaskCount).isEqualTo(0)
         assertThat(updatedBoard.inProgressTaskCount).isEqualTo(1)
+
+        val foundCard = updatedBoard.cardList.first()
+        assertThat(foundCard.id).isEqualTo(card.id)
+        assertThat(foundCard.title).isEqualTo("수정된 제목")
     }
 
     @Test
     fun `보드의 태스크 상태가 변경되면 태스크 완료율에 반영된다`() {
-        var board: Board = Board()
-        val card: Card = Card.create(
+        // given
+        var board = Board()
+        val card = Card.create(
             title = "제목",
             content = "내용",
             tags = listOf("태그1", "태그2"),
@@ -235,14 +211,27 @@ class BoardTest {
             state = CardTaskStatus.TODO,
         )
         board += card
+
         assertThat(board.completionPercentage).isEqualTo(0)
 
-        val step1Board = board.withTaskState(card.id, CardTaskStatus.IN_PROGRESS)
-        val step2Board = step1Board.withTaskState(card.id, CardTaskStatus.REVIEW)
-        val updatedBoard = step2Board.withTaskState(card.id, CardTaskStatus.DONE)
-        assertThat(updatedBoard.completionPercentage).isEqualTo(100)
-    }
+        val result1 = card.moveTo(CardTaskStatus.IN_PROGRESS)
+        val cardInProgress = (result1 as MoveResult.Success).updatedCard
+        val step1Board = board.updateCard(cardInProgress)
+        assertThat(step1Board.completionPercentage).isEqualTo(0)
 
+        val result2 = cardInProgress.moveTo(CardTaskStatus.REVIEW)
+        val cardInReview = (result2 as MoveResult.Success).updatedCard
+        val step2Board = step1Board.updateCard(cardInReview)
+        assertThat(step2Board.completionPercentage).isEqualTo(0)
+
+        val result3 = cardInReview.moveTo(CardTaskStatus.DONE)
+        val cardDone = (result3 as MoveResult.Success).updatedCard
+        val updatedBoard = step2Board.updateCard(cardDone)
+
+        // then
+        assertThat(updatedBoard.completionPercentage).isEqualTo(100)
+        assertThat(updatedBoard.doneTaskCount).isEqualTo(1)
+    }
     @Test
     fun `Card의 Status가 To do라면, 담당자가 null인 상태로 생성할 수 있다`() {
         // given
@@ -298,21 +287,6 @@ class BoardTest {
         assertThat(board.cardList).contains(doneCard, reviewCard)
     }
 
-    @Test
-    fun `Card의 Status가 To do이고, 담당자가 null이라면, 다른 상태로 전이할 수 없다`() {
-        // given
-        val todoCard = createTestCard(state = CardTaskStatus.TODO, managerStatus = CardManagerStatus.NONE)
-        val board = Board(listOf(todoCard))
-
-        assertThat(board.toDoTaskCount).isEqualTo(1)
-        // when
-        val updatedBoard = board.withTaskState(todoCard.id, CardTaskStatus.IN_PROGRESS)
-        // then
-        val resultCard = updatedBoard.cardList.first { it.id == todoCard.id }
-        assertThat(resultCard.taskState).isEqualTo(CardTaskStatus.TODO)
-        assertThat(updatedBoard.toDoTaskCount).isEqualTo(1)
-        assertThat(updatedBoard.inProgressTaskCount).isEqualTo(0)
-    }
     private fun createTestCard(state: CardTaskStatus, managerStatus: CardManagerStatus = CardManagerStatus.DINO): Card {
         return Card.create(
             title = "테스트",

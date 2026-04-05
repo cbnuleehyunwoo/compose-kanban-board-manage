@@ -1,11 +1,13 @@
 package woowacourse.kanban.domain.card
 
 import org.assertj.core.api.Assertions.assertThat
+import woowacourse.kanban.domain.board.Board
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.test.fail
 
 /**
  * [Card] Unit 테스트 클래스입니다.
@@ -13,7 +15,12 @@ import kotlin.test.assertTrue
 class CardDataTest {
     @Test
     fun `제목이 공백 문자만 있으면 생성할 수 없다`() {
-        val invalidTitles = listOf("   ", "\t", "\n", " \n\t ")
+        val invalidTitles = listOf(
+            "   ",
+            "\t",
+            "\n",
+            " \n\t "
+        )
 
         invalidTitles.forEach { title ->
             assertFailsWith<IllegalArgumentException> {
@@ -59,12 +66,21 @@ class CardDataTest {
         val cardData = Card.create(
             title = "제목",
             content = "내용",
-            tags = listOf(" 태그1 ", "  태그2  "),
+            tags = listOf(
+                " 태그1 ",
+                "  태그2  "
+            ),
             manager = CardManagerStatus.DINO,
             state = CardTaskStatus.TODO,
         )
 
-        assertEquals(listOf("태그1", "태그2"), cardData.tags)
+        assertEquals(
+            listOf(
+                "태그1",
+                "태그2"
+            ),
+            cardData.tags
+        )
     }
 
     @Test
@@ -72,12 +88,20 @@ class CardDataTest {
         val cardData = Card.create(
             title = "제목",
             content = "내용",
-            tags = listOf("태그1", "   ", "", "  "),
+            tags = listOf(
+                "태그1",
+                "   ",
+                "",
+                "  "
+            ),
             manager = CardManagerStatus.DINO,
             state = CardTaskStatus.TODO,
         )
 
-        assertEquals(listOf("태그1"), cardData.tags)
+        assertEquals(
+            listOf("태그1"),
+            cardData.tags
+        )
     }
 
     @Test
@@ -86,7 +110,14 @@ class CardDataTest {
             Card.create(
                 title = "제목",
                 content = "내용",
-                tags = listOf("태그1", "태그2", "태그3", "태그4", "태그5", "태그6"),
+                tags = listOf(
+                    "태그1",
+                    "태그2",
+                    "태그3",
+                    "태그4",
+                    "태그5",
+                    "태그6"
+                ),
                 manager = CardManagerStatus.DINO,
                 state = CardTaskStatus.TODO,
             )
@@ -99,7 +130,11 @@ class CardDataTest {
             Card.create(
                 title = "제목",
                 content = "내용",
-                tags = listOf("우아한테크코스", "안드로이드8기", "칸반보드리팩터링"),
+                tags = listOf(
+                    "우아한테크코스",
+                    "안드로이드8기",
+                    "칸반보드리팩터링"
+                ),
                 manager = CardManagerStatus.DINO,
                 state = CardTaskStatus.TODO,
             )
@@ -111,7 +146,10 @@ class CardDataTest {
         val cardData = Card.create(
             title = "제목",
             content = "내용",
-            tags = listOf("태그1", "   "),
+            tags = listOf(
+                "태그1",
+                "   "
+            ),
             manager = CardManagerStatus.DINO,
             state = CardTaskStatus.TODO,
         )
@@ -124,7 +162,10 @@ class CardDataTest {
         val cardData = Card.create(
             title = "제목",
             content = "내용",
-            tags = listOf("   ", ""),
+            tags = listOf(
+                "   ",
+                ""
+            ),
             manager = CardManagerStatus.DINO,
             state = CardTaskStatus.TODO,
         )
@@ -139,14 +180,24 @@ class CardDataTest {
 
     @Test
     fun `잘못된 태그 문자열이 주어질 시 에러메시지가 반환된다`() {
-        assertEquals("태그 형식이 올바르지 않습니다.", Card.isValidTagInfo(",..."))
-        assertEquals("태그는 5자 이내로 5개까지만 등록할 수 있습니다.", Card.isValidTagInfo("태그1,태그2,태그3,태그4,태그5,태그6"))
+        assertEquals(
+            "태그 형식이 올바르지 않습니다.",
+            Card.isValidTagInfo(",...")
+        )
+        assertEquals(
+            "태그는 5자 이내로 5개까지만 등록할 수 있습니다.",
+            Card.isValidTagInfo("태그1,태그2,태그3,태그4,태그5,태그6")
+        )
     }
 
     @Test
     fun `쉼표를 기준으로 태그 문자열을 분리한다`() {
         assertEquals(
-            listOf("태그1", "태그2", "태그3"),
+            listOf(
+                "태그1",
+                "태그2",
+                "태그3"
+            ),
             Card.parseTag("태그1,태그2,태그3"),
         )
     }
@@ -154,7 +205,10 @@ class CardDataTest {
     @Test
     fun `태그 문자열의 앞뒤 공백을 제거한 후 쉼표를 기준으로 분리한다`() {
         assertEquals(
-            listOf("태그1", "태그2"),
+            listOf(
+                "태그1",
+                "태그2"
+            ),
             Card.parseTag("태그1,태그2   "),
         )
     }
@@ -165,18 +219,65 @@ class CardDataTest {
         val card1 = Card.create(
             title = title,
             content = "내용",
-            tags = listOf("   ", ""),
+            tags = listOf(
+                "   ",
+                ""
+            ),
             manager = CardManagerStatus.DINO,
             state = CardTaskStatus.TODO,
         )
         val card2 = Card.create(
             title = title,
             content = "내용",
-            tags = listOf("   ", ""),
+            tags = listOf(
+                "   ",
+                ""
+            ),
             manager = CardManagerStatus.DINO,
             state = CardTaskStatus.TODO,
         )
 
         assertThat(card1.id).isNotEqualTo(card2.id)
+    }
+
+    @Test
+    fun `전이 규칙과 담당자 조건을 만족하면 상태 이동에 성공한다`() {
+        val targetStatus = CardTaskStatus.IN_PROGRESS
+
+        val card = Card.create(
+            title = "전이 성공 테스트",
+            content = "내용",
+            tags = emptyList(),
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO
+        )
+        when (val result = card.moveTo(targetStatus)) {
+            is MoveResult.Success -> {
+                assertThat(result.updatedCard.taskState).isEqualTo(targetStatus)
+            }
+            is MoveResult.Failure -> {
+                fail("테스트 실패")
+            }
+        }
+    }
+
+    @Test
+    fun `전이 규칙에 정의되지 않은 상태로의 이동은 실패한다`() {
+        // given
+        val card = Card.create(
+            title = "전이 실패 테스트",
+            content = "내용",
+            tags = emptyList(),
+            manager = CardManagerStatus.DINO,
+            state = CardTaskStatus.TODO
+        )
+
+        // when
+        val result = card.moveTo(CardTaskStatus.DONE)
+
+        // then
+        assertThat(result).isInstanceOf(MoveResult.Failure::class.java)
+        val failure = result as MoveResult.Failure
+        assertThat(failure.reason).isEqualTo(MoveFailureReason.INVALID_TRANSITION)
     }
 }
