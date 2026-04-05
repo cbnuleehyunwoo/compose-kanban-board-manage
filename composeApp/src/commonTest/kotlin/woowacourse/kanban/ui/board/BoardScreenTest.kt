@@ -100,7 +100,7 @@ class BoardScreenTest {
             )
         }
         onNodeWithTag("새 태스크 생성 버튼").performClick()
-        onNodeWithTag("생성 모달 열림").assertExists()
+        onNodeWithTag("새 태스크 생성").assertExists()
     }
 
     @Test
@@ -253,7 +253,7 @@ class BoardScreenTest {
 
         // when & then
         onNodeWithTag("카드_${testCard.id}").performClick()
-        onNodeWithTag("수정 모달 열림").assertIsDisplayed()
+        onNodeWithTag("태스크 수정").assertIsDisplayed()
         onNodeWithText("삭제").performClick()
         onNodeWithTag("카드_${testCard.id}").assertDoesNotExist()
     }

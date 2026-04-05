@@ -45,14 +45,15 @@ import woowacourse.kanban.ui.theme.KanbanCardColor.SelectedContent
 fun CardDialogBase(
     title: String,
     cardForm: CardForm,
-    isEditDialog: Boolean,
     onFormChange: (CardForm) -> Unit,
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
     modifier: Modifier = Modifier,
-    onDelete: (() -> Unit)? = null,
+    footer : @Composable () -> Unit = {},
 ) {
-    OutlinedCard(modifier = modifier.testTag(if (isEditDialog) "수정 모달 열림" else "생성 모달 열림")) {
+    OutlinedCard(
+        modifier = modifier
+            .testTag(title)
+    ) {
         Column(
             modifier = Modifier.background(DefaultBackground)
                 .width(720.dp),
@@ -96,13 +97,13 @@ fun CardDialogBase(
 
                 HorizontalDivider(modifier = Modifier.fillMaxWidth())
 
-                ActionButtonSection(
-                    isEditDialog = isEditDialog,
-                    createEnabled = cardForm.isCreateEnabled,
-                    onCancelClick = onDismiss,
-                    onDeleteClick = { onDelete?.invoke() },
-                    onConfirmClick = onConfirm,
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    footer()
+                }
             }
         }
     }
@@ -260,39 +261,5 @@ private fun SelectableButton(
                 fontWeight = FontWeight.Medium,
             )
         }
-    }
-}
-
-@Composable
-private fun ActionButtonSection(
-    isEditDialog: Boolean,
-    createEnabled: Boolean,
-    onCancelClick: () -> Unit,
-    onDeleteClick: () -> Unit,
-    onConfirmClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End,
-    ) {
-        ActionButton(
-            buttonType = ActionButtonType.CANCEL,
-            enabled = true,
-            onClick = onCancelClick,
-        )
-        if (isEditDialog) {
-            Spacer(modifier = Modifier.width(12.dp))
-            ActionButton(
-                buttonType = ActionButtonType.DELETE,
-                enabled = true,
-                onClick = onDeleteClick,
-            )
-        }
-        Spacer(modifier = Modifier.width(12.dp))
-        ActionButton(
-            buttonType = if (isEditDialog) ActionButtonType.EDIT else ActionButtonType.CREATE,
-            enabled = createEnabled,
-            onClick = onConfirmClick,
-        )
     }
 }
