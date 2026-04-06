@@ -46,7 +46,6 @@ class CardCreationScreenTest {
                 onCardCreate = {},
                 onCancel = { },
             ) }
-
             CardCreationScreen(
                 state = state,
             )
@@ -82,7 +81,9 @@ class CardCreationScreenTest {
         setContent {
             val state = remember { DialogStateHolder(
                 onCardCreate = {},
-                onCancel = { },
+                onCardUpdate = {},
+                onCardDelete = {},
+                onShowSnackbar = {},
             ) }
 
             CardCreationScreen(
