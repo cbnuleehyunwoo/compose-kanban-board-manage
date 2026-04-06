@@ -47,7 +47,6 @@ import woowacourse.kanban.domain.board.Board
 import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.ui.dialog.DialogStateHolder
-import woowacourse.kanban.ui.dialog.EditDialogStateHolder
 import woowacourse.kanban.ui.board.common.toDisplayText
 import woowacourse.kanban.ui.card.CardCreationScreen
 import woowacourse.kanban.ui.card.CardEditScreen
@@ -65,11 +64,10 @@ import woowacourse.kanban.ui.theme.BoardColor.TodoHeaderColor
 @Composable
 fun BoardScreen(
     boardState: BoardStateHolder,
-    createDialogState: DialogStateHolder,
-    editDialogState: EditDialogStateHolder,
+    dialogState: DialogStateHolder,
     modifier: Modifier = Modifier,
     onShowCreationDialog: () -> Unit = {},
-    onShowEditDialog: () -> Unit = {},
+    onShowEditDialog: (Card) -> Unit = {},
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -87,17 +85,15 @@ fun BoardScreen(
             BoardContents(
                 modifier = Modifier.fillMaxSize(),
                 state = boardState,
-                onCardClick = onShowEditDialog
+                onCardClick = onShowEditDialog,
             )
         }
     }
 
-    if (createDialogState.isCreationDialogVisible) {
-        CardCreationScreen(state = createDialogState)
-    }
-
-    if (editDialogState.isEditDialogVisible) {
-        CardEditScreen(state = editDialogState)
+    if (dialogState.isDialogVisible && dialogState.isEditMode) {
+        CardEditScreen(state = dialogState)
+    } else if (dialogState.isDialogVisible) {
+        CardCreationScreen(state = dialogState)
     }
 }
 /**
@@ -196,7 +192,7 @@ private fun BoardHeaderSection(
 @Composable
 private fun BoardContents(
     state: BoardStateHolder,
-    onCardClick: () -> Unit,
+    onCardClick: (Card) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -226,7 +222,7 @@ private fun BoardContents(
                 onTaskDragCancel = { state.clearDrag() },
                 onCardClick = {
                     card -> state.onClick(card)
-                    onCardClick()
+                    onCardClick(card)
                 },
             )
         }
@@ -355,13 +351,11 @@ private fun BoardScreenPreview() {
 
     BoardScreen(
         boardState = state,
-        createDialogState = DialogStateHolder(
+        dialogState = DialogStateHolder(
             onCardCreate = {},
-            onCancel = {},
-        ),
-        editDialogState = EditDialogStateHolder(
             onCardUpdate = {},
             onCardDelete = {},
+            onShowSnackbar = {},
         ),
     )
 }

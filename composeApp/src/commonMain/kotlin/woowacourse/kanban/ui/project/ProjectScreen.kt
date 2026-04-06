@@ -52,11 +52,10 @@ fun ProjectScreen(
                 },
             )
             BoardScreen(
-                createDialogState = state.creationDialogState,
-                editDialogState = state.editDialogState,
+                dialogState = state.dialogState,
                 boardState = state.boardState,
                 onShowCreationDialog = { state.showCreationDialog() },
-                onShowEditDialog = { state.showEditDialog() },
+                onShowEditDialog = { state.showEditDialog(card = it) },
             )
         }
     }

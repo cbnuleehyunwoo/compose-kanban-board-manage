@@ -7,10 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.project.Project
 import woowacourse.kanban.ui.board.BoardStateHolder
 import woowacourse.kanban.ui.dialog.DialogStateHolder
-import woowacourse.kanban.ui.dialog.EditDialogStateHolder
 
 class ProjectStateHolder(
     initialProject: Project,
@@ -26,12 +26,16 @@ class ProjectStateHolder(
                 project = project.withBoard(newBoard)
             },
             onShowSnackbar = { showSnackbar(it) },
-            onCardClick = { card -> editDialogState.setCard(card) },
+            onCardClick = { card -> dialogState.setCard(card) },
         ),
     )
-
-    val editDialogState by mutableStateOf(
-        EditDialogStateHolder(
+    
+    val dialogState by mutableStateOf(
+        DialogStateHolder(
+            onCardCreate = { newCard ->
+                project = project.withBoard(project.selectedBoard + newCard)
+                showSnackbar("새로운 태스크가 추가되었습니다.")
+            },
             onCardUpdate = { newCard ->
                 val updatedBoard = project.selectedBoard.updateCard(newCard)
                 project = project.withBoard(updatedBoard)
@@ -51,27 +55,18 @@ class ProjectStateHolder(
             onShowSnackbar = { message ->  showSnackbar(message) },
         ),
     )
-    val creationDialogState by mutableStateOf(
-        DialogStateHolder(
-            onCardCreate = { newCard ->
-                project = project.withBoard(project.selectedBoard + newCard)
-                showSnackbar("새로운 태스크가 추가되었습니다.")
-            },
-            onCancel = { showSnackbar("태스크 추가가 취소되었습니다.") },
-        ),
-    )
 
 
     fun switchBoard(index: Int) {
         project = project.switchBoard(index)
     }
 
-    fun showEditDialog() {
-        editDialogState.showEditDialog()
+    fun showEditDialog(card: Card) {
+        dialogState.showEditDialog(card)
     }
 
     fun showCreationDialog() {
-        creationDialogState.showCreationDialog()
+        dialogState.showCreationDialog()
     }
 
     private fun showSnackbar(message: String) {

@@ -15,17 +15,17 @@ import woowacourse.kanban.ui.card.creation.CardDialogBase
 
 @Composable
 fun CardCreationScreen(state: DialogStateHolder) {
-    Dialog(onDismissRequest = { state.closeCreationDialog() }) {
+    Dialog(onDismissRequest = { state.closeDialog() }) {
         CardDialogBase(
             title = "새 태스크 생성",
             cardForm = state.cardForm,
             onFormChange = { state.updateCardForm(it) },
-            onDismiss = { state.closeCreationDialog() },
+            onDismiss = { state.closeDialog() },
             footer = {
                 ActionButton(
                     buttonType = ActionButtonType.CANCEL,
                     enabled = true,
-                    onClick = { state.closeCreationDialog() },
+                    onClick = { state.closeDialog() },
                 )
 
                 Spacer(modifier = Modifier.width(12.dp))
@@ -34,15 +34,7 @@ fun CardCreationScreen(state: DialogStateHolder) {
                     buttonType = ActionButtonType.CREATE,
                     enabled = state.cardForm.isCreateEnabled,
                     onClick = {
-                        state.confirm(
-                            Card.create(
-                                title = state.cardForm.title,
-                                content = state.cardForm.content,
-                                tags = state.cardForm.tags,
-                                manager = state.cardForm.managerState,
-                                state = state.cardForm.taskState,
-                            ),
-                        )
+                        state.confirm()
                     },
                 )
             },
