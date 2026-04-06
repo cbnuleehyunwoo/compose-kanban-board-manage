@@ -17,7 +17,6 @@ import woowacourse.kanban.domain.card.Card
 import woowacourse.kanban.domain.card.CardManagerStatus
 import woowacourse.kanban.domain.card.CardTaskStatus
 import woowacourse.kanban.ui.dialog.DialogStateHolder
-import woowacourse.kanban.ui.dialog.EditDialogStateHolder
 import woowacourse.kanban.ui.board.common.toDisplayText
 import kotlin.test.Test
 
@@ -44,18 +43,13 @@ class BoardScreenTest {
             )
             val dialogState = DialogStateHolder(
                 onCardCreate = {},
-                onCancel = {},
+                onCardUpdate = {},
+                onCardDelete = {},
+                onShowSnackbar = {},
             )
-            val editDialogState = remember {
-                EditDialogStateHolder(
-                    onCardUpdate = {},
-                    onCardDelete = {},
-                )
-            }
             BoardScreen(
                 boardState = boardState,
-                createDialogState = dialogState,
-                editDialogState = editDialogState,
+                dialogState = dialogState,
             )
         }
 
@@ -82,20 +76,16 @@ class BoardScreenTest {
             )
             val dialogState = DialogStateHolder(
                 onCardCreate = {},
-                onCancel = {},
+                onCardUpdate = {},
+                onCardDelete = {},
+                onShowSnackbar = {},
             )
-            val editDialogState = remember {
-                EditDialogStateHolder(
-                    onCardUpdate = {},
-                    onCardDelete = {},
-                )
-            }
+
             BoardScreen(
                 boardState = boardState,
-                createDialogState = dialogState,
+                dialogState = dialogState,
                 onShowCreationDialog = { dialogState.showCreationDialog() },
                 onShowEditDialog = { },
-                editDialogState = editDialogState,
             )
         }
         onNodeWithTag("새 태스크 생성 버튼").performClick()
@@ -123,18 +113,14 @@ class BoardScreenTest {
             )
             val dialogState = DialogStateHolder(
                 onCardCreate = {},
-                onCancel = {},
+                onCardUpdate = {},
+                onCardDelete = {},
+                onShowSnackbar = {},
             )
-            val editDialogState = remember {
-                EditDialogStateHolder(
-                    onCardUpdate = {},
-                    onCardDelete = {},
-                )
-            }
+
             BoardScreen(
                 boardState = boardState,
-                createDialogState = dialogState,
-                editDialogState = editDialogState,
+                dialogState = dialogState,
             )
         }
 
@@ -163,22 +149,16 @@ class BoardScreenTest {
                     onShowSnackbar = {},
                 )
             }
-            val dialogState = remember {
-                DialogStateHolder(
-                    onCardCreate = {},
-                    onCancel = {},
-                )
-            }
-            val editDialogState = remember {
-                EditDialogStateHolder(
-                    onCardUpdate = {},
-                    onCardDelete = {},
-                )
-            }
+            val dialogState = DialogStateHolder(
+                onCardCreate = {},
+                onCardUpdate = {},
+                onCardDelete = {},
+                onShowSnackbar = {},
+            )
+
             BoardScreen(
                 boardState = boardState,
-                createDialogState = dialogState,
-                editDialogState = editDialogState,
+                dialogState = dialogState,
             )
         }
 
@@ -219,34 +199,27 @@ class BoardScreenTest {
         setContent {
             var board by remember { mutableStateOf(initialBoard) }
 
-            val editDialogState = remember {
-                EditDialogStateHolder(
-                    onCardUpdate = { updated -> board = board.updateCard(updated) },
-                    onCardDelete = { target -> board -= target },
-                )
-            }
+            val dialogState = DialogStateHolder(
+                onCardCreate = {},
+                onCardUpdate = {},
+                onCardDelete = {board -= it},
+                onShowSnackbar = {},
+            )
 
             val boardState = remember {
                 BoardStateHolder(
                     board = { board },
                     onBoardChange = { board = it },
                     onShowSnackbar = {},
-                    onCardClick = { card -> editDialogState.setCard(card) },
+                    onCardClick = { card -> dialogState.setCard(card) },
                 )
             }
 
-            val dialogState = remember {
-                DialogStateHolder(
-                    onCardCreate = {},
-                    onCancel = {},
-                )
-            }
 
             BoardScreen(
                 boardState = boardState,
-                createDialogState = dialogState,
-                editDialogState = editDialogState,
-                onShowEditDialog = { editDialogState.showEditDialog() },
+                dialogState = dialogState,
+                onShowEditDialog = { dialogState.showEditDialog(it) },
             )
         }
 
